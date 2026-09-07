@@ -5,6 +5,8 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public AudioManager AudioManager;
+    
     private void Awake()
     {
         if (_instance != null && _instance != this)
