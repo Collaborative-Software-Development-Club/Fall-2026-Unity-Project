@@ -8,14 +8,22 @@ public struct InventoryChange
 }
 public class Inventory
 {
+    private int _emptySlots = 0;
+    
     public InventorySlot[] slots = new InventorySlot[0];
     public Inventory(int size) {
         slots = new InventorySlot[size];
         for (int i = 0; i < size; i++) {
             slots[i] = new InventorySlot();
         }
+
+        _emptySlots = size;
     }
 
+    /// <summary>
+    /// Adds the item to the inventory with the given quantity
+    /// <returns> the new index </returns>
+    /// </summary>
     public int AddItemToInventory(Item item, int quantity = 1)
     {
         for (int i = 0; i < slots.Length; i++)
@@ -51,6 +59,7 @@ public class Inventory
 
         slots[slot].item = item;
         slots[slot].quantity = quantity;
+        _emptySlots -= 1;
         return replace;
     }
     
@@ -58,7 +67,6 @@ public class Inventory
         InventorySlot returning = new InventorySlot();
 
         if (quantity <= 0) {
-            Debug.Log("Invalid quantity requested at slot " + slot);
             return returning;
         }
 
@@ -71,6 +79,7 @@ public class Inventory
             
             slots[slot].item = null;
             slots[slot].quantity = 0;
+            _emptySlots += 1;
         }
         
         return returning;
@@ -137,4 +146,10 @@ public class Inventory
         
         return -1;
     }
+
+    public bool HasEmptySlots()
+    {
+        return _emptySlots > 0;
+    }
+
 }
