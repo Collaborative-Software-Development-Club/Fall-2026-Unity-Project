@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Machine : Item
 {
-    [Tooltip("Chance for an operation to fail, expressed as a percentage (0-100)")]
-    public int failChance = 50;
-
     private MachineData machineData => data as MachineData;
 
     protected Inventory Input;
@@ -38,7 +35,8 @@ public class Machine : Item
         return Output;
     }
     // Function for retrieving items found within Input.
-    public Item GetInputFromSlot(int slot) { 
+    public Item GetInputFromSlot(int slot)
+    { 
         return Input.GetItemAt(slot).item;
     }
 
