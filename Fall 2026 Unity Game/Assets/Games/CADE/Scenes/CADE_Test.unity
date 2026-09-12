@@ -143,7 +143,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204175152}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
@@ -246,6 +246,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 204175154}
+  - {fileID: 1089301856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &855137740
@@ -331,7 +332,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9e1c23cf121cb4541b0a7d60596b2935, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -341,7 +342,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &855137743
 SpriteRenderer:
   serializedVersion: 2
@@ -535,8 +536,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CADE_Player
   rb: {fileID: 855137742}
-  moveSpeed: 5
-  jumpHeight: 10
+  moveSpeed: 10
+  jumpHeight: 20
+  boxSize: {x: 1, y: 0.2}
+  castDistance: 0.6
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  baseGravity: 1
+  maxFallSpeed: 32
+  fallSpeedMultipler: 3
+--- !u!4 &1089301856 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
+  m_PrefabInstance: {fileID: 5298206835092857258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1115283711
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,15 +789,27 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 372950683}
     m_Modifications:
     - target: {fileID: 3108904990635602271, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_Name
       value: Test Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 3108904990635602271, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865501244688717454, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865501244688717454, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8639
+      value: 1.00828
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalPosition.y
@@ -791,7 +817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 9.35304
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalRotation.w
@@ -799,15 +825,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -832,6 +858,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1115283714}
   - {fileID: 1145706406}
-  - {fileID: 372950683}
   - {fileID: 855137744}
-  - {fileID: 5298206835092857258}
+  - {fileID: 372950683}
