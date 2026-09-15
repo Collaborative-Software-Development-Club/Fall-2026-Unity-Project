@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CADE_Player : MonoBehaviour
+public class RotationLock : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,5 +12,10 @@ public class CADE_Player : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.identity;
     }
 }
