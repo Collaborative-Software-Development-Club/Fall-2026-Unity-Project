@@ -18,3 +18,4 @@ MonoBehaviour:
   type: 2
   rarity: 0
   isConsumable: 0
+  isStackable: 0

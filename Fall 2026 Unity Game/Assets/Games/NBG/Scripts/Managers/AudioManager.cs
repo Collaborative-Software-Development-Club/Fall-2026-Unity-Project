@@ -100,7 +100,7 @@ public class AudioManager : MonoBehaviour
     {
         while (true)
         {
-            if (_queuePaused)
+            if (_queuePaused || musicClips.Length <= 0)
             {
                 yield return null;
                 continue;
