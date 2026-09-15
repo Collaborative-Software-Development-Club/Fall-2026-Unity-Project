@@ -8,7 +8,7 @@ public static class ItemFactory
     /// All implemented items (Machine, Brainrot, Lootbox) are MonoBehaviours.
     /// Tool, Seed, and Contract are not implemented yet and throw exceptions.
     /// </summary>
-    public static Item CreateItem(ItemData data)
+    public static Item CreateItemFromSO(ItemData data)
     {
         if (data == null) return null;
 
@@ -23,8 +23,21 @@ public static class ItemFactory
 
                 Machine machine = new Machine(machineData);
                 return machine;
+            case ItemType.Processable:
+                if (data is not ProcessableData processableData) throw new InvalidCastException("ItemData is not ProcessableData");
+                
+                Processable processable = new Processable(processableData);
+                return processable;
             default:
                 throw new ArgumentOutOfRangeException($"Unhandled ItemType: {data.type}");
         }
+    }
+
+    public static GameObject CreateItemHolder(ItemData data)
+    {
+        if (data == null) return null;
+        Item item = CreateItemFromSO(data);
+        
+        return ItemHolder.CreateObj(item);
     }
 }

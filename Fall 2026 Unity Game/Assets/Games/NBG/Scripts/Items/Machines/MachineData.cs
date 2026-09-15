@@ -8,7 +8,7 @@ public enum machineType
 
 
 
-[CreateAssetMenu(fileName = "New Machine", menuName = "Game/BrainrotMixer/Machine/Base Machine")]
+[CreateAssetMenu(fileName = "New Machine", menuName = "Game/NBG/Machine/Base Machine")]
 public class MachineData : ItemData 
 {
     public new string name = "Unnamed";

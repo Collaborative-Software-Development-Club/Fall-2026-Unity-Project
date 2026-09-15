@@ -26,9 +26,12 @@ public class Inventory
     /// </summary>
     public int AddItemToInventory(Item item, int quantity = 1)
     {
+        // Could be improved by tracking open slots or turning inventory into dictionary, shouldn't loop 2x
+        // Or could even track a open slot during the 1st loop and use it if no item is found
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item == null || !slots[i].item.Equals(item)) continue;
+            
+            if (slots[i].item == null || !slots[i].item.Equals(item) || (!slots[i].item.GetStackable() && slots[i].item.Equals(item))) continue;
             
             slots[i].quantity += quantity;
             return i;
@@ -152,4 +155,16 @@ public class Inventory
         return _emptySlots > 0;
     }
 
+    public void PrintInventory()
+    {
+        string printMessage = "";
+        int totalItems = Length;
+        
+        foreach (InventorySlot slot in slots)
+        {
+            printMessage += slot.item != null ? totalItems-- : slot.item + " | " + slot.quantity + "\n";
+        }
+        
+        Debug.Log("Inventory:\n" + printMessage + "\nTotal Items: "  + totalItems);
+    }
 }

@@ -104,4 +104,9 @@ public abstract class Item
         
         return clone;
     }
+
+    public bool GetStackable()
+    {
+        return data.isStackable;
+    }
 }

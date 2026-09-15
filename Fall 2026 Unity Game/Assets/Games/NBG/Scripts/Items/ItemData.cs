@@ -4,6 +4,7 @@ public enum ItemType
 {
     None,
     Machine,
+    Processable
 }
 
 public enum Rarity
@@ -16,7 +17,7 @@ public enum Rarity
     Legendary
 }
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Game/BrainrotMixer/Item/Base Item")]
+[CreateAssetMenu(fileName = "New Item", menuName = "Game/NBG/Item/Base Item")]
 public class ItemData : ScriptableObject
 {
     public string text;
@@ -25,4 +26,5 @@ public class ItemData : ScriptableObject
     public ItemType type = ItemType.None;
     public Rarity rarity = Rarity.None;
     public bool isConsumable = false;
+    public bool isStackable = true;
 }

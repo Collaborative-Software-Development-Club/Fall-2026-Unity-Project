@@ -37,12 +37,12 @@ public class MapManager : MonoBehaviour
 
     public GenericHolder GetItemFromGrid(int x, int y)
     {
-        
+        throw new NotImplementedException();
     }
 
     public GenericHolder GetItemFromGrid(Vector2Int gridPosition)
     {
-        
+        throw new NotImplementedException();
     }
 
     private void ConveyorGeneration()
