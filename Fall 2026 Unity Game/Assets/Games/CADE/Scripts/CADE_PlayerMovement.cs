@@ -42,7 +42,7 @@ public class CADE_PlayerMovement : MonoBehaviour
         finalSpeed = moveSpeed;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
         Gravity();

@@ -424,6 +424,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 372950683}
     m_Modifications:
+    - target: {fileID: 2111016533209379538, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 9e1c23cf121cb4541b0a7d60596b2935, type: 2}
     - target: {fileID: 3108904990635602271, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
       propertyPath: m_Name
       value: Test Terrain
@@ -493,6 +497,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3178816480135725737, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: m_Mass
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3178816480135725737, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: m_LinearDamping
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3374209415652831821, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_Name
       value: Player
