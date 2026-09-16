@@ -9,6 +9,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField]
     private float moveSpeed = 5f;
+    [SerializeField]
+    private float sprintSpeed = 10f;
 
     [Header("Jumping")]
     [SerializeField]
@@ -32,11 +34,17 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     private bool jumpReleased;
     private float horizontalMovement;
+    private float finalSpeed;
     private float verticalMovement;
+
+    void Start()
+    {
+        finalSpeed = moveSpeed;
+    }
 
     void Update()
     {
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocityY);
+        rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
         Gravity();
     }
 
@@ -56,6 +64,18 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             jumpReleased = true;
             rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+        }
+    }
+
+    public void Sprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            finalSpeed = sprintSpeed;
+        }
+        else if (context.canceled)
+        {
+            finalSpeed = moveSpeed;
         }
     }
 
