@@ -249,6 +249,67 @@ Transform:
   - {fileID: 1089301856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &712314665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 712314666}
+  - component: {fileID: 712314668}
+  - component: {fileID: 712314667}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &712314666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712314665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &712314667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712314665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4ba220a3e71ae49ad730ace2a11dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
+  winEvent: {fileID: 11400000, guid: f6de97e481247624b9ced6015bc21ede, type: 2}
+  loseEvent: {fileID: 11400000, guid: a056e1cc41f33874f9ec98feeb9057b0, type: 2}
+--- !u!114 &712314668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712314665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8fb350f754ea944f9128da7a9c5461a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DebugWinLoseTrigger
+  winEvent: {fileID: 11400000, guid: f6de97e481247624b9ced6015bc21ede, type: 2}
+  loseEvent: {fileID: 11400000, guid: a056e1cc41f33874f9ec98feeb9057b0, type: 2}
 --- !u!4 &1089301856 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8550354268728149609, guid: 515dd00fe7e440c4d9bce7465e7b0101, type: 3}
@@ -562,3 +623,4 @@ SceneRoots:
   - {fileID: 1145706406}
   - {fileID: 9129258556809946929}
   - {fileID: 372950683}
+  - {fileID: 712314666}
