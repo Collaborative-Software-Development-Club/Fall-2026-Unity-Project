@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,10 @@ public class CADE_PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     [SerializeField]
     private float jumpHeight = 10f;
+
+    [Header("Dashing")] 
+    [SerializeField] 
+    private float dashForce = 5;
 
     [Header("Ground Check")]
     [SerializeField]
@@ -36,14 +41,16 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float horizontalMovement;
     private float finalSpeed;
     private float verticalMovement;
+    private bool isDashing;
 
     void Start()
     {
         finalSpeed = moveSpeed;
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
+        if (isDashing) return;
+        
         rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
         Gravity();
     }
@@ -79,6 +86,32 @@ public class CADE_PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Dash(InputAction.CallbackContext context) {
+        if (context.performed) {
+            StartCoroutine(PerformDash(horizontalMovement));
+        }
+    }
+
+    private IEnumerator PerformDash(float dir) {
+        isDashing = true;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = Vector2.zero;
+        
+        float dashDir = horizontalMovement > 0 ? 1 : -1;
+        rb.AddForce(new Vector2(dashDir * dashForce, 0f), ForceMode2D.Impulse);
+
+        if (dir > 0) {
+            rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
+        } else {
+            rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+        }
+        
+        yield return new WaitForSeconds(0.1f);
+        
+        rb.gravityScale = baseGravity * fallSpeedMultipler;
+        isDashing = false;
+    }
+
     private void Gravity()
     {
         if (rb.linearVelocityY < 0)
@@ -94,8 +127,7 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             return true;
         }
-        else
-        {
+        else {
             return false;
         }
     }
