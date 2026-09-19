@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float castDistance;
     [SerializeField]
     private LayerMask groundLayer;
+    [SerializeField] private float coyoteTime;
 
     [Header("Gravity")]
     [SerializeField]
@@ -42,10 +44,19 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float finalSpeed;
     private float verticalMovement;
     private bool isDashing;
+    private float coyoteTimeCounter = 0f;
 
     void Start()
     {
         finalSpeed = moveSpeed;
+    }
+
+    private void Update() {
+        if (isGrounded()) {
+            coyoteTimeCounter = coyoteTime;
+        } else {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
     }
 
     void FixedUpdate() {
@@ -62,10 +73,11 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (isGrounded() && context.performed)
+        if (coyoteTimeCounter > 0f && context.performed)
         {
             jumpReleased = false;
             rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
+            coyoteTimeCounter = 0;
         }
         else if (context.canceled && !jumpReleased)
         {
@@ -123,11 +135,14 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     private bool isGrounded()
     {
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
-        {
+        // if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
+        // {
+        //     return true;
+        // }
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, castDistance, groundLayer);
+        if (hit) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

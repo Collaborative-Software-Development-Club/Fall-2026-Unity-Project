@@ -604,6 +604,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: boxSize.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: coyoteTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: castDistance
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: raycastOffset
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_ActionEvents.Array.size
       value: 15
