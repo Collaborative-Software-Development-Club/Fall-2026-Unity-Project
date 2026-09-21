@@ -1,128 +1,59 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Conveyor : MonoBehaviour
 {
-    private const int BeltSize = 3;
-    private const float BeltTransferTime = 1; // In Seconds
-    private const float MoveSpeed = 3f;
-
-    private float beltTransferTimer = BeltTransferTime;
+    public Vector2 MoveDir = Vector2.right;
+    public int MoveSpeed = 1;
     
-    private Inventory _beltInventory = new(BeltSize);
-    private ItemHolder[] _itemHolders = new ItemHolder[BeltSize]; 
-
-    [SerializeField] private Conveyor nextConveyor;
-
-    private Queue<int> _indexAddQueue = new();
-
-    public Action ConveyorUpdated;
-    
-    public Vector2 conveyorDirection = Vector2.right;
-    
-    // JUST FOR TESTING
-    public ItemData testItem;
+    public bool SpawnTestItems = false;
+    public int TestAmount;
+    public ItemData TestItem;
+    public ItemHolder itemHolder;
 
     private void Start()
     {
-        if (!testItem) return;
-
-        for (int i = 0; i < 3; i++)
+        if (!SpawnTestItems) return;
+        
+        for (int i = 0; i < TestAmount; i++)
         {
-            GameObject testObj = ItemFactory.CreateItemHolder(testItem);
-
-            AddToConveyor(testObj.GetComponent<ItemHolder>());
+            ItemFactory.CreateItemFromSO(TestItem);
+            var newObj =  Instantiate(itemHolder);
+            newObj.name = name + " Test Item " + i;
+            itemHolder.transform.position = transform.position;
         }
     }
 
-    private void Update()
-    {
-        beltTransferTimer -= Time.deltaTime;
-
-        if (beltTransferTimer <= 0)
-        {
-            TransferToNextConveyor();
-            beltTransferTimer = BeltTransferTime;
-        }
-        
-        UpdateItemPositions();
-    }
-
-    public bool AddToConveyor(ItemHolder itemHolder)
-    {
-        if (!_beltInventory.HasEmptySlots()) return false;
-
-        itemHolder.transform.parent = transform;
-        int slotIndex = _beltInventory.AddItemToInventory(itemHolder.Item);
-        _itemHolders[slotIndex] = itemHolder;
-        _indexAddQueue.Enqueue(slotIndex);
-
-        return true;
-    }
-
-    public ItemHolder RemoveFromConveyor()
-    {
-        int slotIndex = _indexAddQueue.Dequeue();
-        ItemHolder itemHolder = _itemHolders[slotIndex];
-        _itemHolders[slotIndex] = null;
-        
-        InventorySlot oldSlot = _beltInventory.slots[slotIndex];
-        _beltInventory.RemoveFromSlot(slotIndex, oldSlot.quantity);
-        
-        ShiftItemsForward();
-        
-        ConveyorUpdated?.Invoke();
-
-        return itemHolder;
-    }
-
-    public void TransferToNextConveyor()
-    {
-        if (!nextConveyor || !nextConveyor.DoesBeltHaveRoom() || _indexAddQueue.Count <= 0) return;
-        
-        ItemHolder holder = RemoveFromConveyor();
-        if (!holder) return;
-        
-        nextConveyor.AddToConveyor(holder);
-    }
+    private List<ItemHolder>  _items = new List<ItemHolder>();
     
-    private void UpdateItemPositions()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        for (int i = 0; i < BeltSize; i++)
-        {
-            if (_itemHolders[i] == null) continue;
-
-            Vector3 targetLocalPos = GetLocalPositionForSlot(i);
-
-            _itemHolders[i].transform.localPosition = Vector3.MoveTowards(
-                _itemHolders[i].transform.localPosition,
-                targetLocalPos,
-                MoveSpeed * Time.deltaTime
-            );
-        }
+        print(other.name);
+        
+        if (!other.TryGetComponent(out ItemHolder itemHolder)) return;
+        
+        other.transform.parent = itemHolder.transform;
+        _items.Add(itemHolder);
     }
 
-    private Vector3 GetLocalPositionForSlot(int slotIndex)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        float step = 1.0f / BeltSize;
-        float xOffset = (Math.Abs(slotIndex - BeltSize) * step) - .1f;
-        float yOffset = (Math.Abs(slotIndex - BeltSize) * step) - .1f; 
-        return new Vector3(xOffset * conveyorDirection.x, yOffset * conveyorDirection.y, 0);
+        if (!other.TryGetComponent(out ItemHolder itemHolder)) return;
+        
+        other.transform.parent = null;
+        _items.Remove(itemHolder);
     }
-    
-    private void ShiftItemsForward()
+
+    private void OnTriggerStay2D(Collider2D other)
     {
-        for (int i = _itemHolders.Length - 1; i > 0; i--)
-        {
-            if (_itemHolders[i - 1] == null || _itemHolders[i] != null) continue;
-            
-            _itemHolders[i] = _itemHolders[i - 1];
-            _itemHolders[i - 1] = null;
-        }
+        foreach (var item in _items)
+            item.transform.localPosition += new Vector3(MoveDir.x, MoveDir.y, 0f) * MoveSpeed * Time.fixedDeltaTime;
     }
-    
-    public bool DoesBeltHaveRoom() => _beltInventory.HasEmptySlots();
-    public Conveyor GetNextConveyor() => nextConveyor;
-    public int GetBeltSize() => BeltSize;
+
+    public List<ItemHolder> GetItemHolders()
+    {
+        return _items;
+    }
 }

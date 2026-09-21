@@ -138,9 +138,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773170820152361394, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_Name
       value: Conveyor (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: MoveDir.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: MoveDir.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: conveyorDirection.x
@@ -387,6 +399,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773170820152361394, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_Name
       value: Conveyor (1)
@@ -459,9 +475,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773170820152361394, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_Name
       value: Conveyor (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: MoveDir.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: MoveDir.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: nextConveyor
@@ -528,6 +556,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773170820152361394, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_Name
       value: Conveyor (2)
@@ -692,18 +724,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3773170820152361394, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_Name
       value: Conveyor
       objectReference: {fileID: 0}
     - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: TestItem
+      value: 
+      objectReference: {fileID: 11400000, guid: cf6956948147979489807c8161ea6067, type: 2}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: testItem
       value: 
       objectReference: {fileID: 11400000, guid: 4df332449fa56884b87f3155c57270e9, type: 2}
     - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: TestAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: itemHolder
+      value: 
+      objectReference: {fileID: 8124285641543446262, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: nextConveyor
       value: 
       objectReference: {fileID: 994245588}
+    - target: {fileID: 7747009056949574199, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+      propertyPath: SpawnTestItems
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8435519901341036258, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
