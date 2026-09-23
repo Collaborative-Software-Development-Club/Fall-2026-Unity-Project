@@ -35,14 +35,15 @@ public abstract class InteractObject : MonoBehaviour
             isHovered = true;
             string HoverMessage = OnHoverEnter();
 
-            // In the future, send a call to the UI object to display the output of OnHoverEnter.
+            // Update the UI object with the hover message.
+            TextController.Instance.SetText(HoverMessage);
         }
         else if (!currentOverlap && isHovered)
         {
             isHovered = false;
             OnHoverExit();
-
-            // In the future, send a call to the UI object to remove the hover message.
+            // Clear the UI object hover message
+            TextController.Instance.ClearText();
         }
 
         // Detection if mouse is clicked on the object.
@@ -51,19 +52,29 @@ public abstract class InteractObject : MonoBehaviour
             OnClick();
         }
     }
+    /**
+     * This method is called when the object is clicked on.
+     * Override this method in a derived class to implement custom click behavior.
+     */
     public virtual void OnClick() 
     {
-        // This is placeholder code that should be reimplemented by each class.
-        Debug.Log(name + " was clicked. Override this method!");
+        
     }
-
+    /**
+     * This method is called when the mouse hovers over the object.
+     * Override this method in a derived class to implement custom hover behavior.
+     * @return A string message to display when the mouse hovers over the object.
+     */
     public virtual string OnHoverEnter()
     {
         return name;
     }
-
+    /**
+     * This method is called when the mouse stops hovering over the object.
+     * Override this method in a derived class to implement custom hover exit behavior.
+     */
     public virtual void OnHoverExit()
     {
-        Debug.Log(name + " is no longer hovered. Override this method!");
+        
     }
 }
