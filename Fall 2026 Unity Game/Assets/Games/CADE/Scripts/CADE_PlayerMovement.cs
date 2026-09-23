@@ -17,6 +17,9 @@ public class CADE_PlayerMovement : MonoBehaviour
     [Header("Jumping")]
     [SerializeField]
     private float jumpHeight = 10f;
+    [SerializeField] //added in a way so we can give player as many jumps as we want
+    private int extraJumps = 1; //I think we can link this to an item to give them the jump but im not exactly sure. 
+    private int extraJumpsRemaining = 0;
 
     [Header("Dashing")] 
     [SerializeField] 
@@ -30,6 +33,21 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField]
     private LayerMask groundLayer;
     [SerializeField] private float coyoteTime;
+
+    [Header("Wall Check")]
+    [SerializeField] private float wallCheckDistance = 0.6f;
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private float wallSlideSpeed = 2f;
+    [SerializeField] private float wallJumpForceX = 8f;
+    [SerializeField] private float wallJumpForceY = 10f;
+    [SerializeField] private float wallJumpLockTime = 0.15f;
+    private bool isTouchingWallRight;
+    private bool isTouchingWallLeft;
+    private bool isWallSliding;
+    private float wallJumpLockCounter;
+
+
+
 
     [Header("Gravity")]
     [SerializeField]
@@ -54,16 +72,45 @@ public class CADE_PlayerMovement : MonoBehaviour
     private void Update() {
         if (isGrounded()) {
             coyoteTimeCounter = coyoteTime;
+            extraJumpsRemaining = extraJumps;
         } else {
             coyoteTimeCounter -= Time.deltaTime;
         }
+
+        isTouchingWallLeft = checkWall(Vector2.left);
+        isTouchingWallRight = checkWall(Vector2.right);
+
+        bool pressingOnWall = (isTouchingWallRight && horizontalMovement > 0f) || (isTouchingWallLeft && horizontalMovement < 0f);
+
+        isWallSliding = !isGrounded() && pressingOnWall && rb.linearVelocityY < 0f;
+
+        if (wallJumpLockCounter > 0f) { 
+            wallJumpLockCounter -= Time.deltaTime;
+        }
+
+        //can take this out if we don't want jump refresh on wall jumps
+        if (isWallSliding) {
+            extraJumpsRemaining = extraJumps;
+        }
+
     }
 
     void FixedUpdate() {
         if (isDashing) return;
-        
-        rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
-        Gravity();
+
+        if (wallJumpLockCounter <= 0f)
+        {
+            rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
+        }
+
+        if (isWallSliding)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocityY, -wallSlideSpeed));
+        }
+        else
+        {
+            Gravity();
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -73,11 +120,28 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (coyoteTimeCounter > 0f && context.performed)
+        if (context.performed)
         {
-            jumpReleased = false;
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
-            coyoteTimeCounter = 0;
+            if (coyoteTimeCounter > 0f)
+            {
+                jumpReleased = false;
+                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
+                coyoteTimeCounter = 0;
+            }
+            else if (isWallSliding || isTouchingWallLeft || isTouchingWallRight)
+            {
+                jumpReleased = false;
+                float pushDir = isTouchingWallRight ? -1f : 1f;
+                rb.linearVelocity = new Vector2(pushDir * wallJumpForceX, wallJumpForceY);
+                wallJumpLockCounter = wallJumpLockTime;
+                extraJumpsRemaining = extraJumps; //double jump refresh
+            }
+            else if (extraJumpsRemaining > 0)
+            {
+                jumpReleased = false;
+                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
+                extraJumpsRemaining -= 1;
+            }
         }
         else if (context.canceled && !jumpReleased)
         {
@@ -131,6 +195,9 @@ public class CADE_PlayerMovement : MonoBehaviour
             rb.gravityScale = baseGravity * fallSpeedMultipler;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocityY, -maxFallSpeed));
         }
+        else {
+            rb.gravityScale = baseGravity;
+        }
     }
 
     private bool isGrounded()
@@ -147,9 +214,21 @@ public class CADE_PlayerMovement : MonoBehaviour
         }
     }
 
+    private bool checkWall(Vector2 dir) {
+        RaycastHit2D hitWall = Physics2D.Raycast(transform.position, dir, wallCheckDistance, wallLayer);
+        Debug.DrawRay(transform.position, dir * wallCheckDistance, hitWall ? Color.green : Color.red);
+        if (hitWall)
+            Debug.Log($"Wall hit: {hitWall.collider.name} on layer {LayerMask.LayerToName(hitWall.collider.gameObject.layer)}");
+        return hitWall;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position - transform.up * castDistance, boxSize);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * wallCheckDistance);
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.left * wallCheckDistance);
     }
 
 }
