@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CADE_Game
   m_EditorClassIdentifier: Assembly-CSharp::GameEntry
   displayName: Out of Loop Game
-  sceneName: CADE_Test
+  sceneName: CADE_TitleScreen
   thumbnail: {fileID: 0}
