@@ -24,6 +24,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     [Header("Dashing")] 
     [SerializeField] 
     private float dashForce = 5;
+    [SerializeField] 
+    private float dashCooldown = 0.5f;
 
     [Header("Ground Check")]
     [SerializeField]
@@ -61,6 +63,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float horizontalMovement;
     private float finalSpeed;
     private float verticalMovement;
+    private float nextDashTime = 0f;
     private bool isDashing;
     private float coyoteTimeCounter = 0f;
 
@@ -163,8 +166,9 @@ public class CADE_PlayerMovement : MonoBehaviour
     }
 
     public void Dash(InputAction.CallbackContext context) {
-        if (context.performed) {
+        if (context.performed && Time.time >= nextDashTime) {
             StartCoroutine(PerformDash(horizontalMovement));
+            nextDashTime = Time.time + dashCooldown;
         }
     }
 
