@@ -155,9 +155,13 @@ public class CADE_PlayerMovement : MonoBehaviour
     }
 
     public void Dash(InputAction.CallbackContext context) {
-        if (context.performed && Time.time >= nextDashTime) {
-            StartCoroutine(PerformDash(horizontalMovement));
-            nextDashTime = Time.time + dashCooldown;
+        if (itemManager.dashFlag)
+        {
+            if (context.performed && Time.time >= nextDashTime)
+            {
+                StartCoroutine(PerformDash(horizontalMovement));
+                nextDashTime = Time.time + dashCooldown;
+            }
         }
     }
 
