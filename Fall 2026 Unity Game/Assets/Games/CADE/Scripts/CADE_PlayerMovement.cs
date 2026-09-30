@@ -26,7 +26,7 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     [Header("Dashing")] 
     [SerializeField] 
-    private float dashForce = 5;
+    private float dashForce = 100;
     [SerializeField] 
     private float dashCooldown = 0.5f;
 
@@ -114,7 +114,7 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocityY, -wallSlideSpeed));
         }
-        else if (!isSticky)
+        else if (!isSticky && !isDashing)
         {
             Gravity();
         }
@@ -161,12 +161,15 @@ public class CADE_PlayerMovement : MonoBehaviour
     }
 
     public void Dash(InputAction.CallbackContext context) {
-        if (itemManager.dashFlag)
+        if (itemManager.dashFlag || itemManager.inv_DashFlag)
         {
             if (context.performed && Time.time >= nextDashTime)
             {
-                StartCoroutine(PerformDash(horizontalMovement));
                 nextDashTime = Time.time + dashCooldown;
+                if (itemManager.dashFlag)
+                    StartCoroutine(PerformDash(horizontalMovement));
+                else
+                    StartCoroutine(PerformDash(-1));
             }
         }
     }
@@ -175,19 +178,22 @@ public class CADE_PlayerMovement : MonoBehaviour
         isDashing = true;
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
-        
-        float dashDir = horizontalMovement > 0 ? 1 : -1;
-        rb.AddForce(new Vector2(dashDir * dashForce, 0f), ForceMode2D.Impulse);
 
-        if (dir > 0) {
+        if (dir > 0 && itemManager.dashFlag) {
             rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
         } else {
-            rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+            if (itemManager.dashFlag)
+                rb.AddForce(-transform.right * dashForce, ForceMode2D.Impulse);
+            else {
+                rb.gravityScale = 0f;
+                rb.AddForce(-transform.up * dashForce, ForceMode2D.Impulse);
+            }
         }
         
         yield return new WaitForSeconds(0.1f);
         
-        rb.gravityScale = baseGravity * fallSpeedMultipler;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, -baseGravity * fallSpeedMultipler);
+        Gravity();
         isDashing = false;
     }
 
