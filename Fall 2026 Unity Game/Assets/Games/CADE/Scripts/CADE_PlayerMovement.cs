@@ -69,6 +69,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float nextDashTime = 0f;
     private bool isDashing;
     private float coyoteTimeCounter = 0f;
+    private bool isSticky = false;
 
     void Start()
     {
@@ -113,15 +114,20 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Max(rb.linearVelocityY, -wallSlideSpeed));
         }
-        else
+        else if (!isSticky)
         {
             Gravity();
+        }
+
+        if (isSticky) {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalMovement * finalSpeed);
         }
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
+        verticalMovement = context.ReadValue<Vector2>().y;
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -136,7 +142,7 @@ public class CADE_PlayerMovement : MonoBehaviour
                 ref extraJumpsRemaining, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
                 wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight);
         }
-        else
+        else if (!isSticky)
         {
             CADE_Jump.Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
@@ -228,4 +234,24 @@ public class CADE_PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.left * wallCheckDistance);
     }
 
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+            isSticky = true;
+            rb.gravityScale = 0f;
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+    private void OnCollisionStay2D(Collision2D other) {
+        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+            rb.gravityScale = 0f;
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+            isSticky = false;
+            Gravity();
+        }
+    }
 }
