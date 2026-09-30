@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 public class CADE_PlayerMovement : MonoBehaviour
 {
     [SerializeField]
+    private CADE_ItemManager itemManager;
+
+    [SerializeField]
     private Rigidbody2D rb;
 
     [Header("Movement")]
@@ -123,33 +126,19 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (itemManager.doubleJumpFlag)
         {
-            if (coyoteTimeCounter > 0f)
-            {
-                jumpReleased = false;
-                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
-                coyoteTimeCounter = 0;
-            }
-            else if (isWallSliding || isTouchingWallLeft || isTouchingWallRight)
-            {
-                jumpReleased = false;
-                float pushDir = isTouchingWallRight ? -1f : 1f;
-                rb.linearVelocity = new Vector2(pushDir * wallJumpForceX, wallJumpForceY);
-                wallJumpLockCounter = wallJumpLockTime;
-                extraJumpsRemaining = extraJumps; //double jump refresh
-            }
-            else if (extraJumpsRemaining > 0)
-            {
-                jumpReleased = false;
-                rb.linearVelocity = new Vector2(rb.linearVelocityX, jumpHeight);
-                extraJumpsRemaining -= 1;
-            }
+            CADE_Jump.Double_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
         }
-        else if (context.canceled && !jumpReleased)
+        else if (itemManager.wallJumpFlag)
         {
-            jumpReleased = true;
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+            CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
+                ref extraJumpsRemaining, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
+                wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight);
+        }
+        else
+        {
+            CADE_Jump.Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
     }
 
