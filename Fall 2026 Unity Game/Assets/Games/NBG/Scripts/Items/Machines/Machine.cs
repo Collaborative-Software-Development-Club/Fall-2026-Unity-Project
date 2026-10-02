@@ -12,7 +12,7 @@ public class Machine : Item
 
     private MachineFunctionality _machineFunctionality;
 
-    public bool Handler(Machine thisMachine, int[] indexes) {
+    public bool Handler(int[] indexes) {
         return false;
     }
 
@@ -165,9 +165,10 @@ public class Machine : Item
 
             found = true;
             
-            foreach (var inputSlot in Input.slots)
+            foreach (var inputSlot in Input.slots) //Checking every item in the machine
             {
-                if (recipe.inputs.ContainsKey(inputSlot.item) ||
+                if (recipe.inputs.ContainsKey(inputSlot.item) || //If the recipe has that item or it has 
+                // a quantity and the quantity matches, if so move to the next item
                     recipe.inputs[inputSlot.item] == inputSlot.quantity) continue;
                 
                 found = false;
@@ -180,6 +181,8 @@ public class Machine : Item
             {
                 AddItemToOutput(outputs.Key, outputs.Value);
             }
+
+            break;
         }
 
         return found;
