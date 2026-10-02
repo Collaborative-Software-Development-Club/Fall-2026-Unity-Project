@@ -18,7 +18,7 @@ public class Machine : Item
 
     public void SetFunctionality(int[] args)
     {
-        Handler(this, args);
+        Handler(args);
     }
 
     
