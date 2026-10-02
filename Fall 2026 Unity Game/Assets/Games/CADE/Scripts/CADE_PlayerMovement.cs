@@ -70,6 +70,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     private bool isDashing;
     private float coyoteTimeCounter = 0f;
     private bool isSticky = false;
+    private bool isInvSticky = false;
+    private bool isTouchingNorm = false;
 
     void Start()
     {
@@ -99,14 +101,12 @@ public class CADE_PlayerMovement : MonoBehaviour
         if (isWallSliding) {
             extraJumpsRemaining = extraJumps;
         }
-
     }
 
     void FixedUpdate() {
         if (isDashing) return;
 
-        if (wallJumpLockCounter <= 0f)
-        {
+        if ((wallJumpLockCounter <= 0f && !isInvSticky) || (wallJumpLockCounter <= 0f && isTouchingNorm)) {
             rb.linearVelocity = new Vector2(horizontalMovement * finalSpeed, rb.linearVelocityY);
         }
 
@@ -119,9 +119,13 @@ public class CADE_PlayerMovement : MonoBehaviour
             Gravity();
         }
 
-        if (isSticky) {
+        if (isSticky)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, verticalMovement * finalSpeed);
-        }
+        if (isInvSticky && !isTouchingNorm)
+            rb.constraints |= RigidbodyConstraints2D.FreezePositionX;
+        else
+            rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -142,7 +146,7 @@ public class CADE_PlayerMovement : MonoBehaviour
                 ref extraJumpsRemaining, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
                 wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight);
         }
-        else if (!isSticky)
+        else if (!isSticky && !isInvSticky)
         {
             CADE_Jump.Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
@@ -241,23 +245,30 @@ public class CADE_PlayerMovement : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+        if (other.gameObject.CompareTag("StickyTile") && (itemManager.stickyFlag || itemManager.inv_StickyFlag)) {
             isSticky = true;
             rb.gravityScale = 0f;
             rb.linearVelocity = Vector2.zero;
+            if (itemManager.inv_StickyFlag) {
+                isInvSticky = true;
+            }
         }
+        if (other.gameObject.CompareTag("NormalTile"))
+            isTouchingNorm = true;
     }
     private void OnCollisionStay2D(Collision2D other) {
-        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+        if (other.gameObject.CompareTag("StickyTile") && (itemManager.stickyFlag || itemManager.inv_StickyFlag))
             rb.gravityScale = 0f;
-            rb.linearVelocity = Vector2.zero;
-        }
     }
 
     private void OnCollisionExit2D(Collision2D other) {
-        if (other.gameObject.CompareTag("StickyTile") && itemManager.stickyFlag) {
+        if (other.gameObject.CompareTag("StickyTile") && (itemManager.stickyFlag || itemManager.inv_StickyFlag)) {
             isSticky = false;
             Gravity();
+            if (itemManager.inv_StickyFlag)
+                isInvSticky = false;
         }
+        if (other.gameObject.CompareTag("NormalTile"))
+            isTouchingNorm = false;
     }
 }
