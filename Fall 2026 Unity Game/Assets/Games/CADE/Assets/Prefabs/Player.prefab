@@ -260,17 +260,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ae8a2b5d98a704c977313ff65f0037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CADE_Player
+  itemManager: {fileID: 0}
   rb: {fileID: 1690886500371233535}
   moveSpeed: 10
   sprintSpeed: 20
-  jumpHeight: 20
+  jumpHeight: 15
+  extraJumps: 1
   dashForce: 5
+  dashCooldown: 0.5
   boxSize: {x: 1, y: 0.2}
   castDistance: 0.6
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  baseGravity: 1
+  coyoteTime: 0
+  wallCheckDistance: 0.6
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallSlideSpeed: 2
+  wallJumpForceX: 8
+  wallJumpForceY: 10
+  wallJumpLockTime: 0.15
+  baseGravity: 1.5
   maxFallSpeed: 32
   fallSpeedMultipler: 3
 --- !u!70 &7654066175826891945
