@@ -11,12 +11,17 @@ public class Machine : Item
     protected Inventory Output;
 
     private MachineFunctionality _machineFunctionality;
-    
+
+    public bool Handler(Machine thisMachine, int[] indexes) {
+        return false;
+    }
 
     public void SetFunctionality(int[] args)
     {
-        _machineFunctionality.Handler(this, args);
+        Handler(this, args);
     }
+
+    
     
     // Function for retrieving the type this machine is.
     public machineType GetMachineType() 

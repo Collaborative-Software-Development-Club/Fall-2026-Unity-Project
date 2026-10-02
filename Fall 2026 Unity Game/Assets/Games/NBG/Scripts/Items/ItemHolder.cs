@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemHolder : MonoBehaviour
+public class ItemHolder : InteractObject
 {
     public Item Item;
 

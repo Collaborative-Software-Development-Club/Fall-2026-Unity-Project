@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Item 
+public abstract class Item
 {
     [SerializeField] protected ItemData data;
     protected string Name;
@@ -109,4 +109,6 @@ public abstract class Item
     {
         return data.isStackable;
     }
+
+
 }
