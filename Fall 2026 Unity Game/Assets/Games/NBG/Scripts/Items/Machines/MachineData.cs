@@ -4,6 +4,7 @@ using UnityEngine;
 public enum machineType
 { 
     None, Furnace
+    
 }
 
 
