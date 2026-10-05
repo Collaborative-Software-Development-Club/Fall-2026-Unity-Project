@@ -1,2 +1,17 @@
 fileFormatVersion: 2
 guid: 5d1c62803ad1b514ba0529e90b2de121
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - childPrefab: {fileID: 7023875370248515962, guid: 07b2a2349def45c4790d913038ade49c, type: 3}
+  - levelFile: {fileID: 4900000, guid: dc9feb4ca892000469270372c731968a, type: 3}
+  - floorSprite: {instanceID: 0}
+  - wallSprite: {instanceID: 0}
+  - entranceSprite: {instanceID: 0}
+  - exitSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
