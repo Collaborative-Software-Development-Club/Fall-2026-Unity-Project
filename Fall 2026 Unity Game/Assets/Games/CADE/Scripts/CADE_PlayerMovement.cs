@@ -22,7 +22,9 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float jumpHeight = 10f;
     [SerializeField] //added in a way so we can give player as many jumps as we want
     private int extraJumps = 1; //I think we can link this to an item to give them the jump but im not exactly sure. 
+    [SerializeField] private float jumpBuffer = 0.1f;
     private int extraJumpsRemaining = 0;
+    private float jumpBufferCounter = 0f;
 
     [Header("Dashing")] 
     [SerializeField] 
@@ -37,7 +39,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float castDistance;
     [SerializeField]
     private LayerMask groundLayer;
-    [SerializeField] private float coyoteTime;
+    [SerializeField] private float coyoteTime = 0.1f;
+    private float coyoteTimeCounter = 0f;
 
     [Header("Wall Check")]
     [SerializeField] private float wallCheckDistance = 0.6f;
@@ -68,7 +71,6 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float verticalMovement;
     private float nextDashTime = 0f;
     private bool isDashing;
-    private float coyoteTimeCounter = 0f;
     private bool isSticky = false;
     private bool isInvSticky = false;
     private bool isTouchingNorm = false;
