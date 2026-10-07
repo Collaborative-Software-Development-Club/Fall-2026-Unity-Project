@@ -4154,6 +4154,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: jumpBuffer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: itemManager
       value: 
       objectReference: {fileID: 827133252}
@@ -4168,6 +4172,10 @@ PrefabInstance:
     - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
       objectReference: {fileID: 0}
     - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_ActionEvents.Array.size
