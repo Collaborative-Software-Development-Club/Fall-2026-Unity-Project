@@ -145,6 +145,7 @@ public class Machine : Item
             case machineType.None:
                 Debug.Log("No machine type!");
                 break;
+            case machineType.Furnace : break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

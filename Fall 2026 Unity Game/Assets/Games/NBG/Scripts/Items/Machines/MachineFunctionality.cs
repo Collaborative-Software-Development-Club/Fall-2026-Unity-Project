@@ -1,4 +1,4 @@
-public abstract class MachineFunctionality 
+public abstract class MachineFunctionality
 {
     
 }

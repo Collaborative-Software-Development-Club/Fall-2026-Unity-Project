@@ -9,7 +9,7 @@ public abstract class InteractObject : MonoBehaviour
     protected virtual void Awake()
     {
         _collider = GetComponent<Collider2D>();
-        mainCamera = Camera.main;
+        mainCamera = FindFirstObjectByType<Camera>();
     }
 
     protected virtual void Update()
@@ -23,6 +23,7 @@ public abstract class InteractObject : MonoBehaviour
 
         // Convert pixel screen coordinates directly into 2D world space. We must assign a fake Z value and then remove it in case
         // any objects in the world are placed at different Z values.
+        //print(mainCamera);
         Vector3 worldPos3D = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, 10f));
         Vector2 worldPos2D = new Vector2(worldPos3D.x, worldPos3D.y);
 
