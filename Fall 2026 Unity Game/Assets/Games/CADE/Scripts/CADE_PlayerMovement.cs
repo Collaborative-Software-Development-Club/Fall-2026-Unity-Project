@@ -94,7 +94,7 @@ public class CADE_PlayerMovement : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0f && isGrounded()) {
+        if (jumpBufferCounter > 0f && (coyoteTimeCounter > 0f || extraJumpsRemaining > 0 || isGrounded())) {
             PerformJump();
             jumpBufferCounter = 0f;
         }
