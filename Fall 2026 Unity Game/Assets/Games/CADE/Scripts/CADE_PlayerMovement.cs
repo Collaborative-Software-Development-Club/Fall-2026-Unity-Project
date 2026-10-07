@@ -17,7 +17,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField]
     private float sprintSpeed = 10f;
 
-    [Header("Jumping")]
+    [Header("Jumping")] 
+    [SerializeField] private InputAction jumpAction;
     [SerializeField]
     private float jumpHeight = 10f;
     [SerializeField] //added in a way so we can give player as many jumps as we want
@@ -25,6 +26,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpBuffer = 0.1f;
     private int extraJumpsRemaining = 0;
     private float jumpBufferCounter = 0f;
+    private bool pressedJump = false;
 
     [Header("Dashing")] 
     [SerializeField] 
@@ -88,9 +90,18 @@ public class CADE_PlayerMovement : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
+        if (jumpBufferCounter > 0f) {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f && (coyoteTimeCounter > 0f || extraJumpsRemaining > 0 || isGrounded())) {
+            PerformJump();
+            jumpBufferCounter = 0f;
+        }
+
         isTouchingWallLeft = checkWall(Vector2.left);
         isTouchingWallRight = checkWall(Vector2.right);
-
+        
         bool pressingOnWall = (isTouchingWallRight && horizontalMovement > 0f) || (isTouchingWallLeft && horizontalMovement < 0f);
 
         isWallSliding = !isGrounded() && pressingOnWall && rb.linearVelocityY < 0f;
@@ -138,31 +149,33 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+        if (context.performed) {
+            if (!isGrounded())
+                jumpBufferCounter = jumpBuffer;
+            else
+                PerformJump();
+        } else if (context.canceled) {
+            jumpReleased = true;
+            CADE_Jump.Cut_Jump(rb, ref jumpReleased);
+        }
+    }
+
+    public void PerformJump() {
+        
+        if (coyoteTimeCounter <= 0f && extraJumpsRemaining <= 0 && !isWallSliding) return;
         if (itemManager.doubleJumpFlag)
         {
-            CADE_Jump.Double_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
+            CADE_Jump.Double_Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
         }
         else if (itemManager.wallJumpFlag)
         {
-            CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
+            CADE_Jump.Wall_Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
                 ref extraJumpsRemaining, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
                 wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight);
         }
         else if (!isSticky && !isInvSticky)
         {
-            CADE_Jump.Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
-        }
-    }
-
-    public void Sprint(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            finalSpeed = sprintSpeed;
-        }
-        else if (context.canceled)
-        {
-            finalSpeed = moveSpeed;
+            CADE_Jump.Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
     }
 
