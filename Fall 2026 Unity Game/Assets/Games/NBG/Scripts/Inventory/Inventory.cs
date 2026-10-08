@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public struct InventoryChange
@@ -164,5 +165,24 @@ public class Inventory
         }
         
         Debug.Log("Inventory:\n" + printMessage + "\nTotal Items: "  + totalItems);
+    }
+
+    public InventorySlot[] GetInventorySlots()
+    {
+        return slots;
+    }
+
+    /// <summary>
+    /// Converts the current inventory into a Item Quantity list to be used in other systems
+    /// </summary>
+    /// <returns>A Item Quantity List</returns>
+    public List<ItemQuantity> GetInventoryAsItemQuantityList()
+    {
+        List<ItemQuantity> temp = new List<ItemQuantity>();
+
+        for (int i = 0; i < Length ; i++)
+            slots[i].GetItemQuantity();
+
+        return temp;
     }
 }

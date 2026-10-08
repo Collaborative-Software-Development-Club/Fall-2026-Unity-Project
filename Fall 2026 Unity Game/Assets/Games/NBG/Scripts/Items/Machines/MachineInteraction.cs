@@ -27,17 +27,6 @@ public class MachineInteraction : MonoBehaviour
 
         int[] args = new int[2];
 
-        Action machineHandler = () =>
-        {
-            _machine.SetFunctionality(args);
-        };
-
-        machineHandler += () => onMachineUsed?.Invoke();        
-        if (hasUI){}
-            //GameManager.Instance.GUIManager.OpenMachineUI(_machine, machineHandler);
-        else
-            machineHandler.Invoke();
-
         return true;
     } 
 }

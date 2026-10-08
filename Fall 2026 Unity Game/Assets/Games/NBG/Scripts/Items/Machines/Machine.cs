@@ -7,21 +7,9 @@ public class Machine : Item
     private MachineData machineData => data as MachineData;
 
     protected Inventory Input;
-
     protected Inventory Output;
 
     private MachineFunctionality _machineFunctionality;
-
-    public bool Handler(int[] indexes) {
-        return false;
-    }
-
-    public void SetFunctionality(int[] args)
-    {
-        Handler(args);
-    }
-
-    
     
     // Function for retrieving the type this machine is.
     public machineType GetMachineType() 
@@ -159,30 +147,17 @@ public class Machine : Item
     {
         bool found = false;
         
+        // TODO: Make more peformant eventually
         foreach (var recipe in machineData.recipes)
         {
-            if (recipe.inputs.Count != Input.Length)
-                continue;
+            var output = recipe.Process(Input.GetInventoryAsItemQuantityList());
+            
+            if (output == null) continue;
 
             found = true;
-            
-            foreach (var inputSlot in Input.slots) //Checking every item in the machine
-            {
-                // REWRITE
-                if (recipe.inputs.ContainsKey(inputSlot.GetItem()) || //If the recipe has that item or it has 
-                // a quantity and the quantity matches, if so move to the next item
-                    recipe.inputs[inputSlot.GetItem()] == inputSlot.GetQuantity()) continue;
-                
-                found = false;
-                break;
-            }
 
-            if (!found) continue;
-
-            foreach (var outputs in recipe.outputs)
-            {
-                AddItemToOutput(outputs.Key, outputs.Value);
-            }
+            foreach (var item in output)
+                AddItemToOutput(item.Item, item.Quantity);
 
             break;
         }

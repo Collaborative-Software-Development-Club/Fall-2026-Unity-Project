@@ -67,6 +67,8 @@ public class InventorySlot
         return _itemQuantity.Quantity;
     }
 
+    public ItemQuantity GetItemQuantity() => _itemQuantity;
+
     public ItemType? Type() {
         if (_itemQuantity.Item is null) return null;
         return GetItem().GetItemType();
