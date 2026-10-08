@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MachineInteraction : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MachineInteraction : MonoBehaviour
     [SerializeField] private bool hasUI = false;
     private Machine _machine;
     public Action onMachineUsed; 
+    public List<Item> itemsgiven;
 
     private void Awake()
     {
@@ -37,5 +39,5 @@ public class MachineInteraction : MonoBehaviour
             machineHandler.Invoke();
 
         return true;
-    }
+    } 
 }
