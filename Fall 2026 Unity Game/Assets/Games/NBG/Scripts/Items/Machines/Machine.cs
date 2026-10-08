@@ -42,13 +42,13 @@ public class Machine : Item
     // Function for retrieving items found within Input.
     public Item GetInputFromSlot(int slot)
     { 
-        return Input.GetItemAt(slot).item;
+        return Input.GetItemAt(slot).GetItem();
     }
 
     // Function for retrieving items found within Output.
     public Item GetOutputFromSlot(int slot)
     {
-        return Output.GetItemAt(slot).item;
+        return Output.GetItemAt(slot).GetItem();
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class Machine : Item
         for (int i = 0; i < Input.Length && index == -1; i++)
         {
             var slotItem = Input.GetItemAt(i);
-            if (slotItem != null && slotItem.item == item) 
+            if (slotItem != null && slotItem.GetItem() == item) 
                 index = i;
         }
 
@@ -110,7 +110,7 @@ public class Machine : Item
 
         InventorySlot removed = Input.RemoveFromSlot(index, quantity);
 
-        return removed != null && removed.quantity > 0;
+        return removed != null && removed.GetQuantity() > 0;
     }
 
     /// <summary>
@@ -168,9 +168,10 @@ public class Machine : Item
             
             foreach (var inputSlot in Input.slots) //Checking every item in the machine
             {
-                if (recipe.inputs.ContainsKey(inputSlot.item) || //If the recipe has that item or it has 
+                // REWRITE
+                if (recipe.inputs.ContainsKey(inputSlot.GetItem()) || //If the recipe has that item or it has 
                 // a quantity and the quantity matches, if so move to the next item
-                    recipe.inputs[inputSlot.item] == inputSlot.quantity) continue;
+                    recipe.inputs[inputSlot.GetItem()] == inputSlot.GetQuantity()) continue;
                 
                 found = false;
                 break;

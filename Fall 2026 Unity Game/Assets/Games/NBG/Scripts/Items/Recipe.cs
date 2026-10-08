@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Recipe : ScriptableObject
 {
-    public Dictionary<Item, int> inputs;
-    public Dictionary<Item, int> outputs;
+    [SerializeField] private List<ItemQuantity> inputs;
+    [SerializeField] private List<ItemQuantity> outputs;
+
+    // TODO: MAKE ERROR FOR DUPLICATE INPUTS LATER ME
 }
+

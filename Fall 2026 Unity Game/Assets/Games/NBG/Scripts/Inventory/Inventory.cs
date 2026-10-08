@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public struct InventoryChange
@@ -31,18 +30,18 @@ public class Inventory
         for (int i = 0; i < slots.Length; i++)
         {
             
-            if (slots[i].item == null || !slots[i].item.Equals(item) || (!slots[i].item.GetStackable() && slots[i].item.Equals(item))) continue;
+            if (slots[i].GetItem() == null || !slots[i].GetItem().Equals(item) || (!slots[i].GetItem().GetStackable() && slots[i].GetItem().Equals(item))) continue;
             
-            slots[i].quantity += quantity;
+            slots[i].AddQuantity(quantity);
             return i;
         }
 
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item != null) continue;
+            if (slots[i].GetItem() != null) continue;
             
-            slots[i].item = item; 
-            slots[i].quantity = quantity;
+            slots[i].SetItem(item);
+            slots[i].SetQuantity(quantity);
             return i;
         }
 
@@ -57,11 +56,11 @@ public class Inventory
             return replace;
         }
         if (slots[slot].IsTypeAs(item)) {
-            slots[slot].quantity += quantity;
+            slots[slot].AddQuantity(quantity);
         }
 
-        slots[slot].item = item;
-        slots[slot].quantity = quantity;
+        slots[slot].SetItem(item);
+        slots[slot].SetQuantity(quantity);
         _emptySlots -= 1;
         return replace;
     }
@@ -73,15 +72,14 @@ public class Inventory
             return returning;
         }
 
-        if (slots[slot].quantity > quantity) {
-            slots[slot].quantity -= quantity;
-            returning.Add(slots[slot].item, quantity);
+        if (slots[slot].GetQuantity() > quantity) {
+            slots[slot].RemoveQuantity(quantity);
+            returning.Add(slots[slot].GetItem(), quantity);
         } 
-        else if (slots[slot].quantity > 0) {
-            returning.Add(slots[slot].item, slots[slot].quantity);
+        else if (slots[slot].GetQuantity() > 0) {
+            returning.Add(slots[slot].GetItem(), slots[slot].GetQuantity());
             
-            slots[slot].item = null;
-            slots[slot].quantity = 0;
+            slots[slot].Reset();
             _emptySlots += 1;
         }
         
@@ -110,7 +108,7 @@ public class Inventory
 
         change.Index = itemIndex;
         RemoveFromSlot(itemIndex, quantity);
-        change.NewQuantity = GetItemAt(itemIndex).quantity;
+        change.NewQuantity = GetItemAt(itemIndex).GetQuantity();
         
         return change;
     }
@@ -119,7 +117,7 @@ public class Inventory
     public int GetTotalItemCount() {
         int count = 0;
         for (int i = 0; i < slots.Length; i++) {
-            count += slots[i].quantity;
+            count += slots[i].GetQuantity();
         }
         return count;
     }
@@ -144,7 +142,7 @@ public class Inventory
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item.Equals(item)) return i;
+            if (slots[i].GetItem().Equals(item)) return i;
         }
         
         return -1;
@@ -162,7 +160,7 @@ public class Inventory
         
         foreach (InventorySlot slot in slots)
         {
-            printMessage += slot.item != null ? totalItems-- : slot.item + " | " + slot.quantity + "\n";
+            printMessage += slot.GetItem() != null ? totalItems-- : slot.GetItem() + " | " + slot.GetQuantity() + "\n";
         }
         
         Debug.Log("Inventory:\n" + printMessage + "\nTotal Items: "  + totalItems);
