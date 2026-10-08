@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BindingTime
 {
-    public enum TileType { Floor, Wall, Entrance, Exit }
+    public enum TileType { Ground, Wall, Entrance, Moss, Figure, Water, Exit } //statue = figure (this is so we can use S for sigil) 
 
     [RequireComponent(typeof(SpriteRenderer))]
     public class Tile : MonoBehaviour
