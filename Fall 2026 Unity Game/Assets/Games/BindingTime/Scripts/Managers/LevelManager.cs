@@ -68,7 +68,7 @@ namespace BindingTime
                 for (int x = 0; x < fallbackWidth; x++)
                 {
                     bool border = x == 0 || y == 0 || x == fallbackWidth - 1 || y == fallbackHeight - 1;
-                    map[y, x] = border ? TileType.Wall : TileType.Floor;
+                    map[y, x] = border ? TileType.Wall : TileType.Ground;
                 }
             }
             map[1, 1] = TileType.Entrance;
