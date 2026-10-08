@@ -99,7 +99,7 @@ namespace BindingTime
                         '#' => TileType.Wall,
                         'S' => TileType.Entrance,
                         'E' => TileType.Exit,
-                        _ => TileType.Floor,
+                        _ => TileType.Ground,
                     };
                 }
             }
