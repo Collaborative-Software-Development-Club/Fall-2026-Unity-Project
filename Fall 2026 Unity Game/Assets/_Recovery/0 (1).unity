@@ -345,13 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1c62803ad1b514ba0529e90b2de121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  levels:
-  - {fileID: 4900000, guid: dc9feb4ca892000469270372c731968a, type: 3}
-  - {fileID: 4900000, guid: 9303c73417b4d7844ababd0bf84add6c, type: 3}
-  childPrefab: {fileID: 7023875370248515962, guid: 07b2a2349def45c4790d913038ade49c, type: 3}
-  fitCamera: 1
   widthTiles: 51
   heightTiles: 30
+  childPrefab: {fileID: 7023875370248515962, guid: 07b2a2349def45c4790d913038ade49c, type: 3}
+  levelFile: {fileID: 4900000, guid: dc9feb4ca892000469270372c731968a, type: 3}
   floorSprite: {fileID: 0}
   wallSprite: {fileID: 0}
   entranceSprite: {fileID: 0}
@@ -384,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac824f4c94f6124449ce189c8567e3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BindingTime.GameManager
+  player: {fileID: 0}
 --- !u!1 &1329532060
 GameObject:
   m_ObjectHideFlags: 0

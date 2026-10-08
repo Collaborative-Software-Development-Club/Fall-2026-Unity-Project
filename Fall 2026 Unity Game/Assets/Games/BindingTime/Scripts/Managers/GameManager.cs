@@ -1,16 +1,32 @@
 using UnityEngine;
 
-namespace BindingTime {
-    public class GameManager : MonoBehaviour {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        [SerializeField] private GameObject player;
-        
-        void Start() {
-            
+namespace BindingTime
+{
+    public class GameManager : MonoBehaviour
+    {
+        void Start()
+        {
+            UIManager.player.ReachedExit += OnReachedExit;
         }
 
-        // Update is called once per frame
-        void Update() {
+        void OnDestroy()
+        {
+            if (UIManager.player != null) UIManager.player.ReachedExit -= OnReachedExit;
+        }
+
+        void OnReachedExit()
+        {
+            if (TileManager.Instance.HasNextLevel)
+            {
+                TileManager.Instance.NextLevel();
+            }
+            else
+            {
+                Debug.Log("All levels complete!");
+            }
+        }
+        void Update()
+        {
             UIManager.Update();
         }
     }

@@ -7,7 +7,7 @@ namespace BindingTime
     {
         private int tileX, tileY;
 
-        // Hook your win screen / next level up to this.
+        // Hook your win screen / next level up to this gamemanger needs ts
         public event Action ReachedExit;
 
         void Awake()
@@ -18,14 +18,22 @@ namespace BindingTime
         void Start()
         {
             // Spawn on the entrance tile.
-            var tiles = TileManager.Instance;
-            tileX = tiles.Entrance.x;
-            tileY = tiles.Entrance.y;
-            ApplyPosition();
+            TileManager.Instance.LevelLoaded += Respawn;
+            Respawn(TileManager.Instance.CurrentLevel);
         }
 
         void Update()
         {
+            ApplyPosition();
+        }
+        void OnDestroy()
+        {
+            if (TileManager.Instance != null) TileManager.Instance.LevelLoaded -= Respawn;
+        }
+        private void Respawn(int level)
+        {
+            tileX = TileManager.Instance.Entrance.x;
+            tileY = TileManager.Instance.Entrance.y;
             ApplyPosition();
         }
 
@@ -39,7 +47,7 @@ namespace BindingTime
             int newX = tileX + x;
             int newY = tileY + y;
 
-            // Walls (and anything off the map) block movement.
+            // illegal movement.
             if (!TileManager.Instance.IsWalkable(newX, newY)) return;
 
             tileX = newX;
@@ -47,7 +55,7 @@ namespace BindingTime
 
             if (TileManager.Instance.GetTile(tileX, tileY).Type == TileType.Exit)
             {
-                Debug.Log("Reached the exit!");
+                Debug.Log("Reached the exit! woo");
                 ReachedExit?.Invoke();
             }
         }
