@@ -16,9 +16,10 @@ namespace BindingTime
 
         void OnReachedExit()
         {
-            if (TileManager.Instance.HasNextLevel)
+
+            if (LevelManager.Instance.HasNextLevel)
             {
-                TileManager.Instance.NextLevel();
+                LevelManager.Instance.NextLevel();
             }
             else
             {
