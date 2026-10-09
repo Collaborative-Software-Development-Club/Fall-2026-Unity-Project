@@ -48,9 +48,16 @@ public abstract class InteractObject : MonoBehaviour
         }
 
         // Detection if mouse is clicked on the object.
-        if (currentOverlap && UnityEngine.InputSystem.Mouse.current != null && UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
+        if (currentOverlap && UnityEngine.InputSystem.Mouse.current != null)
         {
-            OnClick();
+            if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                OnClick();
+            }
+            else if (UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                OnRightClick();
+            }
         }
     }
     /**
@@ -58,6 +65,14 @@ public abstract class InteractObject : MonoBehaviour
      * Override this method in a derived class to implement custom click behavior.
      */
     public virtual void OnClick() 
+    {
+        
+    }
+    /**
+     * This method is called when the object is right clicked on.
+     * Override this method in a derived class to implement custom right click behavior.
+    */
+    public virtual void OnRightClick()
     {
         
     }
