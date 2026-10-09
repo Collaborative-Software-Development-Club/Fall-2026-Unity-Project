@@ -95,14 +95,17 @@ namespace BindingTime
                 {
                     char c = x < lines[row].Length ? lines[row][x] : '#'; // pad short lines with wall
                     map[y, x] = c switch
-                    {
+                    {       //needed in every level
                         '#' => TileType.Wall,
                         'O' => TileType.Origin,
                         'E' => TileType.Exit,
-                        'M' => TileType.Moss,
-                        'F' => TileType.Figure,
-                        'W' => TileType.Water,
+                            //basic interactive stuff (not interactive yet)
                         'S' => TileType.Sigil,
+                        'F' => TileType.Figure,
+                            //decorative stuff
+                        'W' => TileType.Water,
+                        'M' => TileType.Moss,
+                            //G R O U N D
                         _ => TileType.Ground,
                     };
                 }
