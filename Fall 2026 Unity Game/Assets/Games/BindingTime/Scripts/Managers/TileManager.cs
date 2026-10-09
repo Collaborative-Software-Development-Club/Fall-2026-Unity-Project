@@ -13,14 +13,14 @@ namespace BindingTime
         [Header("Optional sprites (leave empty to use the prefab's sprite, tinted)")]
         [SerializeField] private Sprite floorSprite;
         [SerializeField] private Sprite wallSprite;
-        [SerializeField] private Sprite entranceSprite;
+        [SerializeField] private Sprite originSprite;
         [SerializeField] private Sprite exitSprite;
 
         private Tile[,] tileGrid; // [y, x]
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public Vector2Int Entrance { get; private set; }
+        public Vector2Int Origin { get; private set; }
         public Vector2Int Exit { get; private set; }
 
         void Awake()
@@ -47,16 +47,16 @@ namespace BindingTime
             Height = map.GetLength(0);
             Width = map.GetLength(1);
             tileGrid = new Tile[Height, Width];
-            Entrance = Vector2Int.zero;
+            Origin = Vector2Int.zero;
             Exit = Vector2Int.zero;
-            bool foundEntrance = false, foundExit = false;
+            bool foundOrigin = false, foundExit = false;
 
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
                     TileType type = map[y, x];
-                    if (type == TileType.Entrance) { Entrance = new Vector2Int(x, y); foundEntrance = true; }
+                    if (type == TileType.Origin) { Origin = new Vector2Int(x, y); foundOrigin = true; }
                     if (type == TileType.Exit) { Exit = new Vector2Int(x, y); foundExit = true; }
 
                     GameObject go = Instantiate(childPrefab, transform);
@@ -69,7 +69,7 @@ namespace BindingTime
                 }
             }
 
-            if (!foundEntrance) Debug.LogWarning("Map has no entrance (S). Player will spawn at (0,0).");
+            if (!foundOrigin) Debug.LogWarning("Map has no origin (S). Player will spawn at (0,0).");
             if (!foundExit) Debug.LogWarning("Map has no exit (E).");
         }
 
@@ -86,7 +86,7 @@ namespace BindingTime
         private Sprite SpriteFor(TileType type) => type switch
         {
             TileType.Wall => wallSprite,
-            TileType.Entrance => entranceSprite,
+            TileType.Origin => originSprite,
             TileType.Exit => exitSprite,
             _ => floorSprite,
         };

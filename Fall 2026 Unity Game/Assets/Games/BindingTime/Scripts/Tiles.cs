@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BindingTime
 {
-    public enum TileType { Ground, Wall, Entrance, Moss, Figure, Water, Exit } //statue = figure (this is so we can use S for sigil) 
+    public enum TileType { Ground, Wall, Origin, Moss, Figure, Water, Exit, Sigil} //statue = figure (this is so we can use S for sigil) 
 
     [RequireComponent(typeof(SpriteRenderer))]
     public class Tile : MonoBehaviour
@@ -27,7 +27,7 @@ namespace BindingTime
             sr.color = type switch
             {
                 TileType.Wall => new Color(0.25f, 0.25f, 0.30f),
-                TileType.Entrance => new Color(0.30f, 0.85f, 0.40f),
+                TileType.Origin => new Color(0.30f, 0.85f, 0.40f),
                 TileType.Exit => new Color(0.95f, 0.80f, 0.20f),
                 _ => Color.black,
             };

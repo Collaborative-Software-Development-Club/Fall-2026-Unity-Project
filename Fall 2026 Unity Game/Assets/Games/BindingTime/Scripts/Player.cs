@@ -22,7 +22,7 @@ namespace BindingTime
 
         void Start()
         {
-            // Move to the new entrance every time a level is (re)loaded.
+            // Move to the new origin every time a level is (re)loaded.
             LevelManager.Instance.LevelLoaded += Respawn;
 
             // If the level got loaded before we subscribed, spawn now.
@@ -41,8 +41,8 @@ namespace BindingTime
 
         private void Respawn(int level)
         {
-            tileX = TileManager.Instance.Entrance.x;
-            tileY = TileManager.Instance.Entrance.y;
+            tileX = TileManager.Instance.Origin.x;
+            tileY = TileManager.Instance.Origin.y;
             InputLocked = false;
             recorder.Begin(new Vector2Int(tileX, tileY));
             ApplyPosition();

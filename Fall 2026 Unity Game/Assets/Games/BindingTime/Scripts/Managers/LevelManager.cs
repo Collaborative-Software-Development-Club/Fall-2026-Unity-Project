@@ -71,12 +71,12 @@ namespace BindingTime
                     map[y, x] = border ? TileType.Wall : TileType.Ground;
                 }
             }
-            map[1, 1] = TileType.Entrance;
+            map[1, 1] = TileType.Origin;
             map[fallbackHeight - 2, fallbackWidth - 2] = TileType.Exit;
             return map;
         }
 
-        // key:  #  wall    .  floor    S  entrance (spawn    E  exit
+        // key:  #  wall    .  floor    O  origin (spawn    E  exit
         // levels r displayed bottom to top
         private TileType[,] ParseLevel(string text)
         {
@@ -97,8 +97,12 @@ namespace BindingTime
                     map[y, x] = c switch
                     {
                         '#' => TileType.Wall,
-                        'S' => TileType.Entrance,
+                        'O' => TileType.Origin,
                         'E' => TileType.Exit,
+                        'M' => TileType.Moss,
+                        'F' => TileType.Figure,
+                        'W' => TileType.Water,
+                        'S' => TileType.Sigil,
                         _ => TileType.Ground,
                     };
                 }
