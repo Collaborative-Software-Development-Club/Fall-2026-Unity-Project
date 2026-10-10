@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,6 +10,8 @@ public class MetaPlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private (float halfWidth, float halfHeight) worldDimensions;
+
+    public UnityEvent Selected;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +49,11 @@ public class MetaPlayerMovement : MonoBehaviour
         else if (rb.transform.position.y > worldDimensions.halfHeight) wrappedY = -worldDimensions.halfHeight;
 
         rb.transform.position = new Vector3(wrappedX, wrappedY, rb.transform.position.z);
+    }
+
+    public void Select(InputAction.CallbackContext context)
+    {
+        Selected.Invoke();
     }
 
     
