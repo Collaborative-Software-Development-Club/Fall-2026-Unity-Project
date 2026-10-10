@@ -181,7 +181,21 @@ public class Inventory
         List<ItemQuantity> temp = new List<ItemQuantity>();
 
         for (int i = 0; i < Length ; i++)
-            slots[i].GetItemQuantity();
+            temp.Add(slots[i].GetItemQuantity());
+
+        return temp;
+    }
+
+    /// <summary>
+    /// Converts the current inventory into a Item Data Quantity list to be used in other systems
+    /// </summary>
+    /// <returns>A Item Quantity List</returns>
+    public List<ItemDataQuantity> GetInventoryAsItemDataQuantityList()
+    {
+        List<ItemDataQuantity> temp = new List<ItemDataQuantity>();
+
+        for (int i = 0; i < Length; i++)
+            temp.Add(new ItemDataQuantity(slots[i].GetItemQuantity().Item.GetData(), slots[i].GetItemQuantity().Quantity));
 
         return temp;
     }

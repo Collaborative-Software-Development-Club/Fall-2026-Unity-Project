@@ -8,4 +8,13 @@ public class Processable : Item
     {
         data = itemData;
     }
+
+    /// <summary>
+    /// Function for retrieving the machine's data
+    /// </summary>
+    /// <returns></returns>
+    public override ItemData GetData()
+    {
+        return data;
+    }
 }

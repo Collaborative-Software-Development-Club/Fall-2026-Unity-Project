@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Furnace : Machine
@@ -11,10 +12,10 @@ public class Furnace : Machine
     
 
 
-    public bool Handler(int[] indexes) {
+    public async Task<bool> Handler(int[] indexes) {
 
         
-        return PerformOperation();
+        return await PerformOperation();
     }
 
 

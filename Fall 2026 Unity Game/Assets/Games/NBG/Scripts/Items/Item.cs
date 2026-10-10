@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-
+[Serializable]
 public abstract class Item
 {
     [SerializeField] protected ItemData data;
@@ -15,6 +16,9 @@ public abstract class Item
 
         Debug.Log(GetDataAsString());
     }
+
+    public abstract ItemData GetData();
+    
 
     public virtual string GetDataAsString()
     {

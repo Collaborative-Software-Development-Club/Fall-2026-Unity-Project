@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Machine : Item
@@ -11,11 +13,21 @@ public class Machine : Item
 
     private MachineFunctionality _machineFunctionality;
     
+    /// <summary>
+    /// Function for retrieving the machine's data
+    /// </summary>
+    /// <returns></returns>
+    public override ItemData GetData()
+    {
+        return machineData;
+    }
+
     // Function for retrieving the type this machine is.
     public machineType GetMachineType() 
     {
         return machineData.processType;
     }
+
 
     // Function for retrieving the input inventory of this machine.
     public Inventory GetInputInventory()
@@ -143,21 +155,22 @@ public class Machine : Item
         Name = itemName;
     }
 
-    public bool PerformOperation()
+    public async Task<bool> PerformOperation()
     {
         bool found = false;
         
         // TODO: Make more peformant eventually
         foreach (var recipe in machineData.recipes)
         {
-            var output = recipe.Process(Input.GetInventoryAsItemQuantityList());
+            var output = recipe.Process(Input.GetInventoryAsItemDataQuantityList());
             
             if (output == null) continue;
 
             found = true;
 
-            foreach (var item in output)
-                AddItemToOutput(item.Item, item.Quantity);
+            await Task.Delay(1000);
+            foreach (var itemDataQuantity in output)
+                AddItemToOutput(ItemFactory.CreateItemFromSO(itemDataQuantity.ItemData), itemDataQuantity.Quantity);
 
             break;
         }
