@@ -1,6 +1,7 @@
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 public class CADE_DeathZone : MonoBehaviour
 {
