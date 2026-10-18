@@ -1,59 +1,45 @@
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Conveyor : MonoBehaviour
+public class Conveyor
 {
-    public Vector2 MoveDir = Vector2.right;
-    public int MoveSpeed = 1;
-    
-    public bool SpawnTestItems = false;
-    public int TestAmount;
-    public ItemData TestItem;
-    public ItemHolder itemHolder;
+    private int _size;
+    private ItemQuantity[] items;
+    private bool _transferReady = false;
 
-    private void Start()
+    public Conveyor(int size = 3)
     {
-        if (!SpawnTestItems) return;
-        
-        for (int i = 0; i < TestAmount; i++)
+        _size = size;
+        items = new ItemQuantity[_size]; 
+    }
+
+    public bool AddToBelt(ItemQuantity item)
+    {
+        if (!items[0].IsEmpty()) return false;
+
+        items[0] = item;
+        return true;
+    }
+
+    public void ShiftEntries()
+    {
+        for (int i = _size - 1; i > 0; i--)
         {
-            ItemFactory.CreateItemFromSO(TestItem);
-            var newObj =  Instantiate(itemHolder);
-            newObj.name = name + " Test Item " + i;
-            itemHolder.transform.position = transform.position;
+            if (items[i].IsEmpty() || (items[i + 1] is not null && !items[i + 1].IsEmpty())) continue;
+
+            if (i == _size){ _transferReady = true; continue;}
+            
+            items[i + 1] =  items[i];
+            items[i] = new ItemQuantity();
         }
     }
 
-    private List<ItemHolder>  _items = new List<ItemHolder>();
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Advance(Conveyor newConveyor)
     {
-        print(other.name);
+        if (!_transferReady) return;
         
-        if (!other.TryGetComponent(out ItemHolder itemHolder)) return;
-        
-        other.transform.parent = itemHolder.transform;
-        _items.Add(itemHolder);
-    }
+        ItemQuantity lastEntry = items[^1];
+        items[^1] = new ItemQuantity();
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (!other.TryGetComponent(out ItemHolder itemHolder)) return;
-        
-        other.transform.parent = null;
-        _items.Remove(itemHolder);
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        foreach (var item in _items)
-            item.transform.localPosition += new Vector3(MoveDir.x, MoveDir.y, 0f) * MoveSpeed * Time.fixedDeltaTime;
-    }
-
-    public List<ItemHolder> GetItemHolders()
-    {
-        return _items;
+        newConveyor.AddToBelt(lastEntry);
     }
 }
