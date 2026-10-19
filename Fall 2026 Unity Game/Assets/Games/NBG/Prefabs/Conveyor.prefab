@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 8435519901341036258}
   - component: {fileID: 2542172351569618015}
   - component: {fileID: 3773170820152361394}
-  - component: {fileID: 7747009056949574199}
-  - component: {fileID: 8400283043513518989}
+  - component: {fileID: -660099145026487910}
   m_Layer: 0
   m_Name: Conveyor
   m_TagString: Untagged
@@ -124,7 +123,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -140,7 +139,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7747009056949574199
+--- !u!114 &-660099145026487910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,39 +148,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5249111497263041826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b5aa7ddcc21e24080ca93533a8a8d3, type: 3}
+  m_Script: {fileID: 11500000, guid: e36b38f939c51544ba993f4685a07a6f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Conveyor
-  MoveDir: {x: 1, y: 0}
-  MoveSpeed: 1
-  SpawnTestItems: 0
-  TestAmount: 0
-  TestItem: {fileID: 0}
-  itemHolder: {fileID: 0}
---- !u!50 &8400283043513518989
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5249111497263041826}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_EditorClassIdentifier: Assembly-CSharp::ConveyorRenderer

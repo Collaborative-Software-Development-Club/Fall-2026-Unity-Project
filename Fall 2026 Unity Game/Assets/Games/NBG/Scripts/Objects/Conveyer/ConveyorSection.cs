@@ -11,12 +11,16 @@ public class ConveyorSection
     private Conveyor[] _conveyors;
     
     private bool _transferReady;
+    
+    public int GetSize => _size;
 
     public ConveyorSection(int size = 10)
     {
         _size = size;
         _conveyors = new Conveyor[_size];
     }
+    
+    public Conveyor[] GetConveyors() => _conveyors;
 
     public void AddConveyor(Conveyor conveyor)
     {

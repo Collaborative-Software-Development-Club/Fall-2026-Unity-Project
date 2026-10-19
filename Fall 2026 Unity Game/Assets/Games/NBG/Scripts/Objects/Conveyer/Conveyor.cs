@@ -18,6 +18,7 @@ public class Conveyor
     /// </summary>
     /// <returns>A boolean that tells if it has space or not</returns>
     public bool HasSpace() => items.Length > 0 && (items[0] == null || items[0].IsEmpty());
+    public int GetSize() => _size;
     public bool AddToBelt(ItemQuantity item)
     {
         if (!items[0].IsEmpty()) return false;
