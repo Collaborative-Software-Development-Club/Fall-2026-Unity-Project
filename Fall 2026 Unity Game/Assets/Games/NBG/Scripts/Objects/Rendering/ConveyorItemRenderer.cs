@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ConveyorItemRenderer : MonoBehaviour
 {
-    SpriteRenderer _itemRenderer;
+    [SerializeField] SpriteRenderer _itemRenderer;
 
     private int _conveyorPosition = -1;
     private bool _canMove = false;
@@ -11,7 +11,8 @@ public class ConveyorItemRenderer : MonoBehaviour
 
     private void Start()
     {
-       _itemRenderer = GetComponent<SpriteRenderer>(); 
+        if(!_itemRenderer)
+            _itemRenderer = GetComponent<SpriteRenderer>(); 
     }
 
     public void SetSprite(Sprite sprite)

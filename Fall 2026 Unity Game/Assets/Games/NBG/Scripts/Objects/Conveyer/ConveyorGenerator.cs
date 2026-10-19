@@ -13,7 +13,7 @@ public class ConveyorGenerator : MonoBehaviour
     
     private List<ConveyorSection> _chain = new();
     private List<ConveyorRenderer> _conveyorRenderers = new();
-    public List<ItemQuantity> itemsToGenerate = new();
+    public List<ItemDataQuantity> itemsToGenerate = new();
 
     private void Start()
     {
@@ -86,7 +86,7 @@ public class ConveyorGenerator : MonoBehaviour
 
                 GameObject itemObj = Instantiate(itemPrefab);
                 ConveyorItemRenderer itemRenderer = itemObj.GetComponent<ConveyorItemRenderer>();
-                itemRenderer.SetSprite(itemQuantity.Item.GetIcon());
+                itemRenderer.SetSprite(itemQuantity.ItemData.icon);
 
                 int slotIndex = conveyor.GetSize();
                 float slotSpacing = 0.25f;
@@ -95,7 +95,7 @@ public class ConveyorGenerator : MonoBehaviour
                 
                 itemObj.transform.position = basePos + slotOffset;
 
-                conveyor.AddToBelt(new ItemQuantity(itemQuantity.Item, 1));
+                conveyor.AddToBelt(new ItemQuantity(ItemFactory.CreateItemFromSO(itemQuantity.ItemData), 1));
 
                 if (conveyor.HasSpace()) continue;
 

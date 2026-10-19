@@ -1,4 +1,5 @@
 using System.Text;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class Conveyor
@@ -21,7 +22,7 @@ public class Conveyor
     public int GetSize() => _size;
     public bool AddToBelt(ItemQuantity item)
     {
-        if (!items[0].IsEmpty()) return false;
+        if (items[0] is not null && !items[0].IsEmpty()) return false;
 
         items[0] = item;
         return true;

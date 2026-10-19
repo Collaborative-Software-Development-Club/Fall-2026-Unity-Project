@@ -60,6 +60,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6974535645539053148}
   m_SourcePrefab: {fileID: 100100000, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
+--- !u!212 &508780392880216470 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3053501894000260431, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
+  m_PrefabInstance: {fileID: 3274040896274902233}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8173253397012982151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6630002820347561310, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
@@ -77,3 +82,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77dbbda2465644aa05472f489e2e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorItemRenderer
+  _itemRenderer: {fileID: 508780392880216470}

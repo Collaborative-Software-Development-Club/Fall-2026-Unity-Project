@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class ItemQuantity
 {
-    [SerializeReference] public Item Item;
+    public Item Item;
     public int Quantity;
 
     public bool IsEmpty() => Item is null || Quantity <= 0;
