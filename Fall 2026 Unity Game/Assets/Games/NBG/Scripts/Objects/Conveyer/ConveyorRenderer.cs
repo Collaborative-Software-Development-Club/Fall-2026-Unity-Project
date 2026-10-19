@@ -12,6 +12,9 @@ public class ConveyorRenderer : MonoBehaviour
     private List<ConveyorItemRenderer> _items = new();
     private Conveyor _connectedConveyor;
 
+    private float _moveDelayTimer = 0;
+    private float _moveDelay = .5f;
+
     public void SetConveyor(Conveyor connectedConveyor)
     {
         _connectedConveyor = connectedConveyor;
@@ -27,27 +30,31 @@ public class ConveyorRenderer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_items.Count < 0) return;
+        _moveDelayTimer += Time.fixedDeltaTime;
+        
+        if (_items.Count < 0 || _moveDelayTimer < _moveDelay) return;
         
         foreach (ConveyorItemRenderer item in _items)
-        {
             item.Move(_dir);
-        }
+        
+        _moveDelayTimer = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer))
+        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer) && !itemRenderer.HasParent)
         {
             _items.Add(itemRenderer);
+            itemRenderer.SetParentRenderer(this);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer))
+        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer) && itemRenderer.IsParent(this))
         {
             _items.Remove(itemRenderer);
-        } 
+            itemRenderer.SetParentRenderer(this);
+        }
     }
 }

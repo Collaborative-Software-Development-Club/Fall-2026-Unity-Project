@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191997827}
   - component: {fileID: 191997826}
+  - component: {fileID: 191997828}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AudioManager: {fileID: 336909503}
+  conveyorManager: {fileID: 0}
 --- !u!4 &191997827
 Transform:
   m_ObjectHideFlags: 0
@@ -165,6 +167,19 @@ Transform:
   - {fileID: 336909504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &191997828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191997825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e9dff6a401b464184bab79a505db90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConveyorManager
+  moveInterval: 0.5
 --- !u!1 &336909502
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6df8a1dc83a339488bde0e140b84587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorGenerator
+  conveyorPrefab: {fileID: 5249111497263041826, guid: 56ce8cacf0c653e45b01111b34138852, type: 3}
+  itemPrefab: {fileID: 8173253397012982151, guid: 3dbfb092fe4492e4485327167ae520ed, type: 3}
+  itemsToGenerate:
+  - ItemData: {fileID: 11400000, guid: 4df332449fa56884b87f3155c57270e9, type: 2}
+    Quantity: 5
 --- !u!114 &783692517
 MonoBehaviour:
   m_ObjectHideFlags: 0
