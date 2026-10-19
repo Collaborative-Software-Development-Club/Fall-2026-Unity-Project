@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public class ItemQuantity
@@ -8,4 +7,9 @@ public class ItemQuantity
     public int Quantity;
 
     public bool IsEmpty() => Item is null || Quantity <= 0;
+
+    public override string ToString()
+    {
+        return Item + ": " + Quantity;
+    }
 }
