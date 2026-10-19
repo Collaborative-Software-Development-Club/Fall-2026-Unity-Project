@@ -59,7 +59,7 @@ public class ConveyorGenerator : MonoBehaviour
 
                 conveyorRenderer.SetDirection(moveDir);
                    
-                section.AddConveyor(conveyor);
+                section.AddConveyorable(conveyor);
             }
         }
         
@@ -95,7 +95,7 @@ public class ConveyorGenerator : MonoBehaviour
                 
                 itemObj.transform.position = basePos + slotOffset;
 
-                conveyor.AddToBelt(new ItemQuantity(ItemFactory.CreateItemFromSO(itemQuantity.ItemData), 1));
+                conveyor.AddItemQuantityToPart(new ItemQuantity(ItemFactory.CreateItemFromSO(itemQuantity.ItemData), 1));
 
                 if (conveyor.HasSpace()) continue;
 

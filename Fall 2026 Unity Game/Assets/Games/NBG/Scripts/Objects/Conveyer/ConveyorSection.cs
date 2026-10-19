@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Text;
+using UnityEngine;
 
 public class ConveyorSection 
 {
@@ -8,7 +9,7 @@ public class ConveyorSection
     private int _lastAddedConveyorIdx = 0;
     private int _conveyorCount = 0;
     
-    private Conveyor[] _conveyors;
+    private IConveyorable[] _conveyorParts;
     
     private bool _transferReady;
     
@@ -17,40 +18,40 @@ public class ConveyorSection
     public ConveyorSection(int size = 10)
     {
         _size = size;
-        _conveyors = new Conveyor[_size];
+        _conveyorParts = new Conveyor[_size];
     }
     
-    public Conveyor[] GetConveyors() => _conveyors;
+    public IConveyorable[] GetConveyors() => _conveyorParts;
 
-    public void AddConveyor(Conveyor conveyor)
+    public void AddConveyorable(Conveyor conveyor)
     {
         if (GetSectionFull())
             throw new InvalidOperationException("Conveyor is already full");
         
-        _conveyors[_conveyorCount] = conveyor;
+        _conveyorParts[_conveyorCount] = conveyor;
         _conveyorCount++;
     }
 
     public bool AddItemToStartOfChain(ItemQuantity itemQuantity)
     {
-        return _conveyors[0].AddToBelt(itemQuantity);
+        return _conveyorParts[0].AddItemQuantityToPart(itemQuantity);
     }
 
-    public Conveyor RemoveConveyorAt(int index)
+    public IConveyorable RemoveConveyorAt(int index)
     {
-        Conveyor conveyor = _conveyors[index];
+        IConveyorable conveyor = _conveyorParts[index];
 
-        Array.Copy(_conveyors, index + 1, _conveyors, index, _lastAddedConveyorIdx - index);
+        Array.Copy(_conveyorParts, index + 1, _conveyorParts, index, _lastAddedConveyorIdx - index);
 
-        _conveyors[_lastAddedConveyorIdx] = null;
+        _conveyorParts[_lastAddedConveyorIdx] = null;
         _lastAddedConveyorIdx--;
 
         return conveyor;
     }
 
-    public Conveyor RemoveLastConveyor()
+    public IConveyorable RemoveLastConveyorable()
     {
-        return _conveyors[_lastAddedConveyorIdx];
+        return _conveyorParts[_lastAddedConveyorIdx];
     }
 
     /// <summary>
@@ -68,23 +69,24 @@ public class ConveyorSection
     {
         for (int i = _conveyorCount - 2; i >= 0; i--)
         {
-            if (_conveyors[i] == null || _conveyors[i + 1] == null)
+            if (_conveyorParts[i] == null || _conveyorParts[i + 1] == null)
                 continue;
 
-            _conveyors[i].Advance(_conveyors[i + 1]);
+            if(!_conveyorParts[i].DoAction(_conveyorParts[i + 1]))
+                Debug.LogWarning("Can't do conveyerable action!");
         }
 
         if (_conveyorCount == 0)
             return;
 
-        Conveyor lastConveyor = _conveyors[_conveyorCount - 1];
+        IConveyorable lastConveyor = _conveyorParts[_conveyorCount - 1];
 
         _transferReady = !lastConveyor.HasSpace();
 
         if (!_transferReady || nextSection == null || !nextSection.IsTransferReady())
             return;
 
-        ItemQuantity removedItem = lastConveyor.RemoveLastItemFromBelt();
+        ItemQuantity removedItem = lastConveyor.RemoveLastItemFromPart();
         nextSection.AddItemToStartOfChain(removedItem);
     }
 
@@ -93,14 +95,14 @@ public class ConveyorSection
     {
         var text = new StringBuilder();
 
-        for (int i = 0; i < _conveyors.Length; i++)
+        for (int i = 0; i < _conveyorParts.Length; i++)
         {
             text.AppendLine($"Conveyor {i}:");
 
-            if (_conveyors[i] == null)
+            if (_conveyorParts[i] == null)
                 text.AppendLine("  empty");
             else
-                text.Append(_conveyors[i]);
+                text.Append(_conveyorParts[i]);
         }
 
         return text.ToString();

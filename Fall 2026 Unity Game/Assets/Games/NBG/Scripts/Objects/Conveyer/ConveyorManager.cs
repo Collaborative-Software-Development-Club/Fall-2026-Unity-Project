@@ -25,7 +25,7 @@ public class ConveyorManager : MonoBehaviour
             conveyors[lineIndex].Add(sectionToAddTo);
         }
         
-        sectionToAddTo.AddConveyor(newConveyor);
+        sectionToAddTo.AddConveyorable(newConveyor);
         
     }
 
@@ -33,9 +33,9 @@ public class ConveyorManager : MonoBehaviour
     {
         conveyors.Add(newChain);
     }
-    public Conveyor RemoveLastConveyor(int lineIndex)
+    public IConveyorable RemoveLastConveyor(int lineIndex)
     {
-        return conveyors[lineIndex][^1].RemoveLastConveyor();
+        return conveyors[lineIndex][^1].RemoveLastConveyorable();
     }
 
     private void FixedUpdate()

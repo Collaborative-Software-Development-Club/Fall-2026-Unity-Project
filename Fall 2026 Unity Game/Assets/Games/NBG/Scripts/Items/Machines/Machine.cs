@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Machine : Item
+public class Machine : Item, IConveyorable 
 {
     private MachineData machineData => data as MachineData;
 
     protected Inventory Input;
     protected Inventory Output;
-
-    private MachineFunctionality _machineFunctionality;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -27,7 +26,6 @@ public class Machine : Item
     {
         return machineData.processType;
     }
-
 
     // Function for retrieving the input inventory of this machine.
     public Inventory GetInputInventory()
@@ -159,7 +157,13 @@ public class Machine : Item
     {
         bool found = false;
         
-        // TODO: Make more peformant eventually
+        // TODO: Make recipe operations more peformant eventually
+        
+        // TODO: Make this dependent on the machine implementing not the core functionality
+        // For the above to-do what you can do is make a subclass specialized for recipe transforms
+        
+        // TODO: Make it so that if a item isn't in any recipes than the current input is thrown out into outputs
+        
         foreach (var recipe in machineData.recipes)
         {
             var output = recipe.Process(Input.GetInventoryAsItemDataQuantityList());
@@ -177,4 +181,34 @@ public class Machine : Item
 
         return found;
     }
+
+    // TODO: Abstract out in the future to have a in-between to the conveyor ( THIS IS GOOD ENOUGH FOR THE PRESENTATION )
+
+    #region ConveyorInteraction 
+    public int GetSize() => Input.Length;
+    public bool AddItemQuantityToPart(ItemQuantity itemQuantity) => Input.AddItemToInventory(itemQuantity) >= 0;
+
+    public ItemQuantity RemoveLastItemFromPart()
+    {
+        for (int i = 0; i < Output.Length; i++)
+        {
+            ItemQuantity currentSlot = Output.GetItemAt(i).GetItemQuantity();
+            if(currentSlot.IsEmpty()) continue;
+            Output.RemoveFromSlot(i, currentSlot.Quantity);
+            
+            return currentSlot;
+        }
+
+        return null;
+    }
+
+    public bool DoAction(IConveyorable nextConveyorable)
+    {
+        return PerformOperation().Result;
+    }
+
+    // This is always true because it can take infinite amount of items what matters is the operations
+    public bool HasSpace() => true;
+
+    #endregion
 }

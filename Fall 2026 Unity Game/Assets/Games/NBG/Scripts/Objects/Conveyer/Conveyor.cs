@@ -2,7 +2,7 @@ using System.Text;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class Conveyor
+public class Conveyor : IConveyorable
 {
     private int _size;
     private ItemQuantity[] items;
@@ -20,15 +20,15 @@ public class Conveyor
     /// <returns>A boolean that tells if it has space or not</returns>
     public bool HasSpace() => items.Length > 0 && (items[0] == null || items[0].IsEmpty());
     public int GetSize() => _size;
-    public bool AddToBelt(ItemQuantity item)
+    public bool AddItemQuantityToPart(ItemQuantity itemQuantity)
     {
         if (items[0] is not null && !items[0].IsEmpty()) return false;
 
-        items[0] = item;
+        items[0] = itemQuantity;
         return true;
     }
 
-    public ItemQuantity RemoveLastItemFromBelt()
+    public ItemQuantity RemoveLastItemFromPart()
     {
         ItemQuantity  lastEntry = items[^1];
         items[^1] = new ItemQuantity();
@@ -54,7 +54,7 @@ public class Conveyor
     /// </summary>
     /// <param name="newConveyor">The conveyor that is being transferred to</param>
     /// <returns>If the the option succeeded</returns>
-    public bool Advance(Conveyor newConveyor)
+    public bool DoAction(IConveyorable nextConveyorable)
     {
         // Checks if the belt is ready to transfer if not it returns
         if (!_transferReady) return false;
@@ -65,7 +65,7 @@ public class Conveyor
         _transferReady = false;
         ShiftEntries();
 
-        return newConveyor.AddToBelt(lastEntry);
+        return nextConveyorable.AddItemQuantityToPart(lastEntry);
     }
 
     public override string ToString()

@@ -6,7 +6,6 @@ public class MachineInteraction : MonoBehaviour
 {
     [SerializeField] private MachineData machineData;
 
-    [SerializeField] private bool hasUI = false;
     private Machine _machine;
     public Action onMachineUsed; 
     public List<Item> itemsgiven;

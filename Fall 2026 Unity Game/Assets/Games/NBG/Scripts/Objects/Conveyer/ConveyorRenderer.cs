@@ -6,9 +6,8 @@ using UnityEngine;
 /// This should be seen as a temp solution to rendering and shouldn't be kept forever, this should be replaced with sections controlling all items 
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-public class ConveyorRenderer : MonoBehaviour
+public class ConveyorRenderer : PlaceableObj 
 {
-    private Vector2 _dir = Vector2.zero;
     private List<ConveyorItemRenderer> _items = new();
     private Conveyor _connectedConveyor;
 
@@ -21,12 +20,6 @@ public class ConveyorRenderer : MonoBehaviour
     }
     
     public Conveyor GetConveyor() => _connectedConveyor;
-    public Vector2 GetDirection() => _dir;
-
-    public void SetDirection(Vector2 dir)
-    {
-        _dir = dir;
-    }
 
     private void FixedUpdate()
     {
@@ -35,7 +28,7 @@ public class ConveyorRenderer : MonoBehaviour
         if (_items.Count < 0 || _moveDelayTimer < _moveDelay) return;
         
         foreach (ConveyorItemRenderer item in _items)
-            item.Move(_dir);
+            item.Move(GetDirection());
         
         _moveDelayTimer = 0;
     }

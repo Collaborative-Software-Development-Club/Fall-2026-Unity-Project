@@ -49,6 +49,11 @@ public class Inventory
         return -1;
     }
 
+    public int AddItemToInventory(ItemQuantity itemQuantity)
+    {
+        return AddItemToInventory(itemQuantity.Item, itemQuantity.Quantity);
+    }
+
     // This doesn't make since the slot should never be null
     public InventorySlot AddToSlot(int slot, Item item, int quantity=1) {
         InventorySlot replace = slots[slot];
