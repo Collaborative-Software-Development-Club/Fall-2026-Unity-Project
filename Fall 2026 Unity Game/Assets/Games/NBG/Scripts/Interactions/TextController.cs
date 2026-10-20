@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 
+// TODO: Put this into a UI Manager eventually
 public class TextController : MonoBehaviour
 {
     public static TextController Instance { get; private set; }

@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191997827}
   - component: {fileID: 191997826}
+  - component: {fileID: 191997828}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AudioManager: {fileID: 336909503}
+  conveyorManager: {fileID: 0}
 --- !u!4 &191997827
 Transform:
   m_ObjectHideFlags: 0
@@ -165,6 +167,19 @@ Transform:
   - {fileID: 336909504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &191997828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191997825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e9dff6a401b464184bab79a505db90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConveyorManager
+  moveInterval: 0.5
 --- !u!1 &336909502
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +239,7 @@ GameObject:
   - component: {fileID: 888630294}
   - component: {fileID: 888630293}
   - component: {fileID: 888630292}
+  - component: {fileID: 888630295}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -292,6 +308,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &888630295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888630291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94f12c0df6c26e84bbade7756dd73249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactor
 --- !u!1 &1110282754
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +425,7 @@ GameObject:
   - component: {fileID: 1528678829}
   - component: {fileID: 1528678830}
   - component: {fileID: 1528678831}
+  - component: {fileID: 1528678832}
   m_Layer: 0
   m_Name: TestObject
   m_TagString: Untagged
@@ -548,6 +577,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1528678832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528678823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7c6a7f428c42a40a049c21011d87f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LeftTest
 --- !u!1 &1619621164
 GameObject:
   m_ObjectHideFlags: 0
