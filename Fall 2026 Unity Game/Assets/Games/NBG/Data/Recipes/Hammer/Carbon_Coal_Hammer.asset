@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d09ada129aca714cabc4cf066e4e5cb, type: 3}
   m_Name: Carbon_Coal_Hammer
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
-  inputs: []
-  outputs: []
+  inputs:
+  - ItemData: {fileID: 11400000, guid: 7bed28c797300a045971b1baa2efd5cf, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: 73932c9183846c345b9d77fec2012e96, type: 2}
+    Quantity: 1

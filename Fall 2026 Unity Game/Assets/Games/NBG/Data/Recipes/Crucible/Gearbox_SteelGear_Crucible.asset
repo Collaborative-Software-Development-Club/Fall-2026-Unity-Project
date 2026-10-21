@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac563b983cdf404286044809394bc85, type: 3}
   m_Name: Gearbox_SteelGear_Crucible
   m_EditorClassIdentifier: Assembly-CSharp::HeatedRecipe
-  inputs: []
-  outputs: []
-  heatRequired: 0
+  inputs:
+  - ItemData: {fileID: 11400000, guid: 7680ffbafcdabe04c8feb2a17dcaa959, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: dddef1fbc33c3ac48a3c021ce65f0778, type: 2}
+    Quantity: 1
+  heatRequired: 100

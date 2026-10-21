@@ -16,7 +16,7 @@ MonoBehaviour:
   value: 0
   icon: {fileID: 0}
   type: 1
-  rarity: 0
+  rarity: 3
   isConsumable: 0
   isStackable: 0
   name: Crucible

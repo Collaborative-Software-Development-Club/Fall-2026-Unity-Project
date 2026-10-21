@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac563b983cdf404286044809394bc85, type: 3}
   m_Name: PigIron_Carbon_Iron_Grinder
   m_EditorClassIdentifier: Assembly-CSharp::HeatedRecipe
-  inputs: []
-  outputs: []
-  heatRequired: 0
+  inputs:
+  - ItemData: {fileID: 11400000, guid: 94e78e9718446ad4d9a56f7de4515221, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: 7bed28c797300a045971b1baa2efd5cf, type: 2}
+    Quantity: 1
+  - ItemData: {fileID: 11400000, guid: 4d078765016d8764989e94cefba96660, type: 2}
+    Quantity: 1
+  heatRequired: 100

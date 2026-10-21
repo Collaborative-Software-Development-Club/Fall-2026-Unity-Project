@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac563b983cdf404286044809394bc85, type: 3}
   m_Name: Ceramic_Coal_Hammer
   m_EditorClassIdentifier: Assembly-CSharp::HeatedRecipe
-  inputs: []
-  outputs: []
-  heatRequired: 0
+  inputs:
+  - ItemData: {fileID: 11400000, guid: bbaa65d2b9625324eb80d4beb74d8587, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: 73932c9183846c345b9d77fec2012e96, type: 2}
+    Quantity: 1
+  heatRequired: 60

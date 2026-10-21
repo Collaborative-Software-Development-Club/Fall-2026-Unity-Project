@@ -16,7 +16,7 @@ MonoBehaviour:
   value: 0
   icon: {fileID: 0}
   type: 1
-  rarity: 0
+  rarity: 1
   isConsumable: 0
   isStackable: 0
   name: Hammer
@@ -27,24 +27,24 @@ MonoBehaviour:
   recipes:
   - {fileID: 11400000, guid: 5f3fbd44a4042f2479da3e9707f0a72d, type: 2}
   - {fileID: 11400000, guid: 5ed1314830ab66c46831f940c4f1139a, type: 2}
-  - {fileID: 11400000, guid: 074338a5332238241a98a139393e2a99, type: 2}
   - {fileID: 11400000, guid: f9dfc1995b791c6498cef64d6e857321, type: 2}
   - {fileID: 11400000, guid: 2a321ee647b233e4a82094b6a212aa33, type: 2}
-  - {fileID: 11400000, guid: 131d555717d891a44b24a30881519d37, type: 2}
-  - {fileID: 11400000, guid: 05d34e84a7cfaa246831c4b97b50b61f, type: 2}
-  - {fileID: 11400000, guid: 0676096a3eac0d6409e8dec4e4f21c0a, type: 2}
   - {fileID: 11400000, guid: fc9aa3554f8f7024196675a31c6e85f5, type: 2}
-  - {fileID: 11400000, guid: ec4ca0afb7a35c54f84d8eda855df311, type: 2}
-  - {fileID: 11400000, guid: 74c2a57dad2f4b247843376aa2e46012, type: 2}
   - {fileID: 11400000, guid: 53ff4059beab68b48a8f7f08c540543a, type: 2}
-  - {fileID: 11400000, guid: eb179be08639a0147a5d7ad6adea581f, type: 2}
-  - {fileID: 11400000, guid: 4ee5998486bb69440b2aadb5fcf295ee, type: 2}
   - {fileID: 11400000, guid: 7e8ac87bac700674ebfc03cad9d6a13b, type: 2}
-  - {fileID: 11400000, guid: f0426915dd1391741a024adb0757af41, type: 2}
-  - {fileID: 11400000, guid: de9bd2d797c437b4dbcfe29d3aa78268, type: 2}
   - {fileID: 11400000, guid: 135666596b665dd4bb6ee808f70b377b, type: 2}
-  - {fileID: 11400000, guid: 1e950618f8eb87c45bf49cffb1825d9b, type: 2}
-  - {fileID: 11400000, guid: d9bc4310ba240f5459ed57ddf58214df, type: 2}
   - {fileID: 11400000, guid: 095c297bb456cb64ab74426fa0bd5da4, type: 2}
   - {fileID: 11400000, guid: c426cf7853830f8499f9131990883f0b, type: 2}
   - {fileID: 11400000, guid: 8fe7df20e0b1ed14293ef615e289d3f2, type: 2}
+  - {fileID: 11400000, guid: 131d555717d891a44b24a30881519d37, type: 2}
+  - {fileID: 11400000, guid: 05d34e84a7cfaa246831c4b97b50b61f, type: 2}
+  - {fileID: 11400000, guid: ec4ca0afb7a35c54f84d8eda855df311, type: 2}
+  - {fileID: 11400000, guid: eb179be08639a0147a5d7ad6adea581f, type: 2}
+  - {fileID: 11400000, guid: f0426915dd1391741a024adb0757af41, type: 2}
+  - {fileID: 11400000, guid: 1e950618f8eb87c45bf49cffb1825d9b, type: 2}
+  - {fileID: 11400000, guid: 74c2a57dad2f4b247843376aa2e46012, type: 2}
+  - {fileID: 11400000, guid: 4ee5998486bb69440b2aadb5fcf295ee, type: 2}
+  - {fileID: 11400000, guid: de9bd2d797c437b4dbcfe29d3aa78268, type: 2}
+  - {fileID: 11400000, guid: d9bc4310ba240f5459ed57ddf58214df, type: 2}
+  - {fileID: 11400000, guid: 0676096a3eac0d6409e8dec4e4f21c0a, type: 2}
+  - {fileID: 11400000, guid: 074338a5332238241a98a139393e2a99, type: 2}
