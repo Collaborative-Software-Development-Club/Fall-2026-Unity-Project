@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 534022238180512136, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 534022238180512136, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 861197079231172487, guid: ec9b3e2d76c13d8408557cb4c82a8b9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.06521
@@ -86,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorItemRenderer
   itemRenderer: {fileID: 508780392880216470}
+  moveSpeed: 2
 --- !u!50 &264785400403452994
 Rigidbody2D:
   serializedVersion: 5
@@ -112,4 +121,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7

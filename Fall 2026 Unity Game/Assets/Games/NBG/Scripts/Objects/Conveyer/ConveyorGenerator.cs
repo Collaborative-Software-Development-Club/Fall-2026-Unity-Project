@@ -25,11 +25,11 @@ public class ConveyorGenerator : MonoBehaviour
     {
         ConveyorSection section = new ConveyorSection();
         
-        for (int i = 0; i < size.x; i++)
+        for (int x = 0; x < size.x; x++)
         {
-            for (int j = 0; j < size.y; j++)
+            for (int y = 0; y < size.y; y++)
             {
-                if(i != 0 && i != size.x - 1 && j != 0 && j != size.y - 1) continue;
+                if(x != 0 && x != size.x - 1 && y != 0 && y != size.y - 1) continue;
 
                 if (section.GetSectionFull())
                 {
@@ -41,20 +41,22 @@ public class ConveyorGenerator : MonoBehaviour
                 Conveyor conveyor = new Conveyor();
                
                 ConveyorRenderer conveyorRenderer = Instantiate(conveyorPrefab).GetComponent<ConveyorRenderer>();
-                conveyorRenderer.transform.position = new Vector3(transform.position.x + i, transform.position.y + j, 0);
-               
+                conveyorRenderer.transform.position = new Vector3(transform.position.x + x, transform.position.y + y, 0);
+                
                 conveyorRenderer.SetConveyor(conveyor);
                 _conveyorRenderers.Add(conveyorRenderer);
 
+                conveyorRenderer.transform.name = $"Conveyor({x},{y})";
+                
                 Vector2 moveDir = Vector2.zero;
 
-                if (j == 0)
+                if (y == 0 && x != size.x - 1)
                     moveDir = Vector2.right;
-                else if (i == size.x - 1)
+                else if (x == size.x - 1 && y != size.y - 1)
                     moveDir = Vector2.up;
-                else if (j == size.y - 1)
+                else if (y == size.y - 1 && x != 0)
                     moveDir = Vector2.left;
-                else if (i == 0)
+                else if (x == 0)
                     moveDir = Vector2.down;
 
                 conveyorRenderer.SetDirection(moveDir);

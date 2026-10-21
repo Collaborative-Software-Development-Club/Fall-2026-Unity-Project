@@ -26,14 +26,14 @@ public class ConveyorRenderer : PlaceableObj
     private void FixedUpdate()
     {
         _items.RemoveAll(item => item is null); 
-        
-        if (_items.Count < 0) return;
-        
+    
+        if (_items.Count == 0) return;
+    
         foreach (ConveyorItemRenderer item in _items)
             item.Move(GetDirection());
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer) || itemRenderer.HasParent) return;
         
