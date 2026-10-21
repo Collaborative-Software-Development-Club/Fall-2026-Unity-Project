@@ -294,6 +294,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: rulesText
+      value: 
+      objectReference: {fileID: 1956195431}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -746,6 +750,10 @@ PrefabInstance:
       propertyPath: nextScene
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: rulesText
+      value: 
+      objectReference: {fileID: 1956195431}
     - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
       propertyPath: ruleManager
       value: 
@@ -1272,6 +1280,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+--- !u!114 &1956195431 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2050271683503739824, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+  m_PrefabInstance: {fileID: 1956195430}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!4 &4553129243831756739 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8041184355168934410, guid: 67582f9786c08e545b5eaead57002ef6, type: 3}

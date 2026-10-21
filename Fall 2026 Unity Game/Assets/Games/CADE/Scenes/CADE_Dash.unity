@@ -416,6 +416,17 @@ Transform:
   - {fileID: 368714409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &398658746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2050271683503739824, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+  m_PrefabInstance: {fileID: 8953619349583459975}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &453795266 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 45518267035797015, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
@@ -7523,6 +7534,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: rulesText
+      value: 
+      objectReference: {fileID: 398658746}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LeftRightInverted.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -9603,6 +9618,10 @@ PrefabInstance:
       propertyPath: nextScene
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: rulesText
+      value: 
+      objectReference: {fileID: 398658746}
     - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
       propertyPath: currentScene
       value: 5

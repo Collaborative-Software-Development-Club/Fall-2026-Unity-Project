@@ -18,7 +18,15 @@ public class CADE_RuleManager : MonoBehaviour
     [SerializeField]
     private TMP_Text rulesText;
 
+    private string rulesString;
+
     int ruleCounter = 0;
+
+
+    private void Start()
+    {
+        rulesString = " ";
+    }
 
     public void ApplyRandomRule(int ruleId, CADE_SceneList.Scenes currentScene)
     {
@@ -86,13 +94,18 @@ public class CADE_RuleManager : MonoBehaviour
         if ((CADE_RandomRulesList.DoubleJumpRules)ruleId == CADE_RandomRulesList.DoubleJumpRules.PowerDowns)
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs.");
+            rulesString = "\n- Power Ups are actually Power Downs: Double jump? How bout no jump.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.DoubleJumpRules)ruleId == CADE_RandomRulesList.DoubleJumpRules.LowGravity)
         {
             Debug.Log("Rule Applied: You are on the moon.");
+            ruleCounter++;
+            rulesString = "\n- You are on the moon.\n";
             LowGravity.Invoke();
         }
+
+        rulesText.text = rulesText.text + rulesString;
     }
 
     private void InvokeWallJumpRuleEvent(int ruleId)
@@ -101,16 +114,18 @@ public class CADE_RuleManager : MonoBehaviour
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Power Ups are actually Power Downs.");
+            rulesString = "\n- Power Ups are actually Power Downs: Wall jump? How bout WALLS KILL.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.WallJumpRules)ruleId == CADE_RandomRulesList.WallJumpRules.TinyPlayer)
         {
             Debug.Log("Rule Applied: You must be pea-sized to play.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". You must be pea-sized to play.");
+            rulesString = "\n- New size requirement: you must be pea-sized.\n";
             TinyPlayer.Invoke();
         }
+
+        rulesText.text = rulesText.text + rulesString;
     }
 
     private void InvokeDashRuleEvent(int ruleId)
@@ -119,16 +134,17 @@ public class CADE_RuleManager : MonoBehaviour
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Power Ups are actually Power Downs.");
+            rulesString = "\n- Power Ups are actually Power Downs: You dash straight downward.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.DashRules)ruleId == CADE_RandomRulesList.DashRules.LeftRightInverted)
         {
             Debug.Log("Rule Applied: Left is actually right, and vice versa.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Left is actually right, and vice versa.");
+            rulesString = "\n- Left is actually right, and vice versa.";
             LeftRightInverted.Invoke();
         }
+
         // else if ((CADE_RandomRulesList.DashRules)ruleId == CADE_RandomRulesList.DashRules.QuickTimeEvents)
         // {
         //     Debug.Log("Rule Applied: You must complete random quick time events or explode.");
@@ -136,6 +152,8 @@ public class CADE_RuleManager : MonoBehaviour
         //     rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". You must complete random quick time events or explode.");
         //     QuickTimeEvents.Invoke();
         // }
+
+        rulesText.text = rulesText.text + rulesString;
     }
 
     private void InvokeStickyRuleEvent(int ruleId)
@@ -144,14 +162,14 @@ public class CADE_RuleManager : MonoBehaviour
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Power Ups are actually Power Downs.");
+            rulesString = "\n- Power Ups are actually Power Downs: You're too sticky! Can't unstick from walls.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.UpDownInverted)
         {
             Debug.Log("Rule Applied: Up is actually down, and vice versa.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Up is actually down, and vice versa.");
+            rulesString = "\n- Up is actually down, and vice versa.\n";
             UpDownInverted.Invoke();
         }
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.LeftRightInverted)
@@ -165,8 +183,10 @@ public class CADE_RuleManager : MonoBehaviour
         {
             Debug.Log("Rule Applied: You must not move to the left for more than three seconds or you'll explode.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". You must not move to the left for more than three seconds or you'll explode.");
+            rulesString = "\n- Don't move to the left for more than 3 seconds, or you die.\n";
             LeftDeathTimer.Invoke();
         }
+
+        rulesText.text = rulesText.text + rulesString;
     }
 }
