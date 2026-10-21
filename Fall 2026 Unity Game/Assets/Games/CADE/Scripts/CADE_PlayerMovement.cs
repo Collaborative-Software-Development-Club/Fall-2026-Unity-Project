@@ -51,7 +51,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpForceX = 8f;
     [SerializeField] private float wallJumpForceY = 10f;
     [SerializeField] private float wallJumpLockTime = 0.15f;
-    [SerializeField] private GameEvent OnTooManyWallJumps;
+    [SerializeField] private GameEvent OnLose;
     private bool isTouchingWallRight;
     private bool isTouchingWallLeft;
     private bool isWallSliding;
@@ -97,6 +97,14 @@ public class CADE_PlayerMovement : MonoBehaviour
 
         isTouchingWallLeft = checkWall(Vector2.left);
         isTouchingWallRight = checkWall(Vector2.right);
+
+        if (isTouchingWallLeft || isTouchingWallRight)
+        {
+            if (itemManager.inv_wallJumpFlag)
+            {
+                OnLose.Raise();
+            }
+        }
 
         bool pressingOnWall = (isTouchingWallRight && horizontalMovement > 0f) || (isTouchingWallLeft && horizontalMovement < 0f);
 
@@ -153,7 +161,7 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
                 ref extraJumpsRemaining, ref wallJumpsRemaining, wallJumpsMax, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
-                wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight, OnTooManyWallJumps);
+                wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight, OnLose);
         }
         else if (!isSticky && !isInvSticky)
         {
@@ -284,5 +292,10 @@ public class CADE_PlayerMovement : MonoBehaviour
     public void MoonGravity()
     {
         baseGravity = moonGravityScale;
+    }
+
+    public void BabyMode()
+    {
+        transform.localScale = new Vector2(0.5f, 0.5f);
     }
 }

@@ -294,12 +294,40 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1062883431}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8458460253767362149}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BabyMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InvertItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CADE_PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: TinyPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3858478858312513610, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: m_Name
@@ -986,6 +1014,17 @@ Transform:
   - {fileID: 1115283714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1062883431 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+  m_PrefabInstance: {fileID: 1204006913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ae8a2b5d98a704c977313ff65f0037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CADE_Player
 --- !u!1 &1115283711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,6 +1158,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: OnLose
+      value: 
+      objectReference: {fileID: 11400000, guid: a056e1cc41f33874f9ec98feeb9057b0, type: 2}
     - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: itemManager
       value: 
