@@ -83493,6 +83493,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: rulesText
+      value: 
+      objectReference: {fileID: 795869912}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
       propertyPath: ruleManager
       value: 
       objectReference: {fileID: 1407389534}
