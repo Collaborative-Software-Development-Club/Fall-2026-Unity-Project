@@ -17,6 +17,6 @@ public class MachineData : ItemData
     public Sprite texture;
     public int inputCount = 0;
     public int outputCount = 0;
-    
+        
     public List<Recipe> recipes = new List<Recipe>();
 }

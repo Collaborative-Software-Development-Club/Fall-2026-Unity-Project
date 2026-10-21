@@ -3,7 +3,8 @@ public enum ItemType
 {
     None,
     Machine,
-    Processable
+    Processable,
+    Box
 }
 
 public enum Rarity

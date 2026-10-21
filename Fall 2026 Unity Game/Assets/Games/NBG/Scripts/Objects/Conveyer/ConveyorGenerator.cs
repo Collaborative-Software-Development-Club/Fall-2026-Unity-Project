@@ -91,7 +91,9 @@ public class ConveyorGenerator : MonoBehaviour
                 {
                     UnboxableConveyorItem unboxableConveyorItem = itemObj.AddComponent<UnboxableConveyorItem>();
                     unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(conveyor, machine);
+                    unboxableConveyorItem.SetSpriteRenderer(itemRenderer.GetSpriteRenderer);
                     
+                    Destroy(itemRenderer);
                     itemRenderer = unboxableConveyorItem;
                 }
                 

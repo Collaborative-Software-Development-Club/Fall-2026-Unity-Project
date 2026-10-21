@@ -28,6 +28,11 @@ public static class ItemFactory
                 
                 Processable processable = new Processable(processableData);
                 return processable;
+            case ItemType.Box:
+                if (data is not BoxData boxData) throw new InvalidCastException("ItemData is not BoxData");
+                
+                Box box = new Box(boxData);
+                return box;
             default:
                 throw new ArgumentOutOfRangeException($"Unhandled ItemType: {data.type}");
         }

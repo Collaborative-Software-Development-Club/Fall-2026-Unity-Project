@@ -20,14 +20,31 @@ public class ConveyorItemRenderer : MonoBehaviour
         _parentRenderer = parent;
     }
 
+    public void SetSpriteRenderer(SpriteRenderer renderer)
+    {
+        itemRenderer = renderer;
+    }
+
+    public SpriteRenderer GetSpriteRenderer => itemRenderer; 
+
     public void SetSprite(Sprite sprite)
     {
         itemRenderer.sprite = sprite;
     }
 
+    [SerializeField] private float moveSpeed = 2.0f; 
+
     public void Move(Vector2 direction)
     {
-        gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, new Vector2(gameObject.transform.position.x, gameObject.transform.position.y) + direction , MoveDistance);
+        Vector2 currentPos = transform.position;
+        Vector2 targetPos = currentPos + (direction * moveSpeed * Time.fixedDeltaTime);
+    
+        transform.position = Vector2.MoveTowards(currentPos, targetPos, moveSpeed * Time.fixedDeltaTime);
     }
 
+    private void OnDestroy()
+    {
+        if (_parentRenderer is null) return;
+        _parentRenderer.RemoveItem(this);
+    }
 }

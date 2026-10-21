@@ -11,43 +11,41 @@ public class ConveyorRenderer : PlaceableObj
     private List<ConveyorItemRenderer> _items = new();
     private Conveyor _connectedConveyor;
 
-    private float _moveDelayTimer = 0;
-    private float _moveDelay = .5f;
-
     public void SetConveyor(Conveyor connectedConveyor)
     {
         _connectedConveyor = connectedConveyor;
+    }
+
+    public bool RemoveItem(ConveyorItemRenderer item)
+    {
+        return _items.Remove(item);
     }
     
     public Conveyor GetConveyor() => _connectedConveyor;
 
     private void FixedUpdate()
     {
-        _moveDelayTimer += Time.fixedDeltaTime;
+        _items.RemoveAll(item => item is null); 
         
-        if (_items.Count < 0 || _moveDelayTimer < _moveDelay) return;
+        if (_items.Count < 0) return;
         
         foreach (ConveyorItemRenderer item in _items)
             item.Move(GetDirection());
-        
-        _moveDelayTimer = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer) && !itemRenderer.HasParent)
-        {
-            _items.Add(itemRenderer);
-            itemRenderer.SetParentRenderer(this);
-        }
+        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer) || itemRenderer.HasParent) return;
+        
+        _items.Add(itemRenderer);
+        itemRenderer.SetParentRenderer(this);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out ConveyorItemRenderer itemRenderer) && itemRenderer.IsParent(this))
-        {
-            _items.Remove(itemRenderer);
-            itemRenderer.SetParentRenderer(this);
-        }
+        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer) || !itemRenderer.IsParent(this)) return;
+        
+        _items.Remove(itemRenderer);
+        itemRenderer.SetParentRenderer(null);
     }
 }

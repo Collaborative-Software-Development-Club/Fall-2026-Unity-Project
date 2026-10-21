@@ -72,8 +72,7 @@ public class ConveyorSection
             if (_conveyorParts[i] == null || _conveyorParts[i + 1] == null)
                 continue;
 
-            if(!_conveyorParts[i].DoAction(_conveyorParts[i + 1]))
-                Debug.LogWarning("Can't do conveyerable action!");
+            _conveyorParts[i].DoAction(_conveyorParts[i + 1]);
         }
 
         if (_conveyorCount == 0)
