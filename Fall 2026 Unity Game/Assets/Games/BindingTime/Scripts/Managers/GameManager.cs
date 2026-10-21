@@ -13,6 +13,8 @@ namespace BindingTime
 
         void Start()
         {
+            new GameObject("RulesScreen").AddComponent<RulesScreen>();
+
             UIManager.player.ReachedExit += OnReachedExit;
         }
 
@@ -45,7 +47,6 @@ namespace BindingTime
             }
         }
 
-        // Update is called once per frame
         void Update()
         {
             UIManager.Update();

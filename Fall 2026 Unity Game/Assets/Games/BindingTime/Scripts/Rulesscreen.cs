@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 namespace BindingTime
 {
-    // Small "how to play" overlay. Shows on startup; press H (or any key while it is open) to toggle.
-    // Creates itself at runtime, so there is nothing to add to the scene.
+    // Small "how to play" overlay. Shows on startup; press H (or any other key while it is open) to toggle.
+    // It does NOT spawn itself: GameManager.Start() creates it, so it only appears in this game's scene.
     public class RulesScreen : MonoBehaviour
     {
         private const string Rules =
@@ -25,13 +25,6 @@ namespace BindingTime
 
         private bool visible = true;
         private GUIStyle boxStyle, textStyle;
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void Spawn()
-        {
-            if (FindFirstObjectByType<RulesScreen>() != null) return;
-            new GameObject("RulesScreen").AddComponent<RulesScreen>();
-        }
 
         void Update()
         {
