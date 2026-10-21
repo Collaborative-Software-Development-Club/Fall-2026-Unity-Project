@@ -12,6 +12,7 @@ public class CADE_RuleManager : MonoBehaviour
     public UnityEvent TinyPlayer;
     public UnityEvent QuickTimeEvents;
     public UnityEvent UpDownInverted;
+    public UnityEvent LeftRightInverted;
     public UnityEvent LeftDeathTimer;
 
     [SerializeField]
@@ -121,13 +122,20 @@ public class CADE_RuleManager : MonoBehaviour
             rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Power Ups are actually Power Downs.");
             InvertPowerUp.Invoke();
         }
-        else if ((CADE_RandomRulesList.DashRules)ruleId == CADE_RandomRulesList.DashRules.QuickTimeEvents)
+        else if ((CADE_RandomRulesList.DashRules)ruleId == CADE_RandomRulesList.DashRules.LeftRightInverted)
         {
-            Debug.Log("Rule Applied: You must complete random quick time events or explode.");
+            Debug.Log("Rule Applied: Left is actually right, and vice versa.");
             ruleCounter++;
-            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". You must complete random quick time events or explode.");
-            QuickTimeEvents.Invoke();
+            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Left is actually right, and vice versa.");
+            LeftRightInverted.Invoke();
         }
+        // else if ((CADE_RandomRulesList.DashRules)ruleId == CADE_RandomRulesList.DashRules.QuickTimeEvents)
+        // {
+        //     Debug.Log("Rule Applied: You must complete random quick time events or explode.");
+        //     ruleCounter++;
+        //     rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". You must complete random quick time events or explode.");
+        //     QuickTimeEvents.Invoke();
+        // }
     }
 
     private void InvokeStickyRuleEvent(int ruleId)
@@ -145,6 +153,13 @@ public class CADE_RuleManager : MonoBehaviour
             ruleCounter++;
             rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Up is actually down, and vice versa.");
             UpDownInverted.Invoke();
+        }
+        else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.LeftRightInverted)
+        {
+            Debug.Log("Rule Applied: Left is actually right, and vice versa.");
+            ruleCounter++;
+            rulesText.SetText(rulesText.text + "\n" + ruleCounter + ". Left is actually right, and vice versa.");
+            LeftRightInverted.Invoke();
         }
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.LeftDeathTimer)
         {
