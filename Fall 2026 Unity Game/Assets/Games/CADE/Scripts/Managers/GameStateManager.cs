@@ -5,6 +5,8 @@ public class GameStateManager : MonoBehaviour
 {
     [SerializeField] private GameEvent winEvent;
     [SerializeField] private GameEvent loseEvent;
+    [SerializeField] private CADE_SceneManager sceneManager;
+    [SerializeField] private CADE_SceneList.Scenes nextScene;
 
     private void OnEnable()
     {
@@ -20,7 +22,7 @@ public class GameStateManager : MonoBehaviour
 
     private void winHandle()
     {
-        Debug.Log("You win");
+        sceneManager.ChangeScene((int)nextScene);
     }
     private void loseHandle() { 
         resetLevel();

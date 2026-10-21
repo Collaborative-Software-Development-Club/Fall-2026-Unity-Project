@@ -14,6 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Games/CADE/Scenes/CADE_TitleScreen.unity
     guid: 54bb21b92e6a0e549a1ed3998346bbc6
+  - enabled: 1
+    path: Assets/Games/CADE/Scenes/CADE_DoubleJump.unity
+    guid: 77389e34a14c69c45863f4568175bbef
+  - enabled: 1
+    path: Assets/Games/CADE/Scenes/CADE_WallJump.unity
+    guid: da88d362e612a9040b63cbc0c862de97
+  - enabled: 1
+    path: Assets/Games/CADE/Scenes/CADE_Dash.unity
+    guid: 99bbbcc16a02eed53b819c73fa32faed
+  - enabled: 1
+    path: Assets/Games/CADE/Scenes/CADE_Sticky.unity
+    guid: 9e888be4a773546f6bb1af8ef950d2c3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
