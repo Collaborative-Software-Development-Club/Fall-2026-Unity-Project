@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace BindingTime
@@ -7,10 +6,10 @@ namespace BindingTime
     public class Player : MonoBehaviour
     {
         private int tileX, tileY;
-        private readonly MoveRecorder recorder = new MoveRecorder();
 
-        // While true, Move() does nothing (during the exit replay).
         public bool InputLocked { get; set; }
+
+        public Vector2Int Coords => new Vector2Int(tileX, tileY);
 
         // Fired when the player steps onto an exit tile (GameManager listens to this).
         public event Action ReachedExit;
@@ -41,16 +40,20 @@ namespace BindingTime
 
         private void Respawn(int level)
         {
-            tileX = TileManager.Instance.Origin.x;
-            tileY = TileManager.Instance.Origin.y;
             InputLocked = false;
-            recorder.Begin(new Vector2Int(tileX, tileY));
-            ApplyPosition();
+            TimeLoopManager.Instance.StartLevel(this);
         }
 
         private void ApplyPosition()
         {
             transform.localPosition = new Vector3(tileX, tileY, transform.localPosition.z);
+        }
+
+        public void SetTile(Vector2Int tile)
+        {
+            tileX = tile.x;
+            tileY = tile.y;
+            ApplyPosition();
         }
 
         public void Move(int x, int y)
@@ -60,12 +63,11 @@ namespace BindingTime
             int newX = tileX + x;
             int newY = tileY + y;
 
-            // Walls (and anything off the map) block movement.
             if (!TileManager.Instance.IsWalkable(newX, newY)) return;
 
             tileX = newX;
             tileY = newY;
-            recorder.Record(new Vector2Int(tileX, tileY));
+            TimeLoopManager.Instance.Advance();
 
             if (TileManager.Instance.GetTile(tileX, tileY).Type == TileType.Exit)
             {
@@ -73,23 +75,10 @@ namespace BindingTime
             }
         }
 
-        // Plays back the path walked this level, sped up.
-        // speed: playback multiplier. maxSeconds: replay never takes longer than this.
-        public IEnumerator ReplayRoutine(float speed, float maxSeconds)
+        public void Wait()
         {
-            var steps = recorder.Steps;
-            float effectiveSpeed = Mathf.Max(speed, recorder.Duration / Mathf.Max(maxSeconds, 0.01f));
-
-            float startTime = Time.time;
-            for (int i = 0; i < steps.Count; i++)
-            {
-                float due = steps[i].Timestamp / effectiveSpeed;
-                while (Time.time - startTime < due) yield return null;
-
-                tileX = steps[i].Tile.x;
-                tileY = steps[i].Tile.y;
-                ApplyPosition();
-            }
+            if (InputLocked) return;
+            TimeLoopManager.Instance.Advance();
         }
     }
 }

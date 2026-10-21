@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BindingTime
@@ -17,11 +18,16 @@ namespace BindingTime
         [SerializeField] private Sprite exitSprite;
 
         private Tile[,] tileGrid; // [y, x]
+        private readonly List<Tile> sigils = new List<Tile>();
+        private readonly List<Tile> figures = new List<Tile>();
         public int Width { get; private set; }
         public int Height { get; private set; }
 
         public Vector2Int Origin { get; private set; }
         public Vector2Int Exit { get; private set; }
+
+        public IReadOnlyList<Tile> Sigils => sigils;
+        public IReadOnlyList<Tile> Figures => figures;
 
         void Awake()
         {
@@ -37,6 +43,11 @@ namespace BindingTime
 
         public bool IsWalkable(int x, int y) => InBounds(x, y) && tileGrid[y, x].IsWalkable;
 
+        public void SwapTile(Tile tile, TileType type)
+        {
+            if (tile.Type != type) tile.SwapTo(type, SpriteFor(type));
+        }
+
         // ---------- Building ----------
 
         // replaces whatever grid exists with one built from map ([y, x]).
@@ -47,6 +58,8 @@ namespace BindingTime
             Height = map.GetLength(0);
             Width = map.GetLength(1);
             tileGrid = new Tile[Height, Width];
+            sigils.Clear();
+            figures.Clear();
             Origin = Vector2Int.zero;
             Exit = Vector2Int.zero;
             bool foundOrigin = false, foundExit = false;
@@ -66,6 +79,8 @@ namespace BindingTime
                     if (tile == null) tile = go.AddComponent<Tile>();
                     tile.Setup(type, new Vector2Int(x, y), SpriteFor(type));
                     tileGrid[y, x] = tile;
+                    if (type == TileType.Sigil) sigils.Add(tile);
+                    if (type == TileType.Figure) figures.Add(tile);
                 }
             }
 
