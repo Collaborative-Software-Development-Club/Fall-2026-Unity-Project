@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CADE_RandomRules
+namespace CADE_RandomRulesList
 {
     public enum DoubleJumpRules
     {
@@ -23,8 +23,7 @@ namespace CADE_RandomRules
     public enum StickyRules
     {
         PowerDowns = 0,
-        UpInverted = 1,
-        DownInverted = 2,
-        LeftDeathTimer = 3
+        UpDownInverted = 1,
+        LeftDeathTimer = 2
     }
 }

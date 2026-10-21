@@ -1,6 +1,6 @@
 namespace CADE_ItemList
 {
-    enum Items
+    public enum Items
     {
         DoubleJump = 0,
         WallJump = 1,

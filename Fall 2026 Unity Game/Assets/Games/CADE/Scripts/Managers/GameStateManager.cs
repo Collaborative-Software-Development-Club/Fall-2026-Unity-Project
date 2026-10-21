@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameEvent winEvent;
     [SerializeField] private GameEvent loseEvent;
     [SerializeField] private CADE_SceneManager sceneManager;
+    [SerializeField] private CADE_RuleManager ruleManager;
     [SerializeField] private CADE_SceneList.Scenes nextScene;
 
 
@@ -41,51 +42,53 @@ public class GameStateManager : MonoBehaviour
 
     private void RandomlySelectRules()
     {
-        Unity.Mathematics.Random rand = new Unity.Mathematics.Random();
-
         // here is where random rules are applied
         if (currentScene == CADE_SceneList.Scenes.CADE_DoubleJump)
         {
 
-            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRules.DoubleJumpRules)).Length; i++)
+            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRulesList.DoubleJumpRules)).Length; i++)
             {
                 // 50-50 shot whether the rule is applied
-                if (rand.NextFloat() < 0.5)
+                if (UnityEngine.Random.value < 0.5)
                 {
                     // Call the rule manager to call the according function
+                    ruleManager.ApplyRandomRule(i, currentScene);
                 }
             }
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_WallJump)
         {
-            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRules.WallJumpRules)).Length; i++)
+            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRulesList.WallJumpRules)).Length; i++)
             {
                 // 50-50 shot whether the rule is applied
-                if (rand.NextFloat() < 0.5)
+                if (UnityEngine.Random.value < 0.5)
                 {
                     // Call the rule manager to call the according function
+                    ruleManager.ApplyRandomRule(i, currentScene);
                 }
             }
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_Dash)
         {
-            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRules.DashRules)).Length; i++)
+            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRulesList.DashRules)).Length; i++)
             {
                 // 50-50 shot whether the rule is applied
-                if (rand.NextFloat() < 0.5)
+                if (UnityEngine.Random.value < 0.5)
                 {
                     // Call the rule manager to call the according function
+                    ruleManager.ApplyRandomRule(i, currentScene);
                 }
             }
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_Sticky)
         {
-            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRules.StickyRules)).Length; i++)
+            for (int i = 0; i < Enum.GetNames(typeof(CADE_RandomRulesList.StickyRules)).Length; i++)
             {
                 // 50-50 shot whether the rule is applied
-                if (rand.NextFloat() < 0.5)
+                if (UnityEngine.Random.value < 0.5)
                 {
                     // Call the rule manager to call the according function
+                    ruleManager.ApplyRandomRule(i, currentScene);
                 }
             }
         }
