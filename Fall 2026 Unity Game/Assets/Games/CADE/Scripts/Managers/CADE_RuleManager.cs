@@ -162,7 +162,7 @@ public class CADE_RuleManager : MonoBehaviour
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs");
             ruleCounter++;
-            rulesString = "\n- Power Ups are actually Power Downs: You're too sticky! Can't unstick from walls.\n";
+            rulesString = "\n- Power Ups are actually Power Downs: You're too sticky! Walls make you stuck while floors reduce jump height.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.UpDownInverted)
