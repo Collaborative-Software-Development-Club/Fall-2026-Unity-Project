@@ -27,15 +27,16 @@ public class MachinePlace
        
        Collider2D boxCollider = unboxableConveyorItem.GetComponent<Collider2D>();
        
-       List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+       List<Collider2D> contacts = new List<Collider2D>();
+       
+       boxCollider.Overlap(contacts);
        Debug.Log(contacts.Count);
-       boxCollider.GetContacts(contacts);
        ConveyorRenderer conveyorRenderer = null;
        
        foreach (var contact in contacts)
        {
-           Debug.Log(contact.collider.gameObject.name);
-           if (!contact.collider.TryGetComponent<ConveyorRenderer>(out var conveyor)) continue;
+           Debug.Log(contact.gameObject.name);
+           if (!contact.TryGetComponent<ConveyorRenderer>(out var conveyor)) continue;
            conveyorRenderer = conveyor;
 
            break;
