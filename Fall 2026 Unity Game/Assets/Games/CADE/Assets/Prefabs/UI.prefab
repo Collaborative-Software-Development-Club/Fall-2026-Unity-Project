@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 5750851866245509533}
   - component: {fileID: 7526117787290802529}
   - component: {fileID: 1676466349125837423}
+  - component: {fileID: 2430419871425125496}
   m_Layer: 5
   m_Name: Death Counter
   m_TagString: Untagged
@@ -215,6 +216,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2430419871425125496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499814110476153987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a4e5dfe6f62ce42b59b61a9656a76c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CADE_DeathCounter
 --- !u!1 &662710572831733832
 GameObject:
   m_ObjectHideFlags: 0
