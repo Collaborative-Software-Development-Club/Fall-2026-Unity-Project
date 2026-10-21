@@ -10,8 +10,7 @@ public class CADE_RuleManager : MonoBehaviour
     public UnityEvent LowGravity;
     public UnityEvent TinyPlayer;
     public UnityEvent QuickTimeEvents;
-    public UnityEvent UpInverted;
-    public UnityEvent DownInverted;
+    public UnityEvent UpDownInverted;
     public UnityEvent LeftDeathTimer;
 
     public void ApplyRandomRule(int ruleId, CADE_SceneList.Scenes currentScene)
