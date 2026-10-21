@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class MachinePlace
@@ -9,8 +11,10 @@ public class MachinePlace
     /// <param name="machineData"></param>
     /// <param name="conveyorRenderer"></param>
     /// <param name="unboxableConveyorItem"></param>
-    public static void Place(Conveyor conveyor, MachineData machineData, ConveyorRenderer conveyorRenderer, UnboxableConveyorItem unboxableConveyorItem)
+    public static void Place(MachineData machineData, UnboxableConveyorItem unboxableConveyorItem)
     {
+        Debug.Log("attempt place");
+        
        /*
         * TODO: Implement complex place,
         * I.E. waiting for conveyor to free up
@@ -19,8 +23,29 @@ public class MachinePlace
         */
 
        ConveyorManager conveyorManager = GameManager.Instance.conveyorManager;
+
        
-       (int firstLineIdx, int secondLineIdx) = conveyorManager.SplitLineAtConveyor(conveyor);
+       Collider2D boxCollider = unboxableConveyorItem.GetComponent<Collider2D>();
+       
+       List<ContactPoint2D> contacts = new List<ContactPoint2D>();
+       Debug.Log(contacts.Count);
+       boxCollider.GetContacts(contacts);
+       ConveyorRenderer conveyorRenderer = null;
+       
+       foreach (var contact in contacts)
+       {
+           Debug.Log(contact.collider.gameObject.name);
+           if (!contact.collider.TryGetComponent<ConveyorRenderer>(out var conveyor)) continue;
+           conveyorRenderer = conveyor;
+
+           break;
+       }
+
+       Debug.Log("hello world");
+       if (conveyorRenderer is null) return;
+       Debug.Log("goodbye world");
+       
+       (int firstLineIdx, int secondLineIdx) = conveyorManager.SplitLineAtConveyor(conveyorRenderer.GetConveyor());
 
        // Add Machine data to line
        if (firstLineIdx == -1 || secondLineIdx == -1) return;

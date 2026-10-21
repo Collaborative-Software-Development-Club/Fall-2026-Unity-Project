@@ -100,7 +100,8 @@ public class ConveyorGenerator : MonoBehaviour
                 if (itemQuantity.ItemData is BoxData { openItem: MachineData machine })
                 {
                     UnboxableConveyorItem unboxableConveyorItem = itemObj.AddComponent<UnboxableConveyorItem>();
-                    unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(conveyor, machine, targetRenderer, unboxableConveyorItem);
+                    unboxableConveyorItem.OnRightClickEvent += () => Debug.Log("WORRK");
+                    unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(machine, unboxableConveyorItem);
                     unboxableConveyorItem.SetSpriteRenderer(itemRenderer.GetSpriteRenderer);
                     
                     Destroy(itemRenderer);

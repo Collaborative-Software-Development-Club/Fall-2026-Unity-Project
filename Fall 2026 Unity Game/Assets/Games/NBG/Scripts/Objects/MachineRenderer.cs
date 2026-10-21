@@ -113,6 +113,17 @@ public class MachineRenderer : PlaceableObj
             return;
         }
 
+        // TODO: THIS SHOULD BE TEMP AND MADE BETTER IN THE FUTURE
+        if (item.GetData() is BoxData { openItem: MachineData machine })
+        {
+            UnboxableConveyorItem unboxableConveyorItem = itemObj.AddComponent<UnboxableConveyorItem>();
+            unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(machine, unboxableConveyorItem);
+            unboxableConveyorItem.SetSpriteRenderer(itemRenderer.GetSpriteRenderer);
+                    
+            Destroy(itemRenderer);
+            itemRenderer = unboxableConveyorItem;
+        }
+
         itemRenderer.SetItem(item);
         Sprite icon = item.GetIcon();
         if (icon != null)
