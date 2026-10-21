@@ -36,7 +36,16 @@ public class MachineRenderer : PlaceableObj
         if (_machine == null) return;
         if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
         if (itemRenderer.WasReleasedByMachine) return;
-        if (itemRenderer is UnboxableConveyorItem) return;
+
+        // Boxes must slide past machines (no conveyor under the tile) so they stay
+        // right-clickable and don't get stuck when they leave the previous belt.
+        if (itemRenderer is UnboxableConveyorItem)
+        {
+            if (!itemRenderer.HasParent)
+                itemRenderer.Move(GetDirection());
+            return;
+        }
+
         if (itemRenderer.Item == null || itemRenderer.Item.GetData() == null) return;
 
         itemRenderer.DetachFromBelt();

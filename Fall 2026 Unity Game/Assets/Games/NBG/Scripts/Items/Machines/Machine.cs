@@ -192,7 +192,7 @@ public class Machine : Item, IConveyorable
         PassThroughIfUnusable(inputs);
         return false;
     }
-
+    
     private bool TryStartCraft(Recipe recipe)
     {
         List<ItemQuantity> created = new List<ItemQuantity>();
