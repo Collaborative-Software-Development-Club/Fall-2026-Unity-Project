@@ -80,8 +80,15 @@ public class CADE_PlayerMovement : MonoBehaviour
     private bool isSticky = false;
     private bool isInvSticky = false;
     private bool isTouchingNorm = false;
+    
+    // Variables for random rules
+    private bool invertXMov = false;
+    private bool invertYMov = false;
 
-    void Start()
+    [SerializeField] private float maxDashTime = 2f;
+    private float dashTimer;
+
+    private void Start()
     {
         finalSpeed = moveSpeed;
     }
@@ -149,6 +156,11 @@ public class CADE_PlayerMovement : MonoBehaviour
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
         verticalMovement = context.ReadValue<Vector2>().y;
+
+        if (invertXMov) {
+            horizontalMovement *= -1f;
+            verticalMovement *= -1f;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -297,5 +309,13 @@ public class CADE_PlayerMovement : MonoBehaviour
     public void BabyMode()
     {
         transform.localScale = new Vector2(0.5f, 0.5f);
+    }
+    
+    // random rules
+    public void invertXMovement() {
+        invertXMov = true;
+    }
+    public void invertYMovement() {
+        invertYMov = true;
     }
 }

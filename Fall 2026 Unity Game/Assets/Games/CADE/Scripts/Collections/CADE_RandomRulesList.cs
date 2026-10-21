@@ -17,13 +17,15 @@ namespace CADE_RandomRulesList
     public enum DashRules
     {
         PowerDowns = 0,
-        QuickTimeEvents = 1
+        LeftRightInverted = 1,
+        // QuickTimeEvents = 1
     }
 
     public enum StickyRules
     {
         PowerDowns = 0,
         UpDownInverted = 1,
-        LeftDeathTimer = 2
+        LeftRightInverted = 2,
+        LeftDeathTimer = 3
     }
 }
