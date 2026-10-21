@@ -15,7 +15,7 @@ public static class ItemFactory
         switch (data.type)
         {
             case ItemType.None:
-                Debug.LogWarning("Cannot create an item of type None");
+                Debug.LogWarning($"Cannot create an item of type {data.type}");
                 return null;
 
             case ItemType.Machine:
