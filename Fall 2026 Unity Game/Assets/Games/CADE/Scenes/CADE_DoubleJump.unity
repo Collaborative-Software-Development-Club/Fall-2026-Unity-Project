@@ -46769,6 +46769,22 @@ PrefabInstance:
       propertyPath: nextScene
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: startEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: startEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: startEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: startEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4633009500680994367, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
       propertyPath: m_Name
       value: GameStateManager

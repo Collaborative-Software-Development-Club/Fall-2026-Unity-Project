@@ -1,5 +1,6 @@
 using UnityEditor.Media;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameEvent loseEvent;
     [SerializeField] private CADE_SceneManager sceneManager;
     [SerializeField] private CADE_SceneList.Scenes nextScene;
+
 
     private void OnEnable()
     {
