@@ -32,6 +32,7 @@ public abstract class Item
     {
         return GetRarity() switch
         {
+            Rarity.None => GetName(),
             Rarity.Common => GetName(),
             _ => $"{GetRarity()} {GetName()}"
         };
