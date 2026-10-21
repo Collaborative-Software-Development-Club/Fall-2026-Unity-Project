@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class Recipe : ScriptableObject
 {
-    [SerializeField] private ItemData testItem;
     [SerializeField] private List<ItemDataQuantity> inputs;
     [SerializeField] private List<ItemDataQuantity> outputs;
     

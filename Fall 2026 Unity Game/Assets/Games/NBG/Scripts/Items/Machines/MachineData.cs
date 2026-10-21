@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum machineType
 { 
-    None, Furnace
+    None, Furnace, Hammer, Crucible, Grinder, Mixer
     
 }
 

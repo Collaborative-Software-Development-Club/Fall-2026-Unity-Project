@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac563b983cdf404286044809394bc85, type: 3}
+  m_Name: Copper_Gear_Crucible
+  m_EditorClassIdentifier: Assembly-CSharp::Recipe
+  inputs:
+  - ItemData: {fileID: 11400000, guid: d333c204c13abef468659ce875e9e5e0, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: ce25465c5b6ae3144b59b0e26872e3ab, type: 2}
+    Quantity: 1
+  heatRequired: 80
