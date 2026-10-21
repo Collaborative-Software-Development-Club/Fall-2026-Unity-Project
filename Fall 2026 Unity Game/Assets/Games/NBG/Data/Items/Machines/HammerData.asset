@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MachineData
   text: Hammer
   value: 0
-  icon: {fileID: 0}
+  icon: {fileID: -4759444061170050727, guid: 1362aeb5a07a6364fbc8fde37544fba3, type: 3}
   type: 1
   rarity: 1
   isConsumable: 0
   isStackable: 0
   name: Hammer
   processType: 2
-  texture: {fileID: 0}
+  texture: {fileID: -4759444061170050727, guid: 1362aeb5a07a6364fbc8fde37544fba3, type: 3}
   inputCount: 2
   outputCount: 2
   recipes:

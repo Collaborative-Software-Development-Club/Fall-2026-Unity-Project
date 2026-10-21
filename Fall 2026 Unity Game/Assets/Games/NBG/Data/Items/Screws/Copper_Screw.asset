@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProcessableData
   text: Copper Screw
   value: 0
-  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: -6122261428324425082, guid: 26e21087ca62ee54e9884790d257961b, type: 3}
   type: 2
   rarity: 2
   isConsumable: 0
