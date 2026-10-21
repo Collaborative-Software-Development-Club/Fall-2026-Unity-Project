@@ -618,6 +618,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 372950683}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &345369353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+  m_PrefabInstance: {fileID: 104270437}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 514ab86018c90c143a5f07a2bc8d80fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CADE_RuleManager
 --- !u!1 &372950682
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +718,10 @@ PrefabInstance:
       propertyPath: nextScene
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+      propertyPath: ruleManager
+      value: 
+      objectReference: {fileID: 345369353}
     - target: {fileID: 1206403069656604069, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
       propertyPath: currentScene
       value: 4

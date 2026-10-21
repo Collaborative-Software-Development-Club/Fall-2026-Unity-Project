@@ -403,7 +403,9 @@ MonoBehaviour:
   wallJumpForceX: 8
   wallJumpForceY: 10
   wallJumpLockTime: 0.15
+  OnTooManyWallJumps: {fileID: 11400000, guid: a056e1cc41f33874f9ec98feeb9057b0, type: 2}
   baseGravity: 1.5
+  moonGravityScale: 0.6
   maxFallSpeed: 32
   fallSpeedMultipler: 3
 --- !u!70 &7654066175826891945

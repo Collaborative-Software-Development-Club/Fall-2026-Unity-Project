@@ -57,8 +57,8 @@ public static class CADE_Jump
     public static void Wall_Jump
         (
             InputAction.CallbackContext context, Rigidbody2D rb, float jumpHeight, ref float coyoteTimeCounter, ref bool jumpReleased,
-            ref int extraJumpsRemaining, ref int extraJumps, ref float wallJumpLockCounter, ref float wallJumpLockTime,
-            float wallJumpForceX, float wallJumpForceY, bool isWallSliding, bool isTouchingWallLeft, bool isTouchingWallRight
+            ref int extraJumpsRemaining, ref int wallJumpsRemaining, int wallJumpsMax, ref int extraJumps, ref float wallJumpLockCounter, ref float wallJumpLockTime,
+            float wallJumpForceX, float wallJumpForceY, bool isWallSliding, bool isTouchingWallLeft, bool isTouchingWallRight, GameEvent OnTooManyWallJumps
         )
     {
         if (context.performed)
@@ -75,6 +75,7 @@ public static class CADE_Jump
                 float pushDir = isTouchingWallRight ? -1f : 1f;
                 rb.linearVelocity = new Vector2(pushDir * wallJumpForceX, wallJumpForceY);
                 wallJumpLockCounter = wallJumpLockTime;
+                wallJumpsRemaining--;
                 extraJumpsRemaining = extraJumps; //double jump refresh
             }
         }
@@ -82,6 +83,12 @@ public static class CADE_Jump
         {
             jumpReleased = true;
             rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * 0.5f);
+
+            if (wallJumpsRemaining <= 0)
+            {
+                Debug.Log("Hit 5 jumps!");
+                OnTooManyWallJumps.Raise();
+            }
         }
     }
 }

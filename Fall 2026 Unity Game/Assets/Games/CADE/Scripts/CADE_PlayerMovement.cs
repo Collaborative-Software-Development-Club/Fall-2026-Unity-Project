@@ -24,6 +24,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     private int extraJumps = 1; //I think we can link this to an item to give them the jump but im not exactly sure. 
     [SerializeField] private float jumpBuffer = 0.1f;
     private int extraJumpsRemaining = 0;
+    private int wallJumpsRemaining;
+    private int wallJumpsMax = 5;
     private float jumpBufferCounter = 0f;
 
     [Header("Dashing")] 
@@ -49,6 +51,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpForceX = 8f;
     [SerializeField] private float wallJumpForceY = 10f;
     [SerializeField] private float wallJumpLockTime = 0.15f;
+    [SerializeField] private GameEvent OnTooManyWallJumps;
     private bool isTouchingWallRight;
     private bool isTouchingWallLeft;
     private bool isWallSliding;
@@ -66,6 +69,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     private float maxFallSpeed = 18;
     [SerializeField]
     private float fallSpeedMultipler = 2f;
+
 
     private bool jumpReleased;
     private float horizontalMovement;
@@ -86,6 +90,7 @@ public class CADE_PlayerMovement : MonoBehaviour
         if (isGrounded()) {
             coyoteTimeCounter = coyoteTime;
             extraJumpsRemaining = extraJumps;
+            wallJumpsRemaining = wallJumpsMax;
         } else {
             coyoteTimeCounter -= Time.deltaTime;
         }
@@ -147,8 +152,8 @@ public class CADE_PlayerMovement : MonoBehaviour
         else if (itemManager.wallJumpFlag)
         {
             CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
-                ref extraJumpsRemaining, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
-                wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight);
+                ref extraJumpsRemaining, ref wallJumpsRemaining, wallJumpsMax, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
+                wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight, OnTooManyWallJumps);
         }
         else if (!isSticky && !isInvSticky)
         {
@@ -234,8 +239,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     private bool checkWall(Vector2 dir) {
         RaycastHit2D hitWall = Physics2D.Raycast(transform.position, dir, wallCheckDistance, wallLayer);
         Debug.DrawRay(transform.position, dir * wallCheckDistance, hitWall ? Color.green : Color.red);
-        if (hitWall)
-            Debug.Log($"Wall hit: {hitWall.collider.name} on layer {LayerMask.LayerToName(hitWall.collider.gameObject.layer)}");
+        //if (hitWall)
+        //    Debug.Log($"Wall hit: {hitWall.collider.name} on layer {LayerMask.LayerToName(hitWall.collider.gameObject.layer)}");
         return hitWall;
     }
 
