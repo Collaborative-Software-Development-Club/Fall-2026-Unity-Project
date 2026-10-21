@@ -64,11 +64,10 @@ public class ConveyorManager : MonoBehaviour
         foreach (var chains in conveyors)
         {
             // This goes through a chain of conveyors
-            for (int i = chains.Count - 2; i >= 0; i--)
+            for (int i = chains.Count - 1; i >= 0; i--)
             {
-                ConveyorSection section = chains[i];
-
-                section.Advance(chains[i + 1]);
+                ConveyorSection next = i + 1 < chains.Count ? chains[i + 1] : null;
+                chains[i].Advance(next);
             }
         }
     }

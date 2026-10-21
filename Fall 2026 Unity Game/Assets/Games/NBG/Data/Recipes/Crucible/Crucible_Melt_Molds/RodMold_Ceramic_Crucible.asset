@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeatedRecipe
   inputs:
   - ItemData: {fileID: 11400000, guid: 868c41193ac3bda4bb729f58d5d5a6a1, type: 2}
-    Quantity: 0
+    Quantity: 1
   outputs:
   - ItemData: {fileID: 11400000, guid: bbaa65d2b9625324eb80d4beb74d8587, type: 2}
-    Quantity: 0
+    Quantity: 1
   heatRequired: 50

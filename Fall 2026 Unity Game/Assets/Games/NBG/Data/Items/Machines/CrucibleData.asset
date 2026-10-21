@@ -24,4 +24,26 @@ MonoBehaviour:
   texture: {fileID: 0}
   inputCount: 2
   outputCount: 1
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: 7b05c08b3a93c1449b2a968fa590ae9c, type: 2}
+  - {fileID: 11400000, guid: 548d47c73a15d684092b67186f670a6f, type: 2}
+  - {fileID: 11400000, guid: c3c790133af533b4e937f1f8277df598, type: 2}
+  - {fileID: 11400000, guid: 33d8a9b7486a8c647b64d2c95d9b2b0d, type: 2}
+  - {fileID: 11400000, guid: 553d32c588cd6e34e8a5540bf2da4a8b, type: 2}
+  - {fileID: 11400000, guid: 5284eafeeba97fe479215b8728b29c82, type: 2}
+  - {fileID: 11400000, guid: a5fe9f21c22607b428984e78a25b09df, type: 2}
+  - {fileID: 11400000, guid: 8ff66064e96d7e840bcf446a7664490c, type: 2}
+  - {fileID: 11400000, guid: 67694f2c4c6b6474f8b2f7c2d1a2cb24, type: 2}
+  - {fileID: 11400000, guid: 92b2d8281ab7aa947b294ccb3851e097, type: 2}
+  - {fileID: 11400000, guid: ec0c9ca73d250994cab89d2a80d88350, type: 2}
+  - {fileID: 11400000, guid: 7da63fa8fc2280f4a910dae653bdaec5, type: 2}
+  - {fileID: 11400000, guid: d3df3140b0c3c8243a32a7f9ce98493d, type: 2}
+  - {fileID: 11400000, guid: 98e1b6aaa7bc3d94795e4913aa7f04f6, type: 2}
+  - {fileID: 11400000, guid: 96d399bddd8f5a740965ed8d48f2dc37, type: 2}
+  - {fileID: 11400000, guid: 412ae308f5ac27a44a64d0d2e7f0a0f4, type: 2}
+  - {fileID: 11400000, guid: 3303286fd9ff7164da0384a08ac4fb3e, type: 2}
+  - {fileID: 11400000, guid: f91db49703be0c0449a9f5f645fa458e, type: 2}
+  - {fileID: 11400000, guid: f207273302559b6479a1c45d177639e7, type: 2}
+  - {fileID: 11400000, guid: da2ea2185265e874b941b8dff2515444, type: 2}
+  - {fileID: 11400000, guid: 1f376acf3677fd243be0c3351695b0c2, type: 2}
+  - {fileID: 11400000, guid: 30de7c30c2f810047a14f11c0c251a9a, type: 2}

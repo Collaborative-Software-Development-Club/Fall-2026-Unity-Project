@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(ConveyorManager))]
 public class GameManager : MonoBehaviour
 {
     public AudioManager AudioManager;
@@ -16,7 +15,8 @@ public class GameManager : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject); 
         
-        conveyorManager = GetComponent<ConveyorManager>();        
+        if (conveyorManager is null)
+            conveyorManager = GetComponent<ConveyorManager>();        
     }
 
     public ConveyorManager conveyorManager;
