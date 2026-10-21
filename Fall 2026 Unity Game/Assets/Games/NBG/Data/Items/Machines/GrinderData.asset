@@ -16,16 +16,16 @@ MonoBehaviour:
   value: 0
   icon: {fileID: 0}
   type: 1
-  rarity: 0
+  rarity: 4
   isConsumable: 0
   isStackable: 0
   name: Grinder
   processType: 4
   texture: {fileID: 0}
   inputCount: 1
-  outputCount: 1
+  outputCount: 2
   recipes:
-  - {fileID: 11400000, guid: df7db4849aeba2a4ebbdf14de6afbf73, type: 2}
   - {fileID: 11400000, guid: b9bddf8886e54414294e2102fd8b4e59, type: 2}
   - {fileID: 11400000, guid: 35eff79c119c1f741af6abb6354035c3, type: 2}
+  - {fileID: 11400000, guid: df7db4849aeba2a4ebbdf14de6afbf73, type: 2}
   - {fileID: 11400000, guid: e241d4076074dce4488a31ab5abb5d51, type: 2}

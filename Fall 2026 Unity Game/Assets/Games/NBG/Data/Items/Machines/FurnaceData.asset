@@ -16,7 +16,7 @@ MonoBehaviour:
   value: 0
   icon: {fileID: 6608633727053898587, guid: b4cfefd9d8a2c97418c094bce273c380, type: 3}
   type: 1
-  rarity: 0
+  rarity: 2
   isConsumable: 0
   isStackable: 0
   name: Furnace

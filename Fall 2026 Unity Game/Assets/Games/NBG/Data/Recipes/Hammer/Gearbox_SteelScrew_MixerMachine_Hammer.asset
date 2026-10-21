@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d09ada129aca714cabc4cf066e4e5cb, type: 3}
   m_Name: Gearbox_SteelScrew_MixerMachine_Hammer
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
-  inputs: []
-  outputs: []
+  inputs:
+  - ItemData: {fileID: 11400000, guid: 7680ffbafcdabe04c8feb2a17dcaa959, type: 2}
+    Quantity: 1
+  - ItemData: {fileID: 11400000, guid: 72ce3cd857e7e664f983f851a864b50e, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: 138e1020ac6f93d429715dec964289eb, type: 2}
+    Quantity: 1

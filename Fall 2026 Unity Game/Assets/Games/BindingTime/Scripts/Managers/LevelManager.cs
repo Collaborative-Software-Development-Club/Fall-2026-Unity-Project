@@ -51,7 +51,7 @@ namespace BindingTime
             CurrentLevel = index;
 
             TextAsset file = (levels != null && index >= 0 && index < levels.Length) ? levels[index] : null;
-            TileType[,] map = file != null ? ParseLevel(file.text) : FallbackLevel();
+            LevelCell[,] map = file != null ? ParseLevel(file.text) : FallbackLevel();
 
             TileManager.Instance.Build(map);
             if (fitCamera) FitCamera();
@@ -60,25 +60,33 @@ namespace BindingTime
             LevelLoaded?.Invoke(index);
         }
 
-        private TileType[,] FallbackLevel()
+        private LevelCell[,] FallbackLevel()
         {
-            var map = new TileType[fallbackHeight, fallbackWidth];
+            var map = new LevelCell[fallbackHeight, fallbackWidth];
             for (int y = 0; y < fallbackHeight; y++)
             {
                 for (int x = 0; x < fallbackWidth; x++)
                 {
                     bool border = x == 0 || y == 0 || x == fallbackWidth - 1 || y == fallbackHeight - 1;
-                    map[y, x] = border ? TileType.Wall : TileType.Ground;
+                    map[y, x] = new LevelCell(border ? TileType.Wall : TileType.Ground);
                 }
             }
-            map[1, 1] = TileType.Origin;
-            map[fallbackHeight - 2, fallbackWidth - 2] = TileType.Exit;
+            map[1, 1] = new LevelCell(TileType.Origin);
+            map[fallbackHeight - 2, fallbackWidth - 2] = new LevelCell(TileType.Exit);
             return map;
         }
 
-        // key:  #  wall    .  floor    O  origin (spawn    E  exit
+        // key:  #  wall    .  floor    O  origin (spawn)    E  exit
+        //       W  water (decorative)     M  moss (decorative)
+        //
+        // sigils and statues (a sigil powers every statue on the same channel):
+        //       S / F          legacy sigil and statue, channel 0
+        //       1-9            sigil on channel 1-9
+        //       a-i            statue on channel 1-9: closed, opens while its channel is powered
+        //       j-r            INVERTED statue on channel 1-9 (j = 1 ... r = 9):
+        //                      open by default, closes while its channel is powered
         // levels r displayed bottom to top
-        private TileType[,] ParseLevel(string text)
+        private LevelCell[,] ParseLevel(string text)
         {
             // ignore blank lines at the end of the file
             string[] lines = text.Replace("\r", "").TrimEnd('\n').Split('\n');
@@ -86,7 +94,7 @@ namespace BindingTime
             int w = 0;
             foreach (var line in lines) w = Mathf.Max(w, line.Length);
 
-            var map = new TileType[h, w];
+            var map = new LevelCell[h, w];
 
             for (int row = 0; row < h; row++)
             {
@@ -94,23 +102,32 @@ namespace BindingTime
                 for (int x = 0; x < w; x++)
                 {
                     char c = x < lines[row].Length ? lines[row][x] : '#'; // pad short lines with wall
-                    map[y, x] = c switch
-                    {       //needed in every level
-                        '#' => TileType.Wall,
-                        'O' => TileType.Origin,
-                        'E' => TileType.Exit,
-                            //basic interactive stuff (not interactive yet)
-                        'S' => TileType.Sigil,
-                        'F' => TileType.Figure,
-                            //decorative stuff
-                        'W' => TileType.Water,
-                        'M' => TileType.Moss,
-                            //G R O U N D
-                        _ => TileType.Ground,
-                    };
+                    map[y, x] = ParseCell(c);
                 }
             }
             return map;
+        }
+
+        private static LevelCell ParseCell(char c)
+        {
+            if (c >= '1' && c <= '9') return new LevelCell(TileType.Sigil, c - '0');
+            if (c >= 'a' && c <= 'i') return new LevelCell(TileType.Figure, c - 'a' + 1);
+            if (c >= 'j' && c <= 'r') return new LevelCell(TileType.Figure, c - 'j' + 1, true);
+
+            switch (c)
+            {       //needed in every level
+                case '#': return new LevelCell(TileType.Wall);
+                case 'O': return new LevelCell(TileType.Origin);
+                case 'E': return new LevelCell(TileType.Exit);
+                    //legacy sigil / statue (channel 0)
+                case 'S': return new LevelCell(TileType.Sigil);
+                case 'F': return new LevelCell(TileType.Figure);
+                    //decorative stuff
+                case 'W': return new LevelCell(TileType.Water);
+                case 'M': return new LevelCell(TileType.Moss);
+                    //G R O U N D
+                default: return new LevelCell(TileType.Ground);
+            }
         }
 
         // Centers camera && zoom
