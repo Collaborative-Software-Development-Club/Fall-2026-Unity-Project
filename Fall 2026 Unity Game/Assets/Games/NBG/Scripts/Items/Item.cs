@@ -30,12 +30,15 @@ public abstract class Item
     
     public virtual string GetDisplayName()
     {
+        return GetName();
+        /*
         return GetRarity() switch
         {
             Rarity.None => GetName(),
             Rarity.Common => GetName(),
             _ => $"{GetRarity()} {GetName()}"
         };
+        */
     }
     public virtual string GetTooltip()
     {
