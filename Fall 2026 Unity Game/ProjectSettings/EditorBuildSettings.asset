@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Games/CADE/Scenes/CADE_Sticky.unity
     guid: 9e888be4a773546f6bb1af8ef950d2c3
+  - enabled: 1
+    path: Assets/Games/BindingTime/Scenes/main.unity
+    guid: 5f8043116e39211438d169538afa7563
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
