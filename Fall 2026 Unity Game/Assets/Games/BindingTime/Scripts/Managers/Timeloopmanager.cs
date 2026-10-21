@@ -22,11 +22,11 @@ namespace BindingTime
         }
 
         private readonly MoveRecorder recorder = new MoveRecorder();
-        private readonly List<Vector2Int[]> pastRuns = new List<Vector2Int[]>();
         private readonly List<Ghost> ghosts = new List<Ghost>();
         private readonly HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
         private readonly SigilManager sigils = new SigilManager();
         private Player player;
+        private int lastLoopTick;
 
         public int CurrentTick => recorder.LastTick;
         public int GhostCount => ghosts.Count;
@@ -39,7 +39,6 @@ namespace BindingTime
         public void StartLevel(Player p)
         {
             player = p;
-            pastRuns.Clear();
             BeginRun();
         }
 
@@ -56,17 +55,17 @@ namespace BindingTime
         public void Loop()
         {
             if (player == null || player.InputLocked) return;
-            if (recorder.LastTick < 1) return;
+            if (recorder.LastTick < 1) return;                // nothing to copy yet
+            if (recorder.LastTick <= lastLoopTick) return;    // already looped on this tick
 
-            pastRuns.Add(recorder.ToArray());
-            BeginRun();
+            lastLoopTick = recorder.LastTick;
+            ghosts.Add(Ghost.Create(player, recorder.ToArray(), recorder.LastTick));
+            Refresh();
         }
 
         public void RestartLevel()
         {
             if (player == null || player.InputLocked) return;
-
-            pastRuns.Clear();
             BeginRun();
         }
 
@@ -84,7 +83,7 @@ namespace BindingTime
                 while (Time.time - startTime < due) yield return null;
 
                 player.SetTile(recorder.PositionAt(tick));
-                foreach (Ghost ghost in ghosts) ghost.SetTick(tick);
+                foreach (Ghost ghost in ghosts) ghost.SetTick(tick);   // ghosts pop in on the tick they were made
                 Refresh();
             }
         }
@@ -94,10 +93,9 @@ namespace BindingTime
             Vector2Int origin = TileManager.Instance.Origin;
             player.SetTile(origin);
             recorder.Begin(origin);
+            lastLoopTick = -1;
 
             ClearGhosts();
-            foreach (Vector2Int[] run in pastRuns) ghosts.Add(Ghost.Create(player, run));
-
             Refresh();
         }
 
@@ -114,7 +112,10 @@ namespace BindingTime
         {
             occupied.Clear();
             occupied.Add(player.Coords);
-            foreach (Ghost ghost in ghosts) occupied.Add(ghost.Coords);
+            foreach (Ghost ghost in ghosts)
+            {
+                if (ghost.Active) occupied.Add(ghost.Coords);
+            }
             sigils.Refresh(occupied);
         }
     }

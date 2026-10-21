@@ -10,11 +10,12 @@ namespace BindingTime
         private const string Rules =
             "<b>BINDING TIME</b>\n\n" +
             "<b>Move</b>   WASD / arrows        <b>Wait</b>   Space\n" +
-            "<b>T</b>   Loop: your run becomes a ghost       <b>R</b>   Restart level\n\n" +
+            "<b>T</b>   Time loop        <b>R</b>   Restart level\n\n" +
             "<b>Time</b>   Every move or wait is one tick.\n" +
-            "<b>Ghosts</b>   Repeat your last run forever, one lap per recorded tick,\n" +
-            "then snap back to the start. You always start at the same tick as them.\n" +
-            "To hold a sigil longer, wait on it before pressing T.\n\n" +
+            "<b>T</b>   You stay where you are. A ghost spawns at the origin and repeats\n" +
+            "everything you have done so far, so it trails you by that many ticks\n" +
+            "(walk 3, wait 3, press T = a ghost 6 ticks behind you).\n" +
+            "Ghosts keep looping their recording forever. Press T again for more ghosts.\n\n" +
             "<b>Sigils</b>   Powered while you or a ghost stand on them.\n" +
             "<b>Statues</b>   Same colour as a sigil = linked. Normal statues open\n" +
             "while powered. Inverted statues are open until powered, then close.\n" +
@@ -58,7 +59,7 @@ namespace BindingTime
             textStyle.fontSize = fontSize;
 
             float w = Mathf.Min(Screen.width * 0.9f, fontSize * 36f);
-            float h = fontSize * 21f;
+            float h = fontSize * 22f;
             var rect = new Rect((Screen.width - w) / 2f, (Screen.height - h) / 2f, w, h);
             GUI.Box(rect, GUIContent.none, boxStyle);
             GUI.Label(new Rect(rect.x + fontSize, rect.y + fontSize, w - fontSize * 2, h - fontSize * 2), Rules, textStyle);
