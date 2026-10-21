@@ -2688,6 +2688,71 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bab1265d43a8974f9a492e267ac6740, type: 3}
+--- !u!1001 &1783972527
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8458460253767362149}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InvertItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858478858312513610, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_Name
+      value: RuleManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.08447
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.17036
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858500438711866131, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
 --- !u!1 &1913268054
 GameObject:
   m_ObjectHideFlags: 0
@@ -13590,6 +13655,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+--- !u!114 &8458460253767362149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+  m_PrefabInstance: {fileID: 8458460253767362148}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342c5a3c342554843b31cb3100e1403c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CADE_PowerUp
 --- !u!483693784 &8922492284581742542
 TilemapRenderer:
   serializedVersion: 2
@@ -13656,4 +13732,5 @@ SceneRoots:
   - {fileID: 1491601854}
   - {fileID: 827133251}
   - {fileID: 8458460253767362148}
+  - {fileID: 1783972527}
   - {fileID: 1985540010}
