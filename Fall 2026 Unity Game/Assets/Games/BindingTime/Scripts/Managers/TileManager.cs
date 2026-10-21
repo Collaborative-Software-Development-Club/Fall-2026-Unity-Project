@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace BindingTime
 {
-    // Builds the tile grid from a map and answers questions about it.
-    // It doesn't know about levels: LevelManager decides which map to build.
     public class TileManager : MonoBehaviour
     {
         public static TileManager Instance { get; private set; }
@@ -50,8 +48,7 @@ namespace BindingTime
 
         // ---------- Building ----------
 
-        // replaces whatever grid exists with one built from map ([y, x]).
-        public void Build(TileType[,] map)
+        public void Build(LevelCell[,] map)
         {
             Clear();
 
@@ -68,7 +65,8 @@ namespace BindingTime
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    TileType type = map[y, x];
+                    LevelCell cell = map[y, x];
+                    TileType type = cell.Type;
                     if (type == TileType.Origin) { Origin = new Vector2Int(x, y); foundOrigin = true; }
                     if (type == TileType.Exit) { Exit = new Vector2Int(x, y); foundExit = true; }
 
@@ -77,14 +75,14 @@ namespace BindingTime
 
                     Tile tile = go.GetComponent<Tile>();
                     if (tile == null) tile = go.AddComponent<Tile>();
-                    tile.Setup(type, new Vector2Int(x, y), SpriteFor(type));
+                    tile.Setup(cell, new Vector2Int(x, y), SpriteFor(type));
                     tileGrid[y, x] = tile;
                     if (type == TileType.Sigil) sigils.Add(tile);
                     if (type == TileType.Figure) figures.Add(tile);
                 }
             }
 
-            if (!foundOrigin) Debug.LogWarning("Map has no origin (S). Player will spawn at (0,0).");
+            if (!foundOrigin) Debug.LogWarning("Map has no origin (O). Player will spawn at (0,0).");
             if (!foundExit) Debug.LogWarning("Map has no exit (E).");
         }
 

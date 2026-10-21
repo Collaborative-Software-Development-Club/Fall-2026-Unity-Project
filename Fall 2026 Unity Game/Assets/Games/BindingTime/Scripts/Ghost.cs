@@ -10,6 +10,8 @@ namespace BindingTime
 
         public Vector2Int Coords { get; private set; }
 
+        public int Period => path.Count;
+
         public static Ghost Create(Player player, IReadOnlyList<Vector2Int> path)
         {
             var go = new GameObject("Ghost");
@@ -32,10 +34,10 @@ namespace BindingTime
             ghost.SetTick(0);
             return ghost;
         }
-
         public void SetTick(int tick)
         {
-            Coords = path[Mathf.Clamp(tick, 0, path.Count - 1)];
+            int index = ((tick % path.Count) + path.Count) % path.Count;
+            Coords = path[index];
             transform.localPosition = new Vector3(Coords.x, Coords.y, z);
         }
     }

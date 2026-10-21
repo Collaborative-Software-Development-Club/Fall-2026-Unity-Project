@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ConveyorItemRenderer : MonoBehaviour
+public class ConveyorItemRenderer : MonoBehaviour, IHoverable
 {
     [SerializeField] SpriteRenderer itemRenderer;
     
@@ -96,4 +96,17 @@ public class ConveyorItemRenderer : MonoBehaviour
         if (_parentRenderer is null) return;
         _parentRenderer.RemoveItem(this);
     }
+
+    // TODO: Make these not part of ConveyorItemRenderer
+    public void OnHoverEnter()
+    {
+       TextController.Instance.SetText(HoverMessage); 
+    }
+
+    public void OnHoverExit()
+    {
+        TextController.Instance.ClearText();
+    }
+
+    public string HoverMessage => _item.GetDisplayName();
 }
