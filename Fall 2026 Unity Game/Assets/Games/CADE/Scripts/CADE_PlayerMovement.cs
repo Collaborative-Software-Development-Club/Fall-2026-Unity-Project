@@ -157,6 +157,10 @@ public class CADE_PlayerMovement : MonoBehaviour
         {
             CADE_Jump.Double_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
         }
+        else if (itemManager.inv_DoubleJumpFlag)
+        {
+            //No jumping for you.
+        }
         else if (itemManager.wallJumpFlag)
         {
             CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
@@ -232,10 +236,6 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     private bool isGrounded()
     {
-        // if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
-        // {
-        //     return true;
-        // }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, castDistance, groundLayer);
         if (hit) {
             return true;
