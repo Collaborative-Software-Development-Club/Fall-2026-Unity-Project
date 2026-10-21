@@ -42,6 +42,11 @@ public class ConveyorItemRenderer : MonoBehaviour
         transform.position = Vector2.MoveTowards(currentPos, targetPos, moveSpeed * Time.fixedDeltaTime);
     }
 
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnDestroy()
     {
         if (_parentRenderer is null) return;

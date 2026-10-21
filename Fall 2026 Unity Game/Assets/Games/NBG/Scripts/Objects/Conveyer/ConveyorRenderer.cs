@@ -48,4 +48,9 @@ public class ConveyorRenderer : PlaceableObj
         _items.Remove(itemRenderer);
         itemRenderer.SetParentRenderer(null);
     }
+
+    public void Destroy()
+    {
+        Destroy(this);
+    }
 }

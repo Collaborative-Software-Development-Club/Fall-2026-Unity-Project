@@ -7,6 +7,8 @@ public class Conveyor : IConveyorable
     private int _size;
     private ItemQuantity[] items;
     private bool _transferReady = false;
+    private bool _canInput = true;
+    private bool _canOutput = true;
 
     public Conveyor(int size = 3)
     {
@@ -22,7 +24,7 @@ public class Conveyor : IConveyorable
     public int GetSize() => _size;
     public bool AddItemQuantityToPart(ItemQuantity itemQuantity)
     {
-        if (items[0] is not null && !items[0].IsEmpty()) return false;
+        if (items[0] is not null && !items[0].IsEmpty() && IsInputLocked) return false;
 
         items[0] = itemQuantity;
         return true;
@@ -30,6 +32,8 @@ public class Conveyor : IConveyorable
 
     public ItemQuantity RemoveLastItemFromPart()
     {
+        if (IsOutputLocked) return null;
+        
         ItemQuantity  lastEntry = items[^1];
         items[^1] = new ItemQuantity();
         
@@ -79,4 +83,28 @@ public class Conveyor : IConveyorable
 
         return text.ToString();
     }
+
+    
+    // These functions might be useless but I'll keep for now
+    public void LockInput()
+    {
+        _canInput = false;
+    }
+
+    public void UnlockInput()
+    {
+        _canInput = true;
+    }
+    
+    public void LockOutput()
+    {
+        _canOutput = false;
+    }
+    public void UnlockOutput()
+    {
+        _canOutput = true;
+    }
+
+    public bool IsInputLocked => _canInput;
+    public bool IsOutputLocked => _canOutput;
 }

@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MachineData
   text: Furnace
   value: 0
-  icon: {fileID: 0}
+  icon: {fileID: 6608633727053898587, guid: b4cfefd9d8a2c97418c094bce273c380, type: 3}
   type: 1
   rarity: 0
   isConsumable: 0
   isStackable: 0
   name: Furnace
   processType: 1
-  texture: {fileID: 0}
+  texture: {fileID: 6608633727053898587, guid: b4cfefd9d8a2c97418c094bce273c380, type: 3}
   inputCount: 2
   outputCount: 1
   recipes:
   - {fileID: 11400000, guid: f9b2119342f566a4d8d4ae7422d634ad, type: 2}
+  - {fileID: 11400000, guid: 2dbcc902ea78dae42a6177061915b592, type: 2}

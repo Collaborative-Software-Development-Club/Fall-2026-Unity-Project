@@ -18,17 +18,17 @@ public class ConveyorSection
     public ConveyorSection(int size = 10)
     {
         _size = size;
-        _conveyorParts = new Conveyor[_size];
+        _conveyorParts = new IConveyorable[_size];
     }
     
     public IConveyorable[] GetConveyors() => _conveyorParts;
 
-    public void AddConveyorable(Conveyor conveyor)
+    public void AddConveyorable(IConveyorable conveyorable)
     {
         if (GetSectionFull())
             throw new InvalidOperationException("Conveyor is already full");
         
-        _conveyorParts[_conveyorCount] = conveyor;
+        _conveyorParts[_conveyorCount] = conveyorable;
         _conveyorCount++;
     }
 

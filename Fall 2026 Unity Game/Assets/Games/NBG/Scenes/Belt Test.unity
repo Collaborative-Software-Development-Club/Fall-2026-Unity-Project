@@ -263,6 +263,8 @@ MonoBehaviour:
   itemsToGenerate:
   - ItemData: {fileID: 11400000, guid: 4df332449fa56884b87f3155c57270e9, type: 2}
     Quantity: 5
+  - ItemData: {fileID: 11400000, guid: e946112052facd449845783d09c74ec4, type: 2}
+    Quantity: 1
 --- !u!114 &783692517
 MonoBehaviour:
   m_ObjectHideFlags: 0

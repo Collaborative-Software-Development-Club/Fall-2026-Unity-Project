@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d09ada129aca714cabc4cf066e4e5cb, type: 3}
+  m_Name: Coooka da pasta
+  m_EditorClassIdentifier: Assembly-CSharp::Recipe
+  inputs:
+  - ItemData: {fileID: 11400000, guid: 4df332449fa56884b87f3155c57270e9, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: feff80e1bc8794245af687714843da84, type: 2}
+    Quantity: 1

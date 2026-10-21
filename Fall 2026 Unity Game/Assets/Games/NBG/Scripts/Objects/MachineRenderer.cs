@@ -9,5 +9,11 @@ public class MachineRenderer : PlaceableObj
     {
         _machine = machine;
     }
+
+    public void Initialize(Machine machine)
+    {
+        _machine = machine;
+        SetSprite(machine.GetIcon());
+    }
     
 }

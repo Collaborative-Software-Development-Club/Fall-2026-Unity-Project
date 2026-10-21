@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BoxData
   text: 
   value: 0
-  icon: {fileID: 0}
-  type: 0
+  icon: {fileID: 6608633727053898587, guid: b4cfefd9d8a2c97418c094bce273c380, type: 3}
+  type: 3
   rarity: 0
   isConsumable: 0
   isStackable: 1
-  openItem: {fileID: 0}
+  openItem: {fileID: 11400000, guid: 5ec1bc47bd6064808b53a6dfb61a626a, type: 2}
