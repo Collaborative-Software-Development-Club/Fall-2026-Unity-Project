@@ -126,7 +126,7 @@ public class CADE_RuleManager : MonoBehaviour
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.UpDownInverted)
         {
             Debug.Log("Rule Applied: Up is actually down, and vice versa.");
-            UpInverted.Invoke();
+            UpDownInverted.Invoke();
         }
         else if ((CADE_RandomRulesList.StickyRules)ruleId == CADE_RandomRulesList.StickyRules.LeftDeathTimer)
         {
