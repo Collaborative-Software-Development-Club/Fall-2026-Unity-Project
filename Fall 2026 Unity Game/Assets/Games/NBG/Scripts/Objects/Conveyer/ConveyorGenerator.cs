@@ -86,6 +86,15 @@ public class ConveyorGenerator : MonoBehaviour
 
                 GameObject itemObj = Instantiate(itemPrefab);
                 ConveyorItemRenderer itemRenderer = itemObj.GetComponent<ConveyorItemRenderer>();
+
+                if (itemQuantity.ItemData is BoxData boxData && boxData.openItem is MachineData machine)
+                {
+                    UnboxableConveyorItem unboxableConveyorItem = itemObj.AddComponent<UnboxableConveyorItem>();
+                    unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(conveyor, machine);
+                    
+                    itemRenderer = unboxableConveyorItem;
+                }
+                
                 itemRenderer.SetSprite(itemQuantity.ItemData.icon);
 
                 int slotIndex = conveyor.GetSize();

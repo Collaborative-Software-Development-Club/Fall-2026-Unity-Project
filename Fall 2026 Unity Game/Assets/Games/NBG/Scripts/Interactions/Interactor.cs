@@ -9,7 +9,7 @@ public class Interactor : MonoBehaviour
 
     private void Start()
     {
-       _mainCamera = Camera.main; 
+       _mainCamera = FindFirstObjectByType<Camera>();
     }
 
     private void Update()

@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77dbbda2465644aa05472f489e2e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConveyorItemRenderer
-  _itemRenderer: {fileID: 508780392880216470}
+  itemRenderer: {fileID: 508780392880216470}
 --- !u!50 &264785400403452994
 Rigidbody2D:
   serializedVersion: 5

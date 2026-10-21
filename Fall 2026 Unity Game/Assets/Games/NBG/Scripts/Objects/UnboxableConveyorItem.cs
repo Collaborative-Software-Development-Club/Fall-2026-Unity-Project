@@ -1,12 +1,11 @@
-using UnityEngine;
+using System;
 
-public class UnboxableConveyorItem : ConveyorItemRenderer, ILeftClickable
+public class UnboxableConveyorItem : ConveyorItemRenderer, IRightClickable 
 {
-    [SerializeField] private ItemData packagedItem;
+    public Action OnRightClickEvent;
 
-    public void OnLeftClick()
+    public void OnRightClick()
     {
-        
+        OnRightClickEvent?.Invoke();
     }
-
 }
