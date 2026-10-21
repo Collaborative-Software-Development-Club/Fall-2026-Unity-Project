@@ -4976,7 +4976,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 669603990}
+    TrackingTarget: {fileID: 5761939848899277697}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -4999,22 +4999,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &669603986 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-  m_PrefabInstance: {fileID: 449374248915434751}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ae8a2b5d98a704c977313ff65f0037, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CADE_Player
---- !u!4 &669603990 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5317337996146560894, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-  m_PrefabInstance: {fileID: 449374248915434751}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &739963448
 GameObject:
   m_ObjectHideFlags: 0
@@ -6981,87 +6965,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: boxSize.x
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: dashForce
-      value: 56
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: coyoteTime
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: jumpBuffer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: itemManager
       value: 
       objectReference: {fileID: 827133252}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: castDistance
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: raycastOffset
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: wallLayer.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: jumpAction.m_Name
-      value: Jump
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionId
-      value: 714aa458-90ae-4f15-bfc8-fd353201ebf6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_ActionName
-      value: 'Player/Dash[/Keyboard/j]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 669603986}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Dash
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CADE_PlayerMovement, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1200686633295378580, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 3508160847545941977, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3508160847545941977, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
-      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5317337996146560894, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
@@ -15218,6 +15126,11 @@ Transform:
   - {fileID: 739963449}
   m_Father: {fileID: 372950683}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &5761939848899277697 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5317337996146560894, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+  m_PrefabInstance: {fileID: 449374248915434751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!19719996 &6110493340731069304
 TilemapCollider2D:
   m_ObjectHideFlags: 0

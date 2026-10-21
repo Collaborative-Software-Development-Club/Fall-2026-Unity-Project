@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 7654066175826891945}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 3508160847545941977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.31, y: -1.18, z: 0}
+  m_LocalPosition: {x: -11.94, y: -1.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -348,7 +348,19 @@ MonoBehaviour:
     m_ActionId: a532a2a8-5330-43ec-8403-ed04ed560910
     m_ActionName: 'Player/Sprinting[/Keyboard/shift]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 439739213925920962}
+        m_TargetAssemblyTypeName: CADE_PlayerMovement, Assembly-CSharp
+        m_MethodName: Dash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 714aa458-90ae-4f15-bfc8-fd353201ebf6
     m_ActionName: 'Player/Dash[/Keyboard/j]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -374,19 +386,19 @@ MonoBehaviour:
   sprintSpeed: 20
   jumpHeight: 15
   extraJumps: 1
-  jumpBuffer: 0.1
-  dashForce: 5
+  jumpBuffer: 2
+  dashForce: 56
   dashCooldown: 0.5
-  boxSize: {x: 1, y: 0.2}
-  castDistance: 0.6
+  boxSize: {x: 0.6, y: 0.2}
+  castDistance: 0.7
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  coyoteTime: 0
+  coyoteTime: 0.1
   wallCheckDistance: 0.6
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   wallSlideSpeed: 2
   wallJumpForceX: 8
   wallJumpForceY: 10
