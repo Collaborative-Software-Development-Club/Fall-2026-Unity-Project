@@ -4633,6 +4633,10 @@ PrefabInstance:
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
+      propertyPath: moonGravityScale
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 439739213925920962, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
@@ -46717,9 +46721,37 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 669603986}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8458460253767362149}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MoonGravity
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CADE_PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3858478858312513610, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: m_Name
       value: RuleManager

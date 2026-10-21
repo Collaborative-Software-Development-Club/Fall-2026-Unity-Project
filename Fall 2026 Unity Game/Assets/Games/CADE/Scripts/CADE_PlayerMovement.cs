@@ -61,6 +61,8 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField]
     private float baseGravity = 1;
     [SerializeField]
+    private float moonGravityScale = 0.6f;
+    [SerializeField]
     private float maxFallSpeed = 18;
     [SerializeField]
     private float fallSpeedMultipler = 2f;
@@ -272,5 +274,10 @@ public class CADE_PlayerMovement : MonoBehaviour
         }
         if (other.gameObject.CompareTag("NormalTile"))
             isTouchingNorm = false;
+    }
+
+    public void MoonGravity()
+    {
+        baseGravity = moonGravityScale;
     }
 }
