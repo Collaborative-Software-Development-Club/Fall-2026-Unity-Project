@@ -457,22 +457,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 951655356}
         m_TargetAssemblyTypeName: MetaPlayerMovement, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: d6136fec-30a2-4fd0-b86e-faf721c380cd
-    m_ActionName: 'Player Movement/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 951655356}
-        m_TargetAssemblyTypeName: MetaPlayerMovement, Assembly-CSharp
         m_MethodName: Select
         m_Mode: 0
         m_Arguments:
@@ -485,9 +469,25 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8c30b7a0-1759-4642-8a26-5ee70b4c52e7
     m_ActionName: 'Player Actions/Select[/Keyboard/space,/Keyboard/z,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 951655356}
+        m_TargetAssemblyTypeName: MetaPlayerMovement, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 383912a6-2809-4935-8ebc-aed1720f8756
+    m_ActionName: 'Player Actions/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player Movement
+  m_DefaultActionMap: 08024a31-9bcd-4249-993d-55d145ed9479
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!4 &951655355
