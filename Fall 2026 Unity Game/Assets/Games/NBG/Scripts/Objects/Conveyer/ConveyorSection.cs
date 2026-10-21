@@ -65,28 +65,33 @@ public class ConveyorSection
     /// </summary>
     /// <returns>If the transfer is ready</returns>
     public bool IsTransferReady() => _transferReady;
+    public IConveyorable GetFirstConveyorable()
+    {
+        if (_conveyorCount <= 0) return null;
+        return _conveyorParts[0];
+    }
+
     public void Advance(ConveyorSection nextSection)
     {
-        for (int i = _conveyorCount - 2; i >= 0; i--)
-        {
-            if (_conveyorParts[i] == null || _conveyorParts[i + 1] == null)
-                continue;
-
-            _conveyorParts[i].DoAction(_conveyorParts[i + 1]);
-        }
-
         if (_conveyorCount == 0)
             return;
 
+        for (int i = _conveyorCount - 1; i >= 0; i--)
+        {
+            if (_conveyorParts[i] == null)
+                continue;
+
+            IConveyorable next = null;
+            if (i < _conveyorCount - 1)
+                next = _conveyorParts[i + 1];
+            else if (nextSection != null)
+                next = nextSection.GetFirstConveyorable();
+
+            _conveyorParts[i].DoAction(next);
+        }
+
         IConveyorable lastConveyor = _conveyorParts[_conveyorCount - 1];
-
-        _transferReady = !lastConveyor.HasSpace();
-
-        if (!_transferReady || nextSection == null || !nextSection.IsTransferReady())
-            return;
-
-        ItemQuantity removedItem = lastConveyor.RemoveLastItemFromPart();
-        nextSection.AddItemToStartOfChain(removedItem);
+        _transferReady = lastConveyor != null && !lastConveyor.HasSpace();
     }
 
 

@@ -24,4 +24,5 @@ MonoBehaviour:
   texture: {fileID: 0}
   inputCount: 2
   outputCount: 1
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: c0f6216ef867fcb4d95367c9c7d5573d, type: 2}

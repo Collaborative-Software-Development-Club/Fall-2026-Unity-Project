@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Machine : Item, IConveyorable 
 {
+    private const int ProcessTicks = 2;
+
     private MachineData machineData => data as MachineData;
 
     protected Inventory Input;
     protected Inventory Output;
+
+    private List<ItemQuantity> _pendingOutputs;
+    private int _ticksRemaining;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -60,9 +62,19 @@ public class Machine : Item, IConveyorable
     /// </returns>
     public bool AddItemToInput(Item item, int quantity = 1)
     {
-        int newIndex = Input.AddItemToInventory(item, quantity);
+        if (item == null) return false;
 
+        // Items that cannot be processed are sent straight through.
+        if (item is not Processable)
+            return AddItemToOutput(item, quantity);
+        
+        int newIndex = Input.AddItemToInventory(item, quantity);
         return newIndex > -1;
+    }
+
+    public bool AddItemToInput(ItemQuantity itemQuantity)
+    {
+        return AddItemToInput(itemQuantity.Item, itemQuantity.Quantity);
     }
 
     /// <summary>
@@ -138,65 +150,261 @@ public class Machine : Item, IConveyorable
         int outputSize = Mathf.Max(0, machineData.outputCount);
         Output = new Inventory(outputSize);
 
-        switch (machineData.processType)
-        {
-            case machineType.None:
-                Debug.Log("No machine type!");
-                break;
-            case machineType.Furnace : break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        if (machineData.processType == machineType.None)
+            Debug.LogWarning($"{machineData.name} has no machine type.");
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
         Name = itemName;
     }
 
-    public async Task<bool> PerformOperation()
+    public bool PerformOperation()
     {
-        bool found = false;
-        
-        // TODO: Make recipe operations more peformant eventually
-        
-        // TODO: Make this dependent on the machine implementing not the core functionality
-        // For the above to-do what you can do is make a subclass specialized for recipe transforms
-        
-        // TODO: Make it so that if a item isn't in any recipes than the current input is thrown out into outputs
-        
-        foreach (var recipe in machineData.recipes)
+        if (_pendingOutputs != null)
         {
-            var output = recipe.Process(Input.GetInventoryAsItemDataQuantityList());
-            
-            if (output == null) continue;
+            _ticksRemaining--;
+            if (_ticksRemaining > 0) return false;
 
-            found = true;
+            foreach (ItemQuantity pending in _pendingOutputs)
+                AddItemToOutput(pending.Item, pending.Quantity);
 
-            await Task.Delay(1000);
-            foreach (var itemDataQuantity in output)
-                AddItemToOutput(ItemFactory.CreateItemFromSO(itemDataQuantity.ItemData), itemDataQuantity.Quantity);
-
-            break;
+            _pendingOutputs = null;
+            return true;
         }
 
-        return found;
+        List<ItemDataQuantity> inputs = Input.GetInventoryAsItemDataQuantityList();
+
+        if (machineData.recipes != null)
+        {
+            foreach (Recipe recipe in machineData.recipes)
+            {
+                if (recipe == null || recipe.GetInputs == null || recipe.GetInputs.Count == 0) continue;
+
+                List<ItemDataQuantity> output = recipe.Process(inputs);
+                if (output == null) continue;
+                if (!CanFitOutputs(output)) return false;
+
+                TryStartCraft(recipe);
+                return false;
+            }
+        }
+
+        PassThroughIfUnusable(inputs);
+        return false;
+    }
+
+    private bool TryStartCraft(Recipe recipe)
+    {
+        List<ItemQuantity> created = new List<ItemQuantity>();
+        if (recipe.GetOutputs == null) return false;
+
+        foreach (ItemDataQuantity itemDataQuantity in recipe.GetOutputs)
+        {
+            if (itemDataQuantity == null || itemDataQuantity.ItemData == null || itemDataQuantity.Quantity <= 0)
+                continue;
+
+            Item createdItem = ItemFactory.CreateItemFromSO(itemDataQuantity.ItemData);
+            if (createdItem == null) return false;
+
+            created.Add(new ItemQuantity(createdItem, itemDataQuantity.Quantity));
+        }
+
+        if (!ConsumeInputs(recipe.GetInputs)) return false;
+
+        _pendingOutputs = created;
+        _ticksRemaining = ProcessTicks;
+        return true;
+    }
+
+    private void PassThroughIfUnusable(List<ItemDataQuantity> inputs)
+    {
+        if (inputs == null || inputs.Count == 0 || CouldMatchAnyRecipe(inputs)) return;
+
+        for (int i = 0; i < Input.Length; i++)
+        {
+            InventorySlot slot = Input.GetItemAt(i);
+            if (slot?.GetItem() == null || slot.GetQuantity() <= 0) continue;
+            if (!CanFit(slot.GetItem(), slot.GetQuantity())) return;
+
+            Item item = slot.GetItem();
+            int quantity = slot.GetQuantity();
+            Input.RemoveFromSlot(i, quantity);
+            AddItemToOutput(item, quantity);
+            return;
+        }
+    }
+
+    private bool CouldMatchAnyRecipe(List<ItemDataQuantity> inputs)
+    {
+        if (machineData.recipes == null) return false;
+
+        foreach (Recipe recipe in machineData.recipes)
+        {
+            if (recipe?.GetInputs == null || recipe.GetInputs.Count == 0) continue;
+            if (CouldMatch(recipe, inputs)) return true;
+        }
+
+        return false;
+    }
+
+    private static bool CouldMatch(Recipe recipe, List<ItemDataQuantity> inputs)
+    {
+        if (inputs.Count > recipe.GetInputs.Count) return false;
+
+        bool[] used = new bool[recipe.GetInputs.Count];
+
+        foreach (ItemDataQuantity held in inputs)
+        {
+            bool found = false;
+
+            for (int i = 0; i < recipe.GetInputs.Count; i++)
+            {
+                if (used[i]) continue;
+
+                ItemDataQuantity required = recipe.GetInputs[i];
+                if (required == null || held.ItemData != required.ItemData || held.Quantity > required.Quantity)
+                    continue;
+
+                used[i] = true;
+                found = true;
+                break;
+            }
+
+            if (!found) return false;
+        }
+
+        return true;
+    }
+
+    private bool ConsumeInputs(List<ItemDataQuantity> required)
+    {
+        if (required == null || !HasInputs(required)) return false;
+
+        foreach (ItemDataQuantity requirement in required)
+        {
+            int remaining = requirement.Quantity;
+
+            for (int i = 0; i < Input.Length && remaining > 0; i++)
+            {
+                InventorySlot slot = Input.GetItemAt(i);
+                if (slot?.GetItem() == null || slot.GetItem().GetData() != requirement.ItemData) continue;
+
+                int take = Mathf.Min(remaining, slot.GetQuantity());
+                Input.RemoveFromSlot(i, take);
+                remaining -= take;
+            }
+        }
+
+        return true;
+    }
+
+    private bool HasInputs(List<ItemDataQuantity> required)
+    {
+        foreach (ItemDataQuantity requirement in required)
+        {
+            if (requirement == null || requirement.ItemData == null) return false;
+
+            int found = 0;
+            for (int i = 0; i < Input.Length; i++)
+            {
+                InventorySlot slot = Input.GetItemAt(i);
+                if (slot?.GetItem() == null || slot.GetItem().GetData() != requirement.ItemData) continue;
+                found += slot.GetQuantity();
+            }
+
+            if (found < requirement.Quantity) return false;
+        }
+
+        return true;
+    }
+
+    private bool CanFitOutputs(List<ItemDataQuantity> outputs)
+    {
+        if (outputs == null) return true;
+
+        int empty = CountEmpty(Output);
+        int needed = 0;
+
+        foreach (ItemDataQuantity output in outputs)
+        {
+            if (output == null || output.ItemData == null || output.Quantity <= 0) continue;
+            if (OutputHasStack(output.ItemData)) continue;
+            needed++;
+        }
+
+        return needed <= empty;
+    }
+
+    private bool CanFit(Item item, int quantity)
+    {
+        if (item == null || quantity <= 0) return false;
+
+        int empty = 0;
+        for (int i = 0; i < Output.Length; i++)
+        {
+            InventorySlot slot = Output.GetItemAt(i);
+            if (slot == null || slot.GetItem() == null || slot.GetQuantity() <= 0)
+            {
+                empty++;
+                continue;
+            }
+
+            if (slot.GetItem().Equals(item) && slot.GetItem().GetStackable())
+                return true;
+        }
+
+        return empty > 0;
+    }
+
+    private bool OutputHasStack(ItemData itemData)
+    {
+        for (int i = 0; i < Output.Length; i++)
+        {
+            InventorySlot slot = Output.GetItemAt(i);
+            if (slot?.GetItem() == null || slot.GetQuantity() <= 0) continue;
+            if (slot.GetItem().GetData() == itemData && slot.GetItem().GetStackable())
+                return true;
+        }
+
+        return false;
+    }
+
+    private static int CountEmpty(Inventory inventory)
+    {
+        int empty = 0;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            InventorySlot slot = inventory.GetItemAt(i);
+            if (slot == null || slot.GetItem() == null || slot.GetQuantity() <= 0)
+                empty++;
+        }
+
+        return empty;
     }
 
     // TODO: Abstract out in the future to have a in-between to the conveyor ( THIS IS GOOD ENOUGH FOR THE PRESENTATION )
 
     #region ConveyorInteraction 
+    public bool AcceptsConveyorItems { get; set; } = true;
+
     public int GetSize() => Input.Length;
-    public bool AddItemQuantityToPart(ItemQuantity itemQuantity) => Input.AddItemToInventory(itemQuantity) >= 0;
+    public bool AddItemQuantityToPart(ItemQuantity itemQuantity)
+    {
+        if (!AcceptsConveyorItems) return false;
+        return AddItemToInput(itemQuantity);
+    }
 
     public ItemQuantity RemoveLastItemFromPart()
     {
         for (int i = 0; i < Output.Length; i++)
         {
-            ItemQuantity currentSlot = Output.GetItemAt(i).GetItemQuantity();
-            if(currentSlot.IsEmpty()) continue;
-            Output.RemoveFromSlot(i, currentSlot.Quantity);
-            
-            return currentSlot;
+            InventorySlot slot = Output.GetItemAt(i);
+            if (slot?.GetItem() == null || slot.GetQuantity() <= 0) continue;
+
+            Item item = slot.GetItem();
+            int quantity = slot.GetQuantity();
+            Output.RemoveFromSlot(i, quantity);
+            return new ItemQuantity(item, quantity);
         }
 
         return null;
@@ -204,11 +412,35 @@ public class Machine : Item, IConveyorable
 
     public bool DoAction(IConveyorable nextConveyorable)
     {
-        return PerformOperation().Result;
+        if (!AcceptsConveyorItems) return false;
+
+        bool crafted = PerformOperation();
+
+        if (nextConveyorable == null || !nextConveyorable.HasSpace())
+            return crafted;
+
+        ItemQuantity outputItem = RemoveLastItemFromPart();
+        if (outputItem == null || outputItem.IsEmpty())
+            return crafted;
+
+        if (nextConveyorable.AddItemQuantityToPart(outputItem))
+            return true;
+
+        AddItemToOutput(outputItem.Item, outputItem.Quantity);
+        return crafted;
     }
 
-    // This is always true because it can take infinite amount of items what matters is the operations
-    public bool HasSpace() => true;
+    public bool HasSpace()
+    {
+        for (int i = 0; i < Input.Length; i++)
+        {
+            InventorySlot slot = Input.GetItemAt(i);
+            if (slot == null || slot.GetItem() == null || slot.GetQuantity() <= 0)
+                return true;
+        }
+
+        return false;
+    }
 
     #endregion
 }

@@ -7,8 +7,15 @@ using UnityEngine;
 /// </summary>
 public class ConveyorGenerator : MonoBehaviour
 {
+    public static GameObject ItemPrefab { get; private set; }
+
     public GameObject conveyorPrefab;
     public GameObject itemPrefab;
+
+    private void Awake()
+    {
+        ItemPrefab = itemPrefab;
+    }
     private Vector2Int size = new Vector2Int(10, 10);
     
     private List<ConveyorSection> _chain = new();
@@ -88,6 +95,7 @@ public class ConveyorGenerator : MonoBehaviour
 
                 GameObject itemObj = Instantiate(itemPrefab);
                 ConveyorItemRenderer itemRenderer = itemObj.GetComponent<ConveyorItemRenderer>();
+                Item visualItem = ItemFactory.CreateItemFromSO(itemQuantity.ItemData);
 
                 if (itemQuantity.ItemData is BoxData { openItem: MachineData machine })
                 {
@@ -98,8 +106,9 @@ public class ConveyorGenerator : MonoBehaviour
                     Destroy(itemRenderer);
                     itemRenderer = unboxableConveyorItem;
                 }
-                
-                itemRenderer.SetSprite(itemQuantity.ItemData.icon);
+
+                itemRenderer.SetItem(visualItem);
+                itemRenderer.SetSprite(visualItem != null ? visualItem.GetIcon() : itemQuantity.ItemData.icon);
 
                 int slotIndex = conveyor.GetSize();
                 float slotSpacing = 0.25f;

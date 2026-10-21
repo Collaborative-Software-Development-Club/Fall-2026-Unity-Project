@@ -200,7 +200,13 @@ public class Inventory
         List<ItemDataQuantity> temp = new List<ItemDataQuantity>();
 
         for (int i = 0; i < Length; i++)
-            temp.Add(new ItemDataQuantity(slots[i].GetItemQuantity().Item.GetData(), slots[i].GetItemQuantity().Quantity));
+        {
+            ItemQuantity itemQuantity = slots[i].GetItemQuantity();
+            if (itemQuantity == null || itemQuantity.Item == null || itemQuantity.Quantity <= 0)
+                continue;
+
+            temp.Add(new ItemDataQuantity(itemQuantity.Item.GetData(), itemQuantity.Quantity));
+        }
 
         return temp;
     }

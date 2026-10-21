@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class MachinePlace
@@ -19,7 +18,6 @@ public class MachinePlace
         * than hooking into into the conveyor manager
         */
 
-       conveyor.LockInput();
        ConveyorManager conveyorManager = GameManager.Instance.conveyorManager;
        
        (int firstLineIdx, int secondLineIdx) = conveyorManager.SplitLineAtConveyor(conveyor);
@@ -27,13 +25,17 @@ public class MachinePlace
        // Add Machine data to line
        if (firstLineIdx == -1 || secondLineIdx == -1) return;
        Machine newMachine = ItemFactory.CreateItemFromSO(machineData) as Machine;
+       if (newMachine == null) return;
+
+       newMachine.AcceptsConveyorItems = false;
        conveyorManager.AddConveyorable(firstLineIdx, newMachine);
        conveyorManager.CombineLines(firstLineIdx, secondLineIdx);
        
        // Replace renderer with machine renderer
        GameObject rendererObj = conveyorRenderer.gameObject;
+       Vector2 beltDirection = conveyorRenderer.GetDirection();
        MachineRenderer newMachineRenderer = rendererObj.AddComponent<MachineRenderer>();
-       newMachineRenderer.Initialize(newMachine);
+       newMachineRenderer.Initialize(newMachine, beltDirection, ConveyorGenerator.ItemPrefab);
        conveyorRenderer.Destroy();
        unboxableConveyorItem.Destroy();
     }

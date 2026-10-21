@@ -24,7 +24,7 @@ public class Conveyor : IConveyorable
     public int GetSize() => _size;
     public bool AddItemQuantityToPart(ItemQuantity itemQuantity)
     {
-        if (items[0] is not null && !items[0].IsEmpty() && IsInputLocked) return false;
+        if (IsInputLocked || !HasSpace()) return false;
 
         items[0] = itemQuantity;
         return true;
@@ -32,45 +32,55 @@ public class Conveyor : IConveyorable
 
     public ItemQuantity RemoveLastItemFromPart()
     {
-        if (IsOutputLocked) return null;
-        
-        ItemQuantity  lastEntry = items[^1];
-        items[^1] = new ItemQuantity();
-        
-        return lastEntry;
-    }
-    
-    public void ShiftEntries()
-    {
-        for (int i = _size - 1; i > 0; i--)
-        {
-            if (items[i].IsEmpty() || (items[i + 1] is not null && !items[i + 1].IsEmpty())) continue;
+        if (IsOutputLocked || _size == 0 || !ItemPresent(items[^1])) return null;
 
-            if (i == _size){ _transferReady = true; continue;}
-            
-            items[i + 1] =  items[i];
-            items[i] = new ItemQuantity();
-        }
-    }
-
-    /// <summary>
-    /// Transfers the last item on the belt to the next belt if there is enough space on the next;
-    /// </summary>
-    /// <param name="newConveyor">The conveyor that is being transferred to</param>
-    /// <returns>If the the option succeeded</returns>
-    public bool DoAction(IConveyorable nextConveyorable)
-    {
-        // Checks if the belt is ready to transfer if not it returns
-        if (!_transferReady) return false;
-        
-        // Swaps the last item with a null item than adds to new belt
         ItemQuantity lastEntry = items[^1];
         items[^1] = new ItemQuantity();
         _transferReady = false;
-        ShiftEntries();
 
-        return nextConveyorable.AddItemQuantityToPart(lastEntry);
+        return lastEntry;
     }
+
+    public void ShiftEntries()
+    {
+        for (int i = _size - 2; i >= 0; i--)
+        {
+            if (!ItemPresent(items[i]) || ItemPresent(items[i + 1])) continue;
+
+            items[i + 1] = items[i];
+            items[i] = new ItemQuantity();
+        }
+
+        _transferReady = _size > 0 && ItemPresent(items[_size - 1]);
+    }
+
+    /// <summary>
+    /// Moves items one step toward the exit, then hands the exit item to the next part when it has room.
+    /// </summary>
+    /// <param name="nextConveyorable">The conveyor that is being transferred to</param>
+    /// <returns>If the option succeeded</returns>
+    public bool DoAction(IConveyorable nextConveyorable)
+    {
+        if (_size == 0) return false;
+
+        bool transferred = false;
+
+        if (_transferReady && nextConveyorable != null && nextConveyorable.HasSpace() && ItemPresent(items[^1]))
+        {
+            ItemQuantity lastEntry = items[^1];
+            if (nextConveyorable.AddItemQuantityToPart(lastEntry))
+            {
+                items[^1] = new ItemQuantity();
+                _transferReady = false;
+                transferred = true;
+            }
+        }
+
+        ShiftEntries();
+        return transferred;
+    }
+
+    private static bool ItemPresent(ItemQuantity item) => item != null && !item.IsEmpty();
 
     public override string ToString()
     {
@@ -105,6 +115,6 @@ public class Conveyor : IConveyorable
         _canOutput = true;
     }
 
-    public bool IsInputLocked => _canInput;
-    public bool IsOutputLocked => _canOutput;
+    public bool IsInputLocked => !_canInput;
+    public bool IsOutputLocked => !_canOutput;
 }
