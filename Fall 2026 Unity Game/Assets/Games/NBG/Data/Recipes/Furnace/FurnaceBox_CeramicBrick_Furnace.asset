@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d09ada129aca714cabc4cf066e4e5cb, type: 3}
   m_Name: FurnaceBox_CeramicBrick_Furnace
   m_EditorClassIdentifier: Assembly-CSharp::Recipe
-  inputs: []
-  outputs: []
+  inputs:
+  - ItemData: {fileID: 11400000, guid: e946112052facd449845783d09c74ec4, type: 2}
+    Quantity: 1
+  outputs:
+  - ItemData: {fileID: 11400000, guid: bbaa65d2b9625324eb80d4beb74d8587, type: 2}
+    Quantity: 1

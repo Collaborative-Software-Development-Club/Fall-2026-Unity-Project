@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4602e85698f9bba4ba6fa8bade86c0e8, type: 3}
   m_Name: Mixer Box
   m_EditorClassIdentifier: Assembly-CSharp::BoxData
-  text: Hammer Box
+  text: Mixer Box
   value: 0
   icon: {fileID: -3799231735283511661, guid: 8560b749ec2dc1547b04c007c0bec0ea, type: 3}
   type: 3
   rarity: 0
   isConsumable: 0
   isStackable: 1
-  openItem: {fileID: 11400000, guid: b1921097060b1e345b8f7e0c1e952b1f, type: 2}
+  openItem: {fileID: 11400000, guid: 138e1020ac6f93d429715dec964289eb, type: 2}
