@@ -10,6 +10,23 @@ public class ConveyorManager : MonoBehaviour
 
     [SerializeField] private float moveInterval = 0.5f;
 
+    private struct MachineIndex
+    {
+        public Machine machine;
+        public int index;
+        public MachineIndex(Machine machine, int index)
+        {
+            this.machine = machine;
+            this.index = index;
+        }
+    }
+
+
+    // TODO: change this into a conveyorable event
+    public Action<Machine> MachineAdd;
+
+    private List<MachineIndex> allMachines = new List<MachineIndex>();
+
     private float _elapsed;
 
     public void AddConveyorable(int lineIndex, IConveyorable newConveyorable)
@@ -32,7 +49,12 @@ public class ConveyorManager : MonoBehaviour
             conveyors[lineIndex].Add(sectionToAddTo);
         }
 
-        sectionToAddTo.AddConveyorable(newConveyorable);
+        bool success = sectionToAddTo.AddConveyorable(newConveyorable);
+        if (success && newConveyorable is Machine)
+        {
+            allMachines.Add(new MachineIndex((Machine)newConveyorable, lineIndex));
+            MachineAdd?.Invoke((Machine)newConveyorable);
+        }
 
     }
 
@@ -43,7 +65,12 @@ public class ConveyorManager : MonoBehaviour
 
     public IConveyorable RemoveLastConveyor(int lineIndex)
     {
-        return conveyors[lineIndex][^1].RemoveLastConveyorable();
+        IConveyorable removedConveyorable = conveyors[lineIndex][^1].RemoveLastConveyorable();
+        if (removedConveyorable is Machine)
+        {
+            allMachines.Remove(new MachineIndex((Machine)removedConveyorable, lineIndex));
+        }
+        return removedConveyorable;
     }
 
     private void FixedUpdate()

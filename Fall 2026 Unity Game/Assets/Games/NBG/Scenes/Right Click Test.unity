@@ -423,9 +423,9 @@ GameObject:
   - component: {fileID: 1528678825}
   - component: {fileID: 1528678827}
   - component: {fileID: 1528678829}
-  - component: {fileID: 1528678830}
   - component: {fileID: 1528678831}
   - component: {fileID: 1528678832}
+  - component: {fileID: 1528678833}
   m_Layer: 0
   m_Name: TestObject
   m_TagString: Untagged
@@ -519,18 +519,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1528678830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528678823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baf9fa3561887f5499f9d3a13a5371e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestInteraction
 --- !u!61 &1528678831
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -589,6 +577,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7c6a7f428c42a40a049c21011d87f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeftTest
+--- !u!114 &1528678833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528678823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed36d9ad8ccd16b46b9e9c3293a5c3ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeBookTest
+  recipe: {fileID: 11400000, guid: 0a596156deded414b81a6540be4b3466, type: 2}
 --- !u!1 &1619621164
 GameObject:
   m_ObjectHideFlags: 0

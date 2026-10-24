@@ -13,6 +13,7 @@ public class Machine : Item, IConveyorable
 
     private List<ItemQuantity> _pendingOutputs;
     private int _ticksRemaining;
+    public Action<Recipe> OnCraft;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -184,7 +185,11 @@ public class Machine : Item, IConveyorable
                 if (output == null) continue;
                 if (!CanFitOutputs(output)) return false;
 
-                TryStartCraft(recipe);
+                bool success = TryStartCraft(recipe);
+                if (success)
+                {
+                    OnCraft?.Invoke(recipe);
+                }
                 return false;
             }
         }

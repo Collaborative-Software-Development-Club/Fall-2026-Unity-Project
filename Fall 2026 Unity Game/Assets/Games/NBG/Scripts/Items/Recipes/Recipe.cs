@@ -28,5 +28,17 @@ public class Recipe : ScriptableObject
 
         return isMatch ? outputs : null;
     }
+
+    public override string ToString() {
+        string output = "";
+        foreach (var items in inputs) {
+            output += $"{items.Quantity}x {items.ItemData.name}, ";
+        }
+        output += " -> ";
+        foreach (var items in outputs) {
+            output += $"{items.Quantity}x {items.ItemData.name}, ";
+        }
+        return output;
+    }
 }
 

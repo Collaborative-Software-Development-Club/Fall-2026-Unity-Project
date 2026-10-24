@@ -23,13 +23,17 @@ public class ConveyorSection
     
     public IConveyorable[] GetConveyors() => _conveyorParts;
 
-    public void AddConveyorable(IConveyorable conveyorable)
+    public bool AddConveyorable(IConveyorable conveyorable)
     {
         if (GetSectionFull())
-            throw new InvalidOperationException("Conveyor is already full");
+        {
+            Debug.LogError("Conveyor section is full, cannot add more conveyors");
+            return false; // fails
+        }
         
         _conveyorParts[_conveyorCount] = conveyorable;
         _conveyorCount++;
+        return true; // Succeeded
     }
 
     public bool AddItemToStartOfChain(ItemQuantity itemQuantity)
