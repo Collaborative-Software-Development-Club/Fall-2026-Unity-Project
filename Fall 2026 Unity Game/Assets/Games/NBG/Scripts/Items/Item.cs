@@ -49,7 +49,7 @@ public abstract class Item
     }
     public virtual string GetName()
     {
-        return data.name;
+        return data.getName();
     }
     public virtual string GetDescription()
     {

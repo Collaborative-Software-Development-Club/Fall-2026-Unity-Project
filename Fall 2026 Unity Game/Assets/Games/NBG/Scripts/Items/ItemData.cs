@@ -27,4 +27,6 @@ public class ItemData : ScriptableObject
     public Rarity rarity = Rarity.None;
     public bool isConsumable = false;
     public bool isStackable = true;
+
+    public string getName() { return text; }
 }

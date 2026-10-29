@@ -31,13 +31,11 @@ public class Recipe : ScriptableObject
 
     public override string ToString() {
         string output = "";
-        foreach (var items in inputs) {
-            output += $"{items.Quantity}x {items.ItemData.name}, ";
-        }
+        List<string> inputsFormatted = inputs.Select(i => $"{i.Quantity}x {i.ItemData.getName()}").ToList();
+        output += string.Join(", ", inputsFormatted);
         output += " -> ";
-        foreach (var items in outputs) {
-            output += $"{items.Quantity}x {items.ItemData.name}, ";
-        }
+        List<string> outputsFormatted = outputs.Select(o => $"{o.Quantity}x {o.ItemData.getName()}").ToList();
+        output += string.Join(", ", outputsFormatted);
         return output;
     }
 }
