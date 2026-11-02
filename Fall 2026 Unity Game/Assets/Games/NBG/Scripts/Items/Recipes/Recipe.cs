@@ -31,9 +31,23 @@ public class Recipe : ScriptableObject
 
     public override string ToString() {
         string output = "";
+        output += this.ToStringInputs();
+        output += " -> ";
+        output += this.ToStringOutputs();
+        return output;
+    }
+
+    public string ToStringInputs()
+    {
+        string output = "";
         List<string> inputsFormatted = inputs.Select(i => $"{i.Quantity}x {i.ItemData.getName()}").ToList();
         output += string.Join(", ", inputsFormatted);
-        output += " -> ";
+        return output;
+    }
+
+    public string ToStringOutputs()
+    {
+        string output = "";
         List<string> outputsFormatted = outputs.Select(o => $"{o.Quantity}x {o.ItemData.getName()}").ToList();
         output += string.Join(", ", outputsFormatted);
         return output;

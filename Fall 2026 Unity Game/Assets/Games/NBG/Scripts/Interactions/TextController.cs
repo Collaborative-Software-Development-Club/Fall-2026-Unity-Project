@@ -23,7 +23,7 @@ public class TextController : MonoBehaviour
 
     /** Use this to set the text of the UI element to a specific string.
     */
-    // TODO: Add a priority system so hovering text isn't shown of tutorial etc
+    // TODO: Add a priority system so hovering text isn't shown of tutorial etc. PriorityQueue
     public void SetText(string newText) { 
         worldText.text = newText;
     }
@@ -37,5 +37,12 @@ public class TextController : MonoBehaviour
      */
     public void AppendText(string newText) {
         worldText.text += newText;
+    }
+
+    /** Use to get the current text of the UI element.
+     */
+    public string GetText()
+    {
+        return worldText.text;
     }
 }

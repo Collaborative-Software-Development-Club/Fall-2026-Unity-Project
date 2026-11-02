@@ -13,7 +13,7 @@ public class Machine : Item, IConveyorable
 
     private List<ItemQuantity> _pendingOutputs;
     private int _ticksRemaining;
-    public Action<Recipe> OnCraft;
+    public Action<Recipe, MachineData> OnCraft;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -188,7 +188,7 @@ public class Machine : Item, IConveyorable
                 bool success = TryStartCraft(recipe);
                 if (success)
                 {
-                    OnCraft?.Invoke(recipe);
+                    OnCraft?.Invoke(recipe, machineData);
                 }
                 return false;
             }

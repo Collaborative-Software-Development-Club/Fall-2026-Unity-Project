@@ -4,17 +4,25 @@ public class RecipeButtonInteraction : MonoBehaviour, ILeftClickable, IHoverable
 {
     public void OnLeftClick()
     {
-        Debug.Log("67 Mangos");
+        string recipes = GameManager.Instance.RecipeManager.GetFoundRecipesString();
+        
+        if (recipes.Equals(""))
+        {
+            recipes = "No Discovered Recipes.";
+        }
+        TextController.Instance.SetText(recipes);
     }
 
     public void OnHoverEnter()
     {
-
+        TextController.Instance.SetText(HoverMessage);
     }
 
     public void OnHoverExit()
     {
-
+        string currentText = TextController.Instance.GetText();
+        if (currentText.Equals(HoverMessage))
+            TextController.Instance.ClearText();
     }
     public string HoverMessage => "Click for Discovered Recipes.";
 
