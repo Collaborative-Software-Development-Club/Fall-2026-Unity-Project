@@ -11,13 +11,7 @@ namespace BindingTime
 		private readonly HashSet<Vector2Int> forcedOpen = new HashSet<Vector2Int>();
 
 		public bool IsChannelActive(int channel) => activeChannels.Contains(channel);
-
-		// True if this tile is a statue that should be closed right now but is only open because something stands in it.
 		public bool IsForcedOpen(Vector2Int coords) => forcedOpen.Contains(coords);
-
-		// A channel is powered while anything (player or ghost) stands on one of its sigils.
-		// Normal statues are open while their channel is powered, inverted statues are open while it is NOT.
-		// A statue with something standing in it always stays open so nobody gets walled in.
 		public void Refresh(ICollection<Vector2Int> occupied)
 		{
 			TileManager tiles = TileManager.Instance;

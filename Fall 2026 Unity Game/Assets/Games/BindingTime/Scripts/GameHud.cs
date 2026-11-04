@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace BindingTime
 {
-    // HUD + step-by-step tutorial + the "time has broken" popup.
-    // Created by GameManager.Start(), so it only exists in this game's scene.
     public class GameHud : MonoBehaviour
     {
         private const float BreakPopupSeconds = 2.6f;

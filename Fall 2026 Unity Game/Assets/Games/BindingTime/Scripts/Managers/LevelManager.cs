@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace BindingTime
 {
-    // Owns the list of levels, which one is active, and moving between them.
-    // It reads the level text files and hands the result to TileManager to build.
     public class LevelManager : MonoBehaviour
     {
         public static LevelManager Instance { get; private set; }

@@ -34,16 +34,12 @@ namespace BindingTime
         public int CurrentTick => recorder.LastTick;
         public int GhostCount => ghosts.Count;
 
-        // How many loops this level allows. Pressing T once you've used them all breaks time.
         public int MaxLoops { get; private set; } = int.MaxValue;
 
-        // True while any ghost is standing on a sigil (the tutorial uses this).
         public bool GhostOnSigil { get; private set; }
 
-        // Fired when the player loops too many times. Whoever listens decides what happens next.
         public event Action<BreakReason> TimeBroke;
 
-        // Fired every time the level (re)starts from tick 0.
         public event Action RunStarted;
 
         void Awake()

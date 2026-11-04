@@ -95,8 +95,6 @@ namespace BindingTime
             gameObject.name = $"Tile {Type}{link} ({Coords.x},{Coords.y})";
         }
 
-        // Placeholder tint so the types are visible before you have real art.
-        // If you assign a sprite, set the color back to white if you don't want it tinted.
         private void ApplyTint()
         {
             // A statue that is currently open turns into Ground, so check BaseType too.

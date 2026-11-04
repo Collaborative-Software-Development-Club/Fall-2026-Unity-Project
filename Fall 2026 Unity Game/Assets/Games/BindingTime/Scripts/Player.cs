@@ -8,13 +8,9 @@ namespace BindingTime
         private int tileX, tileY;
 
         public bool InputLocked { get; set; }
-
-        // Total waits (Space) this session, used by the tutorial to see if you tried waiting.
         public int WaitCount { get; private set; }
 
         public Vector2Int Coords => new Vector2Int(tileX, tileY);
-
-        // Fired when the player steps onto an exit tile (GameManager listens to this).
         public event Action ReachedExit;
 
         void Awake()
@@ -24,10 +20,8 @@ namespace BindingTime
 
         void Start()
         {
-            // Move to the new origin every time a level is (re)loaded.
             LevelManager.Instance.LevelLoaded += Respawn;
 
-            // If the level got loaded before we subscribed, spawn now.
             if (LevelManager.Instance.IsLoaded) Respawn(LevelManager.Instance.CurrentLevel);
         }
 
