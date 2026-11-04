@@ -1,3 +1,10 @@
+@name First Loop
+@loops 2
+@step sigil | Welcome to Binding Time! Walk with WASD or the Arrow keys and step onto the grey sigil tile.
+@step waits:1 | Tap Space to wait one tick on the sigil. Every move or wait is one tick, and a sigil only counts while something is standing on it.
+@step loop | Now press T: a ghost appears at the start and repeats everything you have done so far, trailing you by that many ticks. Your wait means it will stand on the sigil for 2 ticks. You only get 2 loops per level (top left). Press T too often and time breaks!
+@step ghostsigil | Walk to the grey statue and wait right next to it (Space). Your ghost is retracing your steps and is about to reach the sigil.
+@step never | The statue is open! Step in and keep moving to the gold exit. Careful: if you are standing inside a statue on the tick it closes, you create a TIME PARADOX and the level resets. Only step in when it will stay open. Ghosts loop forever, so if you miss the window, wait for the next lap.
 ###########
 #....#....#
 #..S.#....#

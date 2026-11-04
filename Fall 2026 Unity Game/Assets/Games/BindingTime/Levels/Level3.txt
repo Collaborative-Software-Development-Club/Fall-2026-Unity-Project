@@ -1,3 +1,8 @@
+@name Relay
+@loops 3
+@step loop | Two locks in a row. Red sigils open red statues, blue sigils open blue statues, but the blue sigil is behind the red statue. Stand on the red sigil and press T to send a ghost to hold it.
+@step loop | Slip through the red statue when your ghost opens it, reach the blue sigil and press T again. Now two ghosts keep both doors working.
+@step never | Time your run so each statue is open for the tick you step in and the tick you leave. Waiting on a sigil before pressing T makes your ghost hold it longer.
 ###############
 #.....#.......#
 #.1...#...2...#

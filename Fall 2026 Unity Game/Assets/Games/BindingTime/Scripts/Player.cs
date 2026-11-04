@@ -9,6 +9,9 @@ namespace BindingTime
 
         public bool InputLocked { get; set; }
 
+        // Total waits (Space) this session, used by the tutorial to see if you tried waiting.
+        public int WaitCount { get; private set; }
+
         public Vector2Int Coords => new Vector2Int(tileX, tileY);
 
         // Fired when the player steps onto an exit tile (GameManager listens to this).
@@ -68,6 +71,7 @@ namespace BindingTime
             tileX = newX;
             tileY = newY;
             TimeLoopManager.Instance.Advance();
+            if (InputLocked) return; // a time paradox just happened
 
             if (TileManager.Instance.GetTile(tileX, tileY).Type == TileType.Exit)
             {
@@ -78,6 +82,7 @@ namespace BindingTime
         public void Wait()
         {
             if (InputLocked) return;
+            WaitCount++;
             TimeLoopManager.Instance.Advance();
         }
     }

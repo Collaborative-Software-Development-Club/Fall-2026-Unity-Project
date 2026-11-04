@@ -1,0 +1,8 @@
+@name Gatekeeper
+@loops 3
+@tip kind of a boring level. i just wanted 10 levels cuz nice number thumbs up 
+###############################
+#.....#.....#.....#.....#.....#
+#.O.1.a..2..j.....b..3..c..E..#
+#.....#.....#.....#.....#.....#
+###############################

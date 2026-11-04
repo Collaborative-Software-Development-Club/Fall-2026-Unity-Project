@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace BindingTime
 {
+    // Builds the tile grid from a map and answers questions about it.
+    // It doesn't know about levels: LevelManager decides which map to build.
     public class TileManager : MonoBehaviour
     {
         public static TileManager Instance { get; private set; }
@@ -48,6 +50,7 @@ namespace BindingTime
 
         // ---------- Building ----------
 
+        // replaces whatever grid exists with one built from map ([y, x]).
         public void Build(LevelCell[,] map)
         {
             Clear();

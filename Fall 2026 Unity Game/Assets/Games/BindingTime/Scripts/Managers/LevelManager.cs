@@ -20,6 +20,8 @@ namespace BindingTime
 
         public int CurrentLevel { get; private set; }
         public bool IsLoaded { get; private set; }
+        public int LevelCount => levels != null ? levels.Length : 0;
+        public LevelInfo CurrentInfo { get; private set; } = new LevelInfo();
         public bool HasNextLevel => levels != null && CurrentLevel + 1 < levels.Length;
 
         // passes the level index.
@@ -51,7 +53,9 @@ namespace BindingTime
             CurrentLevel = index;
 
             TextAsset file = (levels != null && index >= 0 && index < levels.Length) ? levels[index] : null;
-            LevelCell[,] map = file != null ? ParseLevel(file.text) : FallbackLevel();
+            LevelInfo info = new LevelInfo();
+            LevelCell[,] map = file != null ? ParseLevel(file.text, info) : FallbackLevel();
+            CurrentInfo = info;
 
             TileManager.Instance.Build(map);
             if (fitCamera) FitCamera();
@@ -86,10 +90,16 @@ namespace BindingTime
         //       j-r            INVERTED statue on channel 1-9 (j = 1 ... r = 9):
         //                      open by default, closes while its channel is powered
         // levels r displayed bottom to top
-        private LevelCell[,] ParseLevel(string text)
+        private LevelCell[,] ParseLevel(string text, LevelInfo info)
         {
-            // ignore blank lines at the end of the file
-            string[] lines = text.Replace("\r", "").TrimEnd('\n').Split('\n');
+            // lines starting with @ are level info (name, loop limit, tutorial), the rest is the map
+            var mapLines = new System.Collections.Generic.List<string>();
+            foreach (string raw in text.Replace("\r", "").TrimEnd('\n').Split('\n'))
+            {
+                if (raw.StartsWith("@")) ParseInfoLine(raw, info);
+                else mapLines.Add(raw);
+            }
+            string[] lines = mapLines.ToArray();
             int h = lines.Length;
             int w = 0;
             foreach (var line in lines) w = Mathf.Max(w, line.Length);
@@ -108,6 +118,33 @@ namespace BindingTime
             return map;
         }
 
+        private static void ParseInfoLine(string line, LevelInfo info)
+        {
+            int space = line.IndexOf(' ');
+            string key = (space < 0 ? line : line.Substring(0, space)).ToLowerInvariant();
+            string rest = space < 0 ? "" : line.Substring(space + 1).Trim();
+
+            switch (key)
+            {
+                case "@name": info.Name = rest; break;
+                case "@loops":
+                    if (int.TryParse(rest, out int loops)) info.MaxLoops = loops;
+                    break;
+                case "@tip":
+                    info.Steps.Add(new TutorialStep { Trigger = "never", Text = rest });
+                    break;
+                case "@step":
+                    int bar = rest.IndexOf('|');
+                    if (bar < 0) break;
+                    info.Steps.Add(new TutorialStep
+                    {
+                        Trigger = rest.Substring(0, bar).Trim().ToLowerInvariant(),
+                        Text = rest.Substring(bar + 1).Trim(),
+                    });
+                    break;
+            }
+        }
+
         private static LevelCell ParseCell(char c)
         {
             if (c >= '1' && c <= '9') return new LevelCell(TileType.Sigil, c - '0');
@@ -119,13 +156,13 @@ namespace BindingTime
                 case '#': return new LevelCell(TileType.Wall);
                 case 'O': return new LevelCell(TileType.Origin);
                 case 'E': return new LevelCell(TileType.Exit);
-                    //legacy sigil / statue (channel 0)
+                        //legacy sigil / statue (channel 0)
                 case 'S': return new LevelCell(TileType.Sigil);
                 case 'F': return new LevelCell(TileType.Figure);
-                    //decorative stuff
+                        //decorative stuff
                 case 'W': return new LevelCell(TileType.Water);
                 case 'M': return new LevelCell(TileType.Moss);
-                    //G R O U N D
+                        //G R O U N D
                 default: return new LevelCell(TileType.Ground);
             }
         }

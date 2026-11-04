@@ -1,3 +1,8 @@
+@name Standoff
+@loops 3
+@step loop | Each side room's door slams shut while the OTHER room's sigil is powered (faint statues are doors that start open). Get into one room, stand on its sigil and press T.
+@step loop | Now reach the other room before your first ghost powers its sigil, and press T on that sigil too.
+@step never | Red and blue statues wait down the corridor. Line your two ghosts up so both sigils are powered when you pass, then run!
 ###############
 #.1.#.....#.2.#
 #...k..O..j...#

@@ -1,3 +1,9 @@
+@name Hold Still
+@loops 2
+@step sigil | Step onto the grey sigil.
+@step waits:3 | Now wait on the sigil: tap Space three times. Every move and every wait is one tick, and your ghost will copy the waiting too.
+@step loop | Press T. Your ghost will stand on the sigil for several ticks in a row each lap, which gives you a longer window to slip through the statue.
+@step never | Run for the statue while your ghost holds the sigil, then reach the exit. Stuck or messed up? Press R to restart. Careful: if you are standing inside a statue on the tick it closes, you create a TIME PARADOX and the level resets. Only step in when it will stay open.
 ###########
 #....#....#
 #.S..#....#

@@ -1,3 +1,7 @@
+@name The Swap
+@loops 2
+@step loop | Some statues are inverted: the faint red block starts OPEN and slams shut while the red sigil is powered, while the solid one does the opposite. One sigil swaps both! Take the open route to the sigil, hold it for a few ticks and press T.
+@step never | Your ghost now walks the open route. When it stands on the sigil the other door opens and the first one shuts, so run for the open one!
 #############
 #.....#.....#
 #..O..j..1..#

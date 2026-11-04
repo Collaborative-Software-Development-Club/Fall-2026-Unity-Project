@@ -13,7 +13,8 @@ namespace BindingTime
 
         void Start()
         {
-            new GameObject("RulesScreen").AddComponent<RulesScreen>();
+            // HUD + tutorial live in this game's scene only (GameManager only exists here).
+            new GameObject("GameHud").AddComponent<GameHud>();
 
             UIManager.player.ReachedExit += OnReachedExit;
         }
@@ -47,6 +48,7 @@ namespace BindingTime
             }
         }
 
+        // Update is called once per frame
         void Update()
         {
             UIManager.Update();

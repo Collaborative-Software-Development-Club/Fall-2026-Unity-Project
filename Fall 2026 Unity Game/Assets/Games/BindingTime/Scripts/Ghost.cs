@@ -13,9 +13,17 @@ namespace BindingTime
         private float z;
 
         public Vector2Int Coords { get; private set; } = Nowhere;
+
+        // False before the tick the ghost was created on (only matters while replaying the level).
         public bool Active { get; private set; }
 
+        // Ticks in one lap of the recording. The ghost does the whole recording from the start,
+        // then snaps back to the spawn and does it again, forever.
         public int Period => path.Count;
+
+        // path = everything the player did from the origin up to the moment T was pressed.
+        // spawnTick = the tick T was pressed on. The ghost starts at the origin on that tick, so it
+        // trails the player by exactly spawnTick ticks.
         public static Ghost Create(Player player, IReadOnlyList<Vector2Int> path, int spawnTick)
         {
             var go = new GameObject("Ghost");
@@ -41,6 +49,7 @@ namespace BindingTime
             return ghost;
         }
 
+        // tick = the player's current tick (ticks since the level started).
         public void SetTick(int tick)
         {
             Active = tick >= spawnTick;
