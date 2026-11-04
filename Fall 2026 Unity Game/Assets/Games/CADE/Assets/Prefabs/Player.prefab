@@ -94,7 +94,7 @@ MonoBehaviour:
     ScreenPosition: {x: -0.1, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.2, y: 0.2}
+      Size: {x: 0.2, y: 0.38}
     HardLimits:
       Enabled: 0
       Size: {x: 0.8, y: 0.8}
@@ -390,7 +390,7 @@ MonoBehaviour:
   sprintSpeed: 20
   jumpHeight: 15
   extraJumps: 1
-  jumpBuffer: 2
+  jumpBuffer: 0.1
   dashForce: 56
   dashCooldown: 0.5
   boxSize: {x: 0.6, y: 0.2}
