@@ -5,34 +5,29 @@ namespace BindingTime
 {
     public class Player : MonoBehaviour
     {
-        private int tileX, tileY;
+        public static Player Instance { get; private set; }
 
+        public Vector2Int Coords { get; private set; }
         public bool InputLocked { get; set; }
         public int WaitCount { get; private set; }
 
-        public Vector2Int Coords => new Vector2Int(tileX, tileY);
         public event Action ReachedExit;
 
         void Awake()
         {
-            UIManager.player = this;
+            Instance = this;
         }
 
         void Start()
         {
             LevelManager.Instance.LevelLoaded += Respawn;
-
             if (LevelManager.Instance.IsLoaded) Respawn(LevelManager.Instance.CurrentLevel);
         }
 
         void OnDestroy()
         {
             if (LevelManager.Instance != null) LevelManager.Instance.LevelLoaded -= Respawn;
-        }
-
-        void Update()
-        {
-            ApplyPosition();
+            if (Instance == this) Instance = null;
         }
 
         private void Respawn(int level)
@@ -41,36 +36,24 @@ namespace BindingTime
             TimeLoopManager.Instance.StartLevel(this);
         }
 
-        private void ApplyPosition()
-        {
-            transform.localPosition = new Vector3(tileX, tileY, transform.localPosition.z);
-        }
-
         public void SetTile(Vector2Int tile)
         {
-            tileX = tile.x;
-            tileY = tile.y;
-            ApplyPosition();
+            Coords = tile;
+            transform.localPosition = new Vector3(tile.x, tile.y, transform.localPosition.z);
         }
 
-        public void Move(int x, int y)
+        public void Move(int dx, int dy)
         {
             if (InputLocked) return;
 
-            int newX = tileX + x;
-            int newY = tileY + y;
+            Vector2Int next = Coords + new Vector2Int(dx, dy);
+            if (!TileManager.Instance.IsWalkable(next)) return;
 
-            if (!TileManager.Instance.IsWalkable(newX, newY)) return;
-
-            tileX = newX;
-            tileY = newY;
+            SetTile(next);
             TimeLoopManager.Instance.Advance();
-            if (InputLocked) return; // a time paradox just happened
+            if (InputLocked) return; // paradox
 
-            if (TileManager.Instance.GetTile(tileX, tileY).Type == TileType.Exit)
-            {
-                ReachedExit?.Invoke();
-            }
+            if (TileManager.Instance.GetTile(Coords).Type == TileType.Exit) ReachedExit?.Invoke();
         }
 
         public void Wait()

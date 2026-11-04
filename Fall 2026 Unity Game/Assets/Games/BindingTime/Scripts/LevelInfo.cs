@@ -2,19 +2,41 @@ using System.Collections.Generic;
 
 namespace BindingTime
 {
-    // One tutorial message. It stays on screen until its trigger is met, then the next step shows.
-    // Triggers: ticks:N  waits:N  sigil  loop  ghostsigil  never
+    public enum StepTrigger { Never, Ticks, Waits, Sigil, Loop, GhostSigil }
+
     public class TutorialStep
     {
-        public string Trigger;
+        public StepTrigger Trigger;
+        public int Count = 1;
         public string Text;
+
+        // trigger text: ticks:N  waits:N  sigil  loop  ghostsigil  never
+        public static TutorialStep Parse(string trigger, string text)
+        {
+            trigger = trigger.Trim().ToLowerInvariant();
+            var step = new TutorialStep { Text = text.Trim() };
+
+            string name = trigger;
+            int colon = trigger.IndexOf(':');
+            if (colon >= 0)
+            {
+                name = trigger.Substring(0, colon);
+                int.TryParse(trigger.Substring(colon + 1), out step.Count);
+            }
+
+            step.Trigger = name switch
+            {
+                "ticks" => StepTrigger.Ticks,
+                "waits" => StepTrigger.Waits,
+                "sigil" => StepTrigger.Sigil,
+                "loop" => StepTrigger.Loop,
+                "ghostsigil" => StepTrigger.GhostSigil,
+                _ => StepTrigger.Never,
+            };
+            return step;
+        }
     }
 
-    // Extra data a level file can carry on lines that start with @ (they are not part of the map):
-    //   @name Level title
-    //   @loops 3                       max loops (T presses) before time breaks
-    //   @step sigil | Text to show     tutorial step with a trigger
-    //   @tip Text to show              a hint that stays up for the whole level
     public class LevelInfo
     {
         public string Name = "";

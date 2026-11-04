@@ -20,9 +20,8 @@ namespace BindingTime
         public bool IsLoaded { get; private set; }
         public int LevelCount => levels != null ? levels.Length : 0;
         public LevelInfo CurrentInfo { get; private set; } = new LevelInfo();
-        public bool HasNextLevel => levels != null && CurrentLevel + 1 < levels.Length;
+        public bool HasNextLevel => CurrentLevel + 1 < LevelCount;
 
-        // passes the level index.
         public event Action<int> LevelLoaded;
 
         void Awake()
@@ -30,7 +29,6 @@ namespace BindingTime
             Instance = this;
         }
 
-        // TileManager.Instance is guaranteed to exist hopefully
         void Start()
         {
             LoadLevel(0);
@@ -50,9 +48,11 @@ namespace BindingTime
         {
             CurrentLevel = index;
 
-            TextAsset file = (levels != null && index >= 0 && index < levels.Length) ? levels[index] : null;
-            LevelInfo info = new LevelInfo();
-            LevelCell[,] map = file != null ? ParseLevel(file.text, info) : FallbackLevel();
+            TextAsset file = index >= 0 && index < LevelCount ? levels[index] : null;
+            var info = new LevelInfo();
+            LevelCell[,] map = file != null
+                ? LevelParser.Parse(file.text, info)
+                : LevelParser.Fallback(fallbackWidth, fallbackHeight);
             CurrentInfo = info;
 
             TileManager.Instance.Build(map);
@@ -62,110 +62,6 @@ namespace BindingTime
             LevelLoaded?.Invoke(index);
         }
 
-        private LevelCell[,] FallbackLevel()
-        {
-            var map = new LevelCell[fallbackHeight, fallbackWidth];
-            for (int y = 0; y < fallbackHeight; y++)
-            {
-                for (int x = 0; x < fallbackWidth; x++)
-                {
-                    bool border = x == 0 || y == 0 || x == fallbackWidth - 1 || y == fallbackHeight - 1;
-                    map[y, x] = new LevelCell(border ? TileType.Wall : TileType.Ground);
-                }
-            }
-            map[1, 1] = new LevelCell(TileType.Origin);
-            map[fallbackHeight - 2, fallbackWidth - 2] = new LevelCell(TileType.Exit);
-            return map;
-        }
-
-        // key:  #  wall    .  floor    O  origin (spawn)    E  exit
-        //       W  water (decorative)     M  moss (decorative)
-        //
-        // sigils and statues (a sigil powers every statue on the same channel):
-        //       S / F          legacy sigil and statue, channel 0
-        //       1-9            sigil on channel 1-9
-        //       a-i            statue on channel 1-9: closed, opens while its channel is powered
-        //       j-r            INVERTED statue on channel 1-9 (j = 1 ... r = 9):
-        //                      open by default, closes while its channel is powered
-        // levels r displayed bottom to top
-        private LevelCell[,] ParseLevel(string text, LevelInfo info)
-        {
-            // lines starting with @ are level info (name, loop limit, tutorial), the rest is the map
-            var mapLines = new System.Collections.Generic.List<string>();
-            foreach (string raw in text.Replace("\r", "").TrimEnd('\n').Split('\n'))
-            {
-                if (raw.StartsWith("@")) ParseInfoLine(raw, info);
-                else mapLines.Add(raw);
-            }
-            string[] lines = mapLines.ToArray();
-            int h = lines.Length;
-            int w = 0;
-            foreach (var line in lines) w = Mathf.Max(w, line.Length);
-
-            var map = new LevelCell[h, w];
-
-            for (int row = 0; row < h; row++)
-            {
-                int y = h - 1 - row; // flip so the first line is the top
-                for (int x = 0; x < w; x++)
-                {
-                    char c = x < lines[row].Length ? lines[row][x] : '#'; // pad short lines with wall
-                    map[y, x] = ParseCell(c);
-                }
-            }
-            return map;
-        }
-
-        private static void ParseInfoLine(string line, LevelInfo info)
-        {
-            int space = line.IndexOf(' ');
-            string key = (space < 0 ? line : line.Substring(0, space)).ToLowerInvariant();
-            string rest = space < 0 ? "" : line.Substring(space + 1).Trim();
-
-            switch (key)
-            {
-                case "@name": info.Name = rest; break;
-                case "@loops":
-                    if (int.TryParse(rest, out int loops)) info.MaxLoops = loops;
-                    break;
-                case "@tip":
-                    info.Steps.Add(new TutorialStep { Trigger = "never", Text = rest });
-                    break;
-                case "@step":
-                    int bar = rest.IndexOf('|');
-                    if (bar < 0) break;
-                    info.Steps.Add(new TutorialStep
-                    {
-                        Trigger = rest.Substring(0, bar).Trim().ToLowerInvariant(),
-                        Text = rest.Substring(bar + 1).Trim(),
-                    });
-                    break;
-            }
-        }
-
-        private static LevelCell ParseCell(char c)
-        {
-            if (c >= '1' && c <= '9') return new LevelCell(TileType.Sigil, c - '0');
-            if (c >= 'a' && c <= 'i') return new LevelCell(TileType.Figure, c - 'a' + 1);
-            if (c >= 'j' && c <= 'r') return new LevelCell(TileType.Figure, c - 'j' + 1, true);
-
-            switch (c)
-            {       //needed in every level
-                case '#': return new LevelCell(TileType.Wall);
-                case 'O': return new LevelCell(TileType.Origin);
-                case 'E': return new LevelCell(TileType.Exit);
-                        //legacy sigil / statue (channel 0)
-                case 'S': return new LevelCell(TileType.Sigil);
-                case 'F': return new LevelCell(TileType.Figure);
-                        //decorative stuff
-                case 'W': return new LevelCell(TileType.Water);
-                case 'M': return new LevelCell(TileType.Moss);
-                        //G R O U N D
-                default: return new LevelCell(TileType.Ground);
-            }
-        }
-
-        // Centers camera && zoom
         private void FitCamera()
         {
             Camera cam = Camera.main;

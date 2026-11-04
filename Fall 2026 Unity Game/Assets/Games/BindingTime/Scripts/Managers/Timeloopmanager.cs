@@ -24,6 +24,9 @@ namespace BindingTime
             }
         }
 
+        // check this in OnDestroy, Instance would create a new manager during teardown
+        public static bool Exists => instance != null;
+
         private readonly MoveRecorder recorder = new MoveRecorder();
         private readonly List<Ghost> ghosts = new List<Ghost>();
         private readonly HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
@@ -64,7 +67,7 @@ namespace BindingTime
             CheckParadox();
         }
 
-        // Being inside a statue on the tick it closes is a time paradox: the level has to reset.
+        // standing in a statue on the tick it closes = paradox
         private void CheckParadox()
         {
             if (!sigils.IsForcedOpen(player.Coords)) return;
@@ -72,13 +75,11 @@ namespace BindingTime
             TimeBroke?.Invoke(BreakReason.Paradox);
         }
 
-        // T: the player stays exactly where they are. A ghost spawns at the origin and repeats
-        // everything the player has done so far, so it trails the player by CurrentTick ticks.
+        // spawns a ghost at the origin that replays the run so far
         public void Loop()
         {
             if (player == null || player.InputLocked) return;
-            if (recorder.LastTick < 1) return;                // nothing to copy yet
-            if (recorder.LastTick <= lastLoopTick) return;    // already looped on this tick
+            if (recorder.LastTick < 1 || recorder.LastTick <= lastLoopTick) return;
 
             if (ghosts.Count >= MaxLoops)
             {
@@ -99,7 +100,7 @@ namespace BindingTime
             BeginRun();
         }
 
-        // Restart after time broke: same as R, but works while input is locked and unlocks you again.
+        // like R, but ignores and clears InputLocked
         public void ForceRestart()
         {
             if (player == null) return;
@@ -121,7 +122,7 @@ namespace BindingTime
                 while (Time.time - startTime < due) yield return null;
 
                 player.SetTile(recorder.PositionAt(tick));
-                foreach (Ghost ghost in ghosts) ghost.SetTick(tick);   // ghosts pop in on the tick they were made
+                foreach (Ghost ghost in ghosts) ghost.SetTick(tick);
                 Refresh();
             }
         }
@@ -157,8 +158,7 @@ namespace BindingTime
             {
                 if (!ghost.Active) continue;
                 occupied.Add(ghost.Coords);
-                Tile under = TileManager.Instance.GetTile(ghost.Coords.x, ghost.Coords.y);
-                if (under != null && under.BaseType == TileType.Sigil) GhostOnSigil = true;
+                if (TileManager.Instance.IsSigil(ghost.Coords)) GhostOnSigil = true;
             }
             sigils.Refresh(occupied);
         }

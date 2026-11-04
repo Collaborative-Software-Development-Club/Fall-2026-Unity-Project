@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace BindingTime
 {
-    // Builds the tile grid from a map and answers questions about it.
-    // It doesn't know about levels: LevelManager decides which map to build.
     public class TileManager : MonoBehaviour
     {
         public static TileManager Instance { get; private set; }
@@ -20,12 +18,11 @@ namespace BindingTime
         private Tile[,] tileGrid; // [y, x]
         private readonly List<Tile> sigils = new List<Tile>();
         private readonly List<Tile> figures = new List<Tile>();
+
         public int Width { get; private set; }
         public int Height { get; private set; }
-
         public Vector2Int Origin { get; private set; }
         public Vector2Int Exit { get; private set; }
-
         public IReadOnlyList<Tile> Sigils => sigils;
         public IReadOnlyList<Tile> Figures => figures;
 
@@ -34,23 +31,23 @@ namespace BindingTime
             Instance = this;
         }
 
-        // ---------- Queries ----------
+        public bool InBounds(Vector2Int c) => c.x >= 0 && c.y >= 0 && c.x < Width && c.y < Height;
 
-        public bool InBounds(int x, int y) =>
-            x >= 0 && y >= 0 && x < Width && y < Height;
+        public Tile GetTile(Vector2Int c) => InBounds(c) ? tileGrid[c.y, c.x] : null;
 
-        public Tile GetTile(int x, int y) => InBounds(x, y) ? tileGrid[y, x] : null;
+        public bool IsWalkable(Vector2Int c) => InBounds(c) && tileGrid[c.y, c.x].IsWalkable;
 
-        public bool IsWalkable(int x, int y) => InBounds(x, y) && tileGrid[y, x].IsWalkable;
+        public bool IsSigil(Vector2Int c)
+        {
+            Tile tile = GetTile(c);
+            return tile != null && tile.BaseType == TileType.Sigil;
+        }
 
         public void SwapTile(Tile tile, TileType type)
         {
             if (tile.Type != type) tile.SwapTo(type, SpriteFor(type));
         }
 
-        // ---------- Building ----------
-
-        // replaces whatever grid exists with one built from map ([y, x]).
         public void Build(LevelCell[,] map)
         {
             Clear();
@@ -58,8 +55,6 @@ namespace BindingTime
             Height = map.GetLength(0);
             Width = map.GetLength(1);
             tileGrid = new Tile[Height, Width];
-            sigils.Clear();
-            figures.Clear();
             Origin = Vector2Int.zero;
             Exit = Vector2Int.zero;
             bool foundOrigin = false, foundExit = false;
@@ -68,20 +63,18 @@ namespace BindingTime
             {
                 for (int x = 0; x < Width; x++)
                 {
+                    var coords = new Vector2Int(x, y);
                     LevelCell cell = map[y, x];
-                    TileType type = cell.Type;
-                    if (type == TileType.Origin) { Origin = new Vector2Int(x, y); foundOrigin = true; }
-                    if (type == TileType.Exit) { Exit = new Vector2Int(x, y); foundExit = true; }
-
-                    GameObject go = Instantiate(childPrefab, transform);
-                    go.transform.localPosition = new Vector3(x, y, 0f);
-
-                    Tile tile = go.GetComponent<Tile>();
-                    if (tile == null) tile = go.AddComponent<Tile>();
-                    tile.Setup(cell, new Vector2Int(x, y), SpriteFor(type));
+                    Tile tile = CreateTile(cell, coords);
                     tileGrid[y, x] = tile;
-                    if (type == TileType.Sigil) sigils.Add(tile);
-                    if (type == TileType.Figure) figures.Add(tile);
+
+                    switch (cell.Type)
+                    {
+                        case TileType.Origin: Origin = coords; foundOrigin = true; break;
+                        case TileType.Exit: Exit = coords; foundExit = true; break;
+                        case TileType.Sigil: sigils.Add(tile); break;
+                        case TileType.Figure: figures.Add(tile); break;
+                    }
                 }
             }
 
@@ -89,8 +82,21 @@ namespace BindingTime
             if (!foundExit) Debug.LogWarning("Map has no exit (E).");
         }
 
+        private Tile CreateTile(LevelCell cell, Vector2Int coords)
+        {
+            GameObject go = Instantiate(childPrefab, transform);
+            go.transform.localPosition = new Vector3(coords.x, coords.y, 0f);
+
+            Tile tile = go.GetComponent<Tile>();
+            if (tile == null) tile = go.AddComponent<Tile>();
+            tile.Setup(cell, coords, SpriteFor(cell.Type));
+            return tile;
+        }
+
         private void Clear()
         {
+            sigils.Clear();
+            figures.Clear();
             if (tileGrid == null) return;
             foreach (Tile tile in tileGrid)
             {

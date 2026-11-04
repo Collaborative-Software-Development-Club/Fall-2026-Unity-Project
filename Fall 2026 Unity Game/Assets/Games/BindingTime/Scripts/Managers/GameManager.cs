@@ -7,51 +7,41 @@ namespace BindingTime
     {
         [Header("Exit replay")]
         [SerializeField] private float replaySpeed = 4f;
-        [SerializeField] private float maxReplaySeconds = 4f;     // long runs are sped up more to fit
+        [SerializeField] private float maxReplaySeconds = 4f;
         [SerializeField] private float pauseBeforeReplay = 0.4f;
         [SerializeField] private float pauseAfterReplay = 0.6f;
 
         void Start()
         {
-            // HUD + tutorial live in this game's scene only (GameManager only exists here).
             new GameObject("GameHud").AddComponent<GameHud>();
-
-            UIManager.player.ReachedExit += OnReachedExit;
+            Player.Instance.ReachedExit += OnReachedExit;
         }
 
         void OnDestroy()
         {
-            if (UIManager.player != null) UIManager.player.ReachedExit -= OnReachedExit;
+            if (Player.Instance != null) Player.Instance.ReachedExit -= OnReachedExit;
         }
 
-        void OnReachedExit()
+        void Update()
+        {
+            InputManager.Update();
+        }
+
+        private void OnReachedExit()
         {
             StartCoroutine(ExitSequence());
         }
 
         private IEnumerator ExitSequence()
         {
-            Player player = UIManager.player;
-            player.InputLocked = true;
+            Player.Instance.InputLocked = true;
 
             yield return new WaitForSeconds(pauseBeforeReplay);
             yield return TimeLoopManager.Instance.ReplayRoutine(replaySpeed, maxReplaySeconds);
             yield return new WaitForSeconds(pauseAfterReplay);
 
-            if (LevelManager.Instance.HasNextLevel)
-            {
-                LevelManager.Instance.NextLevel(); // Player respawns and unlocks itself
-            }
-            else
-            {
-                Debug.Log("All levels complete!");  // input stays locked on the last level
-            }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            UIManager.Update();
+            if (LevelManager.Instance.HasNextLevel) LevelManager.Instance.NextLevel();
+            else Debug.Log("All levels complete!");
         }
     }
 }
