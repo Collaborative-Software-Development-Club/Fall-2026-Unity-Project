@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Machine : Item, IConveyorable 
@@ -14,6 +16,9 @@ public class Machine : Item, IConveyorable
     private List<ItemQuantity> _pendingOutputs;
     private int _ticksRemaining;
     public Action<Recipe, MachineData> OnCraft;
+
+    private Dictionary<ItemData, List<Recipe>> _currentAvailableRecipes;
+    private Recipe _currentCraftableRecipe;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -66,10 +71,11 @@ public class Machine : Item, IConveyorable
         if (item == null) return false;
 
         // Items that cannot be processed are sent straight through.
-        if (item is not Processable)
+        if (item is not Processable || !RecipesContainItem(_currentAvailableRecipes[item.GetData()], item.GetData()))
             return AddItemToOutput(item, quantity);
         
         int newIndex = Input.AddItemToInventory(item, quantity);
+        InsertItemInRecipes(item.GetData());
         return newIndex > -1;
     }
 
@@ -153,239 +159,49 @@ public class Machine : Item, IConveyorable
 
         if (machineData.processType == machineType.None)
             Debug.LogWarning($"{machineData.name} has no machine type.");
+        
+        _currentAvailableRecipes = CreateDictionaryFromRecipes(itemData.recipes);
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
         Name = itemName;
     }
 
+    // TODO: Implement (basically just a check if currentRecipe is a thing than put items in output and remove inputs)
     public bool PerformOperation()
     {
-        if (_pendingOutputs != null)
-        {
-            _ticksRemaining--;
-            if (_ticksRemaining > 0) return false;
-
-            foreach (ItemQuantity pending in _pendingOutputs)
-                AddItemToOutput(pending.Item, pending.Quantity);
-
-            _pendingOutputs = null;
-            return true;
-        }
-
-        List<ItemDataQuantity> inputs = Input.GetInventoryAsItemDataQuantityList();
-
-        if (machineData.recipes != null)
-        {
-            foreach (Recipe recipe in machineData.recipes)
-            {
-                if (recipe == null || recipe.GetInputs == null || recipe.GetInputs.Count == 0) continue;
-
-                List<ItemDataQuantity> output = recipe.Process(inputs);
-                if (output == null) continue;
-                if (!CanFitOutputs(output)) return false;
-
-                bool success = TryStartCraft(recipe);
-                if (success)
-                {
-                    OnCraft?.Invoke(recipe, machineData);
-                }
-                return false;
-            }
-        }
-
-        PassThroughIfUnusable(inputs);
-        return false;
-    }
-    
-    private bool TryStartCraft(Recipe recipe)
-    {
-        List<ItemQuantity> created = new List<ItemQuantity>();
-        if (recipe.GetOutputs == null) return false;
-
-        foreach (ItemDataQuantity itemDataQuantity in recipe.GetOutputs)
-        {
-            if (itemDataQuantity == null || itemDataQuantity.ItemData == null || itemDataQuantity.Quantity <= 0)
-                continue;
-
-            Item createdItem = ItemFactory.CreateItemFromSO(itemDataQuantity.ItemData);
-            if (createdItem == null) return false;
-
-            created.Add(new ItemQuantity(createdItem, itemDataQuantity.Quantity));
-        }
-
-        if (!ConsumeInputs(recipe.GetInputs)) return false;
-
-        _pendingOutputs = created;
-        _ticksRemaining = ProcessTicks;
         return true;
     }
 
-    private void PassThroughIfUnusable(List<ItemDataQuantity> inputs)
+    private bool RecipesContainItem(List<Recipe> recipes, ItemData item)
     {
-        if (inputs == null || inputs.Count == 0 || CouldMatchAnyRecipe(inputs)) return;
-
-        for (int i = 0; i < Input.Length; i++)
-        {
-            InventorySlot slot = Input.GetItemAt(i);
-            if (slot?.GetItem() == null || slot.GetQuantity() <= 0) continue;
-            if (!CanFit(slot.GetItem(), slot.GetQuantity())) return;
-
-            Item item = slot.GetItem();
-            int quantity = slot.GetQuantity();
-            Input.RemoveFromSlot(i, quantity);
-            AddItemToOutput(item, quantity);
-            return;
-        }
+        return recipes.Any(recipe => recipe.GetInputs.Any(input => input.ItemData == item));
     }
 
-    private bool CouldMatchAnyRecipe(List<ItemDataQuantity> inputs)
+    // Need a full insert and removal aswell
+    private void InsertItemInRecipes(ItemData item)
     {
-        if (machineData.recipes == null) return false;
-
-        foreach (Recipe recipe in machineData.recipes)
-        {
-            if (recipe?.GetInputs == null || recipe.GetInputs.Count == 0) continue;
-            if (CouldMatch(recipe, inputs)) return true;
-        }
-
-        return false;
+        List<Recipe> currentRecipes = _currentAvailableRecipes[item];
+        _currentAvailableRecipes = CreateDictionaryFromRecipes(currentRecipes);
     }
 
-    private static bool CouldMatch(Recipe recipe, List<ItemDataQuantity> inputs)
+    // Turn into current recipe function so I can use the list and craftableRecipe
+    // For removal could also rebuild the dict from scratch
+    private Dictionary<ItemData, List<Recipe>> CreateDictionaryFromRecipes(List<Recipe> recipes)
     {
-        if (inputs.Count > recipe.GetInputs.Count) return false;
-
-        bool[] used = new bool[recipe.GetInputs.Count];
-
-        foreach (ItemDataQuantity held in inputs)
+        Dictionary<ItemData, List<Recipe>> dictionary = new Dictionary<ItemData, List<Recipe>>();
+        
+        foreach (var recipe in recipes)
         {
-            bool found = false;
-
-            for (int i = 0; i < recipe.GetInputs.Count; i++)
-            {
-                if (used[i]) continue;
-
-                ItemDataQuantity required = recipe.GetInputs[i];
-                if (required == null || held.ItemData != required.ItemData || held.Quantity > required.Quantity)
-                    continue;
-
-                used[i] = true;
-                found = true;
-                break;
-            }
-
-            if (!found) return false;
+            foreach (var input in from input in recipe.GetInputs let currentItem = _currentAvailableRecipes[input.ItemData] ?? new List<Recipe>() select input)
+                dictionary[input.ItemData].Add(recipe);
+            
+            // This should store the current craftable item (I.E. check if recipe is complete using Input Inventory than store) 
         }
 
-        return true;
+        return dictionary;
     }
 
-    private bool ConsumeInputs(List<ItemDataQuantity> required)
-    {
-        if (required == null || !HasInputs(required)) return false;
-
-        foreach (ItemDataQuantity requirement in required)
-        {
-            int remaining = requirement.Quantity;
-
-            for (int i = 0; i < Input.Length && remaining > 0; i++)
-            {
-                InventorySlot slot = Input.GetItemAt(i);
-                if (slot?.GetItem() == null || slot.GetItem().GetData() != requirement.ItemData) continue;
-
-                int take = Mathf.Min(remaining, slot.GetQuantity());
-                Input.RemoveFromSlot(i, take);
-                remaining -= take;
-            }
-        }
-
-        return true;
-    }
-
-    private bool HasInputs(List<ItemDataQuantity> required)
-    {
-        foreach (ItemDataQuantity requirement in required)
-        {
-            if (requirement == null || requirement.ItemData == null) return false;
-
-            int found = 0;
-            for (int i = 0; i < Input.Length; i++)
-            {
-                InventorySlot slot = Input.GetItemAt(i);
-                if (slot?.GetItem() == null || slot.GetItem().GetData() != requirement.ItemData) continue;
-                found += slot.GetQuantity();
-            }
-
-            if (found < requirement.Quantity) return false;
-        }
-
-        return true;
-    }
-
-    private bool CanFitOutputs(List<ItemDataQuantity> outputs)
-    {
-        if (outputs == null) return true;
-
-        int empty = CountEmpty(Output);
-        int needed = 0;
-
-        foreach (ItemDataQuantity output in outputs)
-        {
-            if (output == null || output.ItemData == null || output.Quantity <= 0) continue;
-            if (OutputHasStack(output.ItemData)) continue;
-            needed++;
-        }
-
-        return needed <= empty;
-    }
-
-    private bool CanFit(Item item, int quantity)
-    {
-        if (item == null || quantity <= 0) return false;
-
-        int empty = 0;
-        for (int i = 0; i < Output.Length; i++)
-        {
-            InventorySlot slot = Output.GetItemAt(i);
-            if (slot == null || slot.GetItem() == null || slot.GetQuantity() <= 0)
-            {
-                empty++;
-                continue;
-            }
-
-            if (slot.GetItem().Equals(item) && slot.GetItem().GetStackable())
-                return true;
-        }
-
-        return empty > 0;
-    }
-
-    private bool OutputHasStack(ItemData itemData)
-    {
-        for (int i = 0; i < Output.Length; i++)
-        {
-            InventorySlot slot = Output.GetItemAt(i);
-            if (slot?.GetItem() == null || slot.GetQuantity() <= 0) continue;
-            if (slot.GetItem().GetData() == itemData && slot.GetItem().GetStackable())
-                return true;
-        }
-
-        return false;
-    }
-
-    private static int CountEmpty(Inventory inventory)
-    {
-        int empty = 0;
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            InventorySlot slot = inventory.GetItemAt(i);
-            if (slot == null || slot.GetItem() == null || slot.GetQuantity() <= 0)
-                empty++;
-        }
-
-        return empty;
-    }
 
     // TODO: Abstract out in the future to have a in-between to the conveyor ( THIS IS GOOD ENOUGH FOR THE PRESENTATION )
 
