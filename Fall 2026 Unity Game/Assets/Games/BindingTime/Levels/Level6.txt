@@ -1,8 +1,11 @@
 @name Chain Reaction
-@loops 3
-@tip Each sigil hides behind the previous statue, so you have to build the chain one ghost at a time. You have exactly 3 loops. The inverted gate near the exit shuts while red is powered, so be quick.
-###############################
-#.....#.....#.....#.....#.....#
-#.O.1.a..2..b..3..c.....j..E..#
-#.....#.....#.....#.....#.....#
-###############################
+@loops 2
+@tip What you record matters as much as where you stand.
+#############
+#.....#.....#
+#.O.1.a..2..#
+#.....#.....#
+#########j###
+#########b###
+#########E###
+#############

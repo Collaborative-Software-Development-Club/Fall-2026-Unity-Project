@@ -1,11 +1,13 @@
-@name Two Forks
-@loops 3
-@tip Two forks in a row. At each one, send a ghost through the open door to its sigil: that closes the open door and opens the other. Waiting on the sigil makes the swap last longer.
-#####################
-#...#...#...#...#...#
-#.O.j.1.#...k.2.#...#
-#...#...#...#...#...#
-#...#####...#####...#
-#...a.......b.....E.#
-#...#####...#####...#
-#####################
+@name Two Stops
+@loops 1
+@tip One loop can leave more than one mark.
+###########
+#.1.....2.#
+#....O....#
+#####.#####
+#####a#####
+#####.#####
+#####.#####
+#####b#####
+#####E#####
+###########

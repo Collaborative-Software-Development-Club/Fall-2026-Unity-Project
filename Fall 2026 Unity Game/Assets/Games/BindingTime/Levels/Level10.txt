@@ -1,6 +1,6 @@
 @name Binding Time
-@loops 2
-@tip The final trial: a hall of rooms that lock each other outcan you beat it with only 2 loops? Good luck!
+@loops 3
+@tip Nothing in the timeline happens only once.
 #################
 #######.3.#######
 #######...#######

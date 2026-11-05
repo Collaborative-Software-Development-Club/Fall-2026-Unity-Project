@@ -1,15 +1,12 @@
-@name Three-Way
-@loops 3
-@tip Three rooms in a loop: each door closes when the next room's sigil is powered (red, blue, green, then back to red). Remember that ghosts power every sigil they walk over, not just the one they end on.
-#################
-#######.3.#######
-#######...#######
-########j########
-#...#.......#...#
-#.1.k...O...l.2.#
-#...#.......#...#
-########.########
-########a########
-########b########
-########E########
-#################
+@name Crossed Signal
+@loops 1
+@tip A path that opens one way may close another.
+#########
+#1.333.2#
+#.#####.#
+#...O...#
+####a####
+####l####
+####b####
+####E####
+#########
