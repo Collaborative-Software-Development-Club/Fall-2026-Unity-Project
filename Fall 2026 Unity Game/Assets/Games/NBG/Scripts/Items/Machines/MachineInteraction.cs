@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class MachineInteraction : MonoBehaviour
+public class MachineInteraction : MonoBehaviour, ILeftClickable, IHoverable
 {
     [SerializeField] private MachineData machineData;
 
@@ -27,5 +27,26 @@ public class MachineInteraction : MonoBehaviour
         int[] args = new int[2];
 
         return true;
-    } 
+    }
+
+    public void OnLeftClick()
+    {
+        TextController.Instance.SetText(_machine.GetInputInventory().ToString());
+    }
+
+    public void OnHoverEnter()
+    {
+        TextController.Instance.SetText(HoverMessage);
+    }
+
+    public void OnHoverExit()
+    {
+        String currentText = TextController.Instance.GetText();
+        if (currentText == _machine.GetInputInventory().ToString() || currentText == HoverMessage)
+        {
+            TextController.Instance.ClearText();
+        }
+    }
+
+    public string HoverMessage => _machine.GetName();
 }

@@ -20,6 +20,17 @@ public class Inventory
         _emptySlots = size;
     }
 
+    public override string ToString() {
+        string output = "";
+        for (int i = 0; i < slots.Length; i++)
+        {
+            output += slots[i].GetItem() != null ? slots[i].GetItem().GetName() + " x" + slots[i].GetQuantity() : "Empty";
+            if (i < slots.Length - 1) output += "\n";
+        }
+        return output;
+    
+    }
+
     /// <summary>
     /// Adds the item to the inventory with the given quantity
     /// <returns> the new index </returns>
