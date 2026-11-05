@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Procressor
+public abstract class ItemProcessor 
 {
     public abstract void InsertInput(ItemData itemData);
     public abstract void RemoveFromInput(ItemData itemData);
