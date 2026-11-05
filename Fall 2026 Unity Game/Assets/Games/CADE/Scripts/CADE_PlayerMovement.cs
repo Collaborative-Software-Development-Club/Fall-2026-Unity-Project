@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,6 +53,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpForceY = 10f;
     [SerializeField] private float wallJumpLockTime = 0.15f;
     [SerializeField] private GameEvent OnLose;
+    private Vector3 PlayerSpawnPosition;
     private bool isTouchingWallRight;
     private bool isTouchingWallLeft;
     private bool isWallSliding;
@@ -90,7 +92,10 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        PlayerSpawnPosition = gameObject.transform.position;
+
         finalSpeed = moveSpeed;
+        OnLose.OnEventRaised += ReturnToStart;
     }
 
     private void Update() {
@@ -159,6 +164,12 @@ public class CADE_PlayerMovement : MonoBehaviour
         else
             rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
 
+    }
+
+    private void ReturnToStart()
+    {
+        gameObject.transform.SetPositionAndRotation(PlayerSpawnPosition, new Quaternion());
+        rb.linearVelocity = Vector2.zero;
     }
 
     public void Move(InputAction.CallbackContext context)

@@ -23,7 +23,7 @@ public class CADE_PowerUp : I_Item
         {
             OnGetItem.Invoke((int)m_Item);
             Debug.Log("Grabbed Item: " + Enum.GetName(typeof(CADE_ItemList.Items), m_Item));
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

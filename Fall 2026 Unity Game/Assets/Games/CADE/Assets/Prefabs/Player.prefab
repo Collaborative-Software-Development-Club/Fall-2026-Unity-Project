@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 459856501650526901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.6032085, y: 0.00000047683716, z: -10}
+  m_LocalPosition: {x: 4.65905, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58,7 +58,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 40
-    OrthographicSize: 10.136067
+    OrthographicSize: 13
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ae8a2b5d98a704c977313ff65f0037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CADE_Player
-  itemManager: {fileID: 0}
+  itemManager: {fileID: 8709839289420254693, guid: ab51644000ce7cb4fa008e24bc90d0fa, type: 3}
   rb: {fileID: 1690886500371233535}
   moveSpeed: 10
   sprintSpeed: 20
@@ -407,7 +407,7 @@ MonoBehaviour:
   wallJumpForceX: 8
   wallJumpForceY: 10
   wallJumpLockTime: 0.15
-  OnLose: {fileID: 0}
+  OnLose: {fileID: 11400000, guid: a056e1cc41f33874f9ec98feeb9057b0, type: 2}
   baseGravity: 1.5
   moonGravityScale: 0.6
   maxFallSpeed: 32
