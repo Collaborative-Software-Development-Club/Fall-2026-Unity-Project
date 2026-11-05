@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   AudioManager: {fileID: 1985602700}
+  RecipeManager: {fileID: 0}
   conveyorManager: {fileID: 1403602106}
 --- !u!4 &141277111
 Transform:
@@ -568,6 +569,8 @@ MonoBehaviour:
   - ItemData: {fileID: 11400000, guid: 2f658d7c0e6e1434c92f5a3fd6c8ed65, type: 2}
     Quantity: 1
   - ItemData: {fileID: 11400000, guid: c3924e684dbd0de4da4d3c63c32a0737, type: 2}
+    Quantity: 1
+  - ItemData: {fileID: 11400000, guid: e946112052facd449845783d09c74ec4, type: 2}
     Quantity: 1
 --- !u!4 &1403602108
 Transform:

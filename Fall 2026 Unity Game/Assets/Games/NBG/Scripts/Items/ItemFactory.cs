@@ -10,12 +10,12 @@ public static class ItemFactory
     /// </summary>
     public static Item CreateItemFromSO(ItemData data)
     {
-        if (data == null) return null;
+        if (data is null) return null;
 
         switch (data.type)
         {
             case ItemType.None:
-                Debug.LogWarning($"Cannot create an item of type {data.type}");
+                //Debug.LogWarning($"Cannot create an item of type {data.type}");
                 return null;
 
             case ItemType.Machine:

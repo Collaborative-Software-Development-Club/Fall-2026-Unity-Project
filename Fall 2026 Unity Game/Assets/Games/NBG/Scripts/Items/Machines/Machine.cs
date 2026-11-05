@@ -20,6 +20,8 @@ public class Machine : Item, IConveyorable
     private Dictionary<ItemData, List<Recipe>> _currentAvailableRecipes;
     private Recipe _currentCraftableRecipe;
     
+    private ItemProcessor _processor;
+    
     /// <summary>
     /// Function for retrieving the machine's data
     /// </summary>
@@ -71,11 +73,16 @@ public class Machine : Item, IConveyorable
         if (item == null) return false;
 
         // Items that cannot be processed are sent straight through.
-        if (item is not Processable || !RecipesContainItem(_currentAvailableRecipes[item.GetData()], item.GetData()))
+        if (item is not Processable) 
             return AddItemToOutput(item, quantity);
         
-        int newIndex = Input.AddItemToInventory(item, quantity);
-        InsertItemInRecipes(item.GetData());
+        int newIndex = -1;
+        
+        if(_processor.CanAddItem(item.GetData())) 
+            newIndex = Input.AddItemToInventory(item, quantity);
+        
+        Debug.Log("what the frick");
+        
         return newIndex > -1;
     }
 
@@ -159,49 +166,24 @@ public class Machine : Item, IConveyorable
 
         if (machineData.processType == machineType.None)
             Debug.LogWarning($"{machineData.name} has no machine type.");
-        
-        _currentAvailableRecipes = CreateDictionaryFromRecipes(itemData.recipes);
+
+        bool areRecipesOneToOne = machineData.recipes.All(recipe => recipe.GetInputs.Count <= 1 && recipe.GetOutputs.Count <= 1);
+
+        if (areRecipesOneToOne)
+            _processor = new SingleItemProcessor(machineData.recipes);
+        else
+            _processor = new MultiItemProcessor();
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
         Name = itemName;
     }
 
-    // TODO: Implement (basically just a check if currentRecipe is a thing than put items in output and remove inputs)
     public bool PerformOperation()
     {
-        return true;
+        // TODO: Add a timer / operation time
+        return _processor.ProcessInput(Input, Output);
     }
-
-    private bool RecipesContainItem(List<Recipe> recipes, ItemData item)
-    {
-        return recipes.Any(recipe => recipe.GetInputs.Any(input => input.ItemData == item));
-    }
-
-    // Need a full insert and removal aswell
-    private void InsertItemInRecipes(ItemData item)
-    {
-        List<Recipe> currentRecipes = _currentAvailableRecipes[item];
-        _currentAvailableRecipes = CreateDictionaryFromRecipes(currentRecipes);
-    }
-
-    // Turn into current recipe function so I can use the list and craftableRecipe
-    // For removal could also rebuild the dict from scratch
-    private Dictionary<ItemData, List<Recipe>> CreateDictionaryFromRecipes(List<Recipe> recipes)
-    {
-        Dictionary<ItemData, List<Recipe>> dictionary = new Dictionary<ItemData, List<Recipe>>();
-        
-        foreach (var recipe in recipes)
-        {
-            foreach (var input in from input in recipe.GetInputs let currentItem = _currentAvailableRecipes[input.ItemData] ?? new List<Recipe>() select input)
-                dictionary[input.ItemData].Add(recipe);
-            
-            // This should store the current craftable item (I.E. check if recipe is complete using Input Inventory than store) 
-        }
-
-        return dictionary;
-    }
-
 
     // TODO: Abstract out in the future to have a in-between to the conveyor ( THIS IS GOOD ENOUGH FOR THE PRESENTATION )
 
@@ -253,6 +235,8 @@ public class Machine : Item, IConveyorable
 
     public bool HasSpace()
     {
+        if (!_processor.CanAddItem()) return false; 
+        
         for (int i = 0; i < Input.Length; i++)
         {
             InventorySlot slot = Input.GetItemAt(i);

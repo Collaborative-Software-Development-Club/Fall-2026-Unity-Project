@@ -15,6 +15,7 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
 
     public void SetItem(Item item)
     {
+        name = item.GetDisplayName();
         _item = item;
     }
 

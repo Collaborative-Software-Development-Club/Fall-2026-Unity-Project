@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class CADE_ItemManager : MonoBehaviour
 {
+    public GameEvent OnLose;
+    
     // Jump Effects
     public bool standardJumpFlag = false;
     public bool doubleJumpFlag = false;
@@ -44,6 +46,10 @@ public class CADE_ItemManager : MonoBehaviour
         else if (itemId == (int) CADE_ItemList.Items.Inv_WallJump) { OnInvWallJump(); }
         else if (itemId == (int) CADE_ItemList.Items.Inv_Dash) { OnInvDash(); }
         else if (itemId == (int) CADE_ItemList.Items.Inv_Sticky) { OnInvSticky(); }
+    }
+    public void Start()
+    {
+        OnLose.OnEventRaised += ResetAllFlags;
     }
 
     public void OnGetDoubleJump()

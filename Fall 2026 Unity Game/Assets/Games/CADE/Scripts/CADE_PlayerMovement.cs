@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,6 +53,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     [SerializeField] private float wallJumpForceY = 10f;
     [SerializeField] private float wallJumpLockTime = 0.15f;
     [SerializeField] private GameEvent OnLose;
+    private Vector3 PlayerSpawnPosition;
     private bool isTouchingWallRight;
     private bool isTouchingWallLeft;
     private bool isWallSliding;
@@ -90,7 +92,10 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        PlayerSpawnPosition = gameObject.transform.position;
+
         finalSpeed = moveSpeed;
+        OnLose.OnEventRaised += ReturnToStart;
     }
 
     private void Update() {
@@ -101,6 +106,15 @@ public class CADE_PlayerMovement : MonoBehaviour
         } else {
             coyoteTimeCounter -= Time.deltaTime;
         }
+        
+        if (jumpBufferCounter > 0f) {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f && isGrounded()) {
+            PerformJump();
+            jumpBufferCounter = 0f;
+        } 
 
         isTouchingWallLeft = checkWall(Vector2.left);
         isTouchingWallRight = checkWall(Vector2.right);
@@ -152,6 +166,12 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     }
 
+    private void ReturnToStart()
+    {
+        gameObject.transform.SetPositionAndRotation(PlayerSpawnPosition, new Quaternion());
+        rb.linearVelocity = Vector2.zero;
+    }
+
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
@@ -165,35 +185,32 @@ public class CADE_PlayerMovement : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        if (itemManager.doubleJumpFlag)
-        {
-            CADE_Jump.Double_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
+        if (context.performed) {
+            if (!isGrounded())
+                jumpBufferCounter = jumpBuffer;
+            else
+                PerformJump();
+        } else if (context.canceled) {
+            jumpReleased = true;
+            CADE_Jump.Cut_Jump(rb, ref jumpReleased);
         }
-        else if (itemManager.inv_DoubleJumpFlag)
-        {
-            //No jumping for you.
+    }
+
+    public void PerformJump() {
+        if (coyoteTimeCounter <= 0f && extraJumpsRemaining <= 0 && !isWallSliding) return;
+        if (itemManager.doubleJumpFlag)
+        { 
+            CADE_Jump.Double_Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased, ref extraJumpsRemaining);
         }
         else if (itemManager.wallJumpFlag)
-        {
-            CADE_Jump.Wall_Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
+        { 
+            CADE_Jump.Wall_Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased,
                 ref extraJumpsRemaining, ref wallJumpsRemaining, wallJumpsMax, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
                 wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight, OnLose);
         }
         else if (!isSticky && !isInvSticky)
         {
-            CADE_Jump.Jump(context, rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
-        }
-    }
-
-    public void Sprint(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            finalSpeed = sprintSpeed;
-        }
-        else if (context.canceled)
-        {
-            finalSpeed = moveSpeed;
+            CADE_Jump.Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
     }
 
