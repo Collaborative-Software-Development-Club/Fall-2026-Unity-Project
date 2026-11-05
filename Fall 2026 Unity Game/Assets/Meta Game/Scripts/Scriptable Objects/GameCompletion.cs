@@ -7,7 +7,11 @@ public static class GameCompletion
     {
         GamesBeat++;
     }
-
+    
+    /// <summary>
+    /// For debug use only
+    /// </summary>
+    /// <param name="newVal"></param>
     public static void SetBeaten(int newVal)
     {
         GamesBeat = newVal;
