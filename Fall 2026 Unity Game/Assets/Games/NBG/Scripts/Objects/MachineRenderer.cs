@@ -37,6 +37,8 @@ public class MachineRenderer : PlaceableObj
         if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
         if (itemRenderer.WasReleasedByMachine) return;
 
+        
+        // TODO: This should be sent through the machine like normal? Or at least appear that way
         // Boxes must slide past machines (no conveyor under the tile) so they stay
         // right-clickable and don't get stuck when they leave the previous belt.
         if (itemRenderer is UnboxableConveyorItem)
@@ -79,9 +81,10 @@ public class MachineRenderer : PlaceableObj
         ReleaseOutputs();
     }
 
+    // TODO: Make this use object pooling
     private void ReleaseOutputs()
     {
-        if (_itemPrefab == null) return;
+        if (_itemPrefab is null) return;
 
         ItemQuantity output = _machine.RemoveLastItemFromPart();
         while (output != null && !output.IsEmpty() && output.Item != null)

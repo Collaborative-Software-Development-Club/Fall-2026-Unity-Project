@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class MultiItemProcessor : ItemProcessor
 {
-    public override void InsertInput(ItemData itemData)
+    public MultiItemProcessor()
+    {
+        throw new System.NotImplementedException();
+    }
+    
+    public override bool InsertInput(ItemData itemData)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void RemoveFromInput(ItemData itemData)
+    public override bool ProcessInput(Inventory Input, Inventory Output)
     {
         throw new System.NotImplementedException();
     }
 
-    public override List<ItemData> GetInput()
+    public override bool CanAddItem(ItemData itemData)
     {
         throw new System.NotImplementedException();
     }
 
-    public override List<ItemData> GetOutput()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override bool Contains(ItemData itemData)
+    public override bool CanAddItem()
     {
         throw new System.NotImplementedException();
     }
