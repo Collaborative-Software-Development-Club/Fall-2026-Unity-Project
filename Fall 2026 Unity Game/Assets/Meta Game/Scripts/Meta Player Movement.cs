@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class MetaPlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
     private Vector2 movement;
     private Rigidbody2D rb;
+
 
     private (float halfWidth, float halfHeight) worldDimensions;
 
@@ -55,6 +57,5 @@ public class MetaPlayerMovement : MonoBehaviour
     {
         Selected.Invoke();
     }
-
     
 }
