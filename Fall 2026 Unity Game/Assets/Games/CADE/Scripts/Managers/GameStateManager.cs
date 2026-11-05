@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 public class GameStateManager : MonoBehaviour
 {
     [SerializeField] private CADE_SceneList.Scenes currentScene;
@@ -15,6 +16,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private CADE_RuleManager ruleManager;
     [SerializeField] private CADE_SceneList.Scenes nextScene;
     [SerializeField] private TMP_Text rulesText;
+    [SerializeField] private List<GameObject> entitiesToReset;
 
     private string rulesString = string.Empty;
 
@@ -55,9 +57,21 @@ public class GameStateManager : MonoBehaviour
         sceneManager.ChangeScene((int)nextScene);
     }
     private void loseHandle() { 
-        resetLevel();
+        SoftResetLevel();
     }
-    private void resetLevel() { 
+    private void SoftResetLevel() { 
+        
+        // reinitialize all consumable entities in the level
+        foreach (GameObject g in entitiesToReset)
+        {
+            g.SetActive(true);
+        }
+
+
+    }
+
+    private void HardResetLevel()
+    {
         Scene currScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currScene.name);
     }
