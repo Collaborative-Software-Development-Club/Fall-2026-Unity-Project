@@ -27,7 +27,6 @@ public class CADE_PlayerMovement : MonoBehaviour
     private int wallJumpsRemaining;
     private int wallJumpsMax = 5;
     private float jumpBufferCounter = 0f;
-    private bool pressedJump = false;
 
     [Header("Dashing")] 
     [SerializeField] 
