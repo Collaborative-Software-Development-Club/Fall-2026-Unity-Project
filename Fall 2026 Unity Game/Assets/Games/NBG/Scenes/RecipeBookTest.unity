@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RecipeBookTest
   recipe: {fileID: 11400000, guid: 0a596156deded414b81a6540be4b3466, type: 2}
+  _machineData: {fileID: 11400000, guid: 5ec1bc47bd6064808b53a6dfb61a626a, type: 2}
 --- !u!114 &172535404
 MonoBehaviour:
   m_ObjectHideFlags: 0

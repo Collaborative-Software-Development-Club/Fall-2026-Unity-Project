@@ -43,9 +43,7 @@ public class RecipeManager : MonoBehaviour
         }
         _instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-    private void Start()
-    {
+
         GameManager.Instance.conveyorManager.MachineAdd += (Machine machine) =>
         {
             machine.OnCraft += (Recipe recipe, MachineData machine) =>
@@ -58,11 +56,18 @@ public class RecipeManager : MonoBehaviour
         RecipeMachine current = new RecipeMachine();
         current.recipe = entry;
         current.machineData = source;
-        bool output = false;
-        if (!foundRecipes.Contains(current))
+        bool output = true;
+        foreach (RecipeMachine rm in foundRecipes)
+        {
+            if (rm.machineData.GetType() == current.machineData.GetType() && rm.recipe.ToString().Equals(current.recipe.ToString()))
+            {
+                output = false;
+                break;
+            }
+        }
+        if (output)
         {
             foundRecipes.Add(current);
-            output = true;
         }
         return output;
     }
