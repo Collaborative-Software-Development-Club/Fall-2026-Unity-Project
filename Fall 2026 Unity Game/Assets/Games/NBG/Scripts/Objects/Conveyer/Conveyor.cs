@@ -10,10 +10,14 @@ public class Conveyor : IConveyorable
     private bool _canInput = true;
     private bool _canOutput = true;
 
-    public Conveyor(int size = 3)
+    // Flat heat removed per item per step.
+    private readonly float _heatDissipationPerStep;
+
+    public Conveyor(int size = 3, float heatDissipationPerStep = 1f)
     {
         _size = size;
-        items = new ItemQuantity[_size]; 
+        items = new ItemQuantity[_size];
+        _heatDissipationPerStep = heatDissipationPerStep;
     }
 
     /// <summary>
@@ -77,7 +81,22 @@ public class Conveyor : IConveyorable
         }
 
         ShiftEntries();
+        DissipateHeat();
         return transferred;
+    }
+
+    /// <summary>
+    /// Removes a flat amount of heat from every item on this conveyor.
+    /// </summary>
+    private void DissipateHeat()
+    {
+        if (_heatDissipationPerStep <= 0f) return;
+
+        foreach (ItemQuantity itemQuantity in items)
+        {
+            if (ItemPresent(itemQuantity))
+                itemQuantity.Item.DissipateHeat(_heatDissipationPerStep);
+        }
     }
 
     private static bool ItemPresent(ItemQuantity item) => item != null && !item.IsEmpty();

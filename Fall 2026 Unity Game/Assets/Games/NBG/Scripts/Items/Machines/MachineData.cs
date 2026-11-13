@@ -17,6 +17,9 @@ public class MachineData : ItemData
     public Sprite texture;
     public int inputCount = 0;
     public int outputCount = 0;
+
+    [Tooltip("Heat added to an item when it enters this machine.")]
+    public float heatPerPass = 0f;
         
     public List<Recipe> recipes = new List<Recipe>();
 }

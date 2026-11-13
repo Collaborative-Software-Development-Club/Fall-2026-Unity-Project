@@ -6,6 +6,17 @@ public abstract class Item
     [SerializeField] protected ItemData data;
     protected string Name;
 
+    // Runtime heat, per instance (not on the shared ItemData asset).
+    [SerializeField] protected float heat = 0f;
+
+    public float GetHeat() => heat;
+
+    public void SetHeat(float value) => heat = Mathf.Max(0f, value);
+
+    public void AddHeat(float amount) => SetHeat(heat + amount);
+
+    public void DissipateHeat(float amount) => SetHeat(heat - amount);
+
     public void PrintData()
     {
         if(!HasData())
@@ -25,6 +36,7 @@ public abstract class Item
         return $"[{GetRarity()}] {GetName()}\n" +
                $"Type: {GetItemType()}\n" +
                $"Value: {GetValue()}\n" +
+               $"Heat: {GetHeat()}\n" +
                $"Description: {GetDescription()}";
     }
     

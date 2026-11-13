@@ -207,6 +207,7 @@ public class Machine : Item, IConveyorable
             Item item = slot.GetItem();
             int quantity = slot.GetQuantity();
             Output.RemoveFromSlot(i, quantity);
+            item?.AddHeat(machineData.heatPerPass);
             return new ItemQuantity(item, quantity);
         }
 
