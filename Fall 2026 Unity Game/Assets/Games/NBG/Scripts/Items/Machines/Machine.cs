@@ -22,8 +22,7 @@ public class Machine : Item, IConveyorable
     
     private ItemProcessor _processor;
 
-    // Optional heating behavior, composed from the data. Null for machines
-    // that don't apply heat.
+    // Only set for machines that heat items, null otherwise
     private readonly HeatApplicator _heatApplicator;
     
     /// <summary>
@@ -178,7 +177,7 @@ public class Machine : Item, IConveyorable
         else
             _processor = new MultiItemProcessor();
 
-        // Only heating machines carry a HeatApplicator; everything else stays cold.
+        // Only heating machines get a heat applicator
         if (machineData is HeatingMachineData heatingData && heatingData.heatPerPass > 0f)
             _heatApplicator = new HeatApplicator(heatingData.heatPerPass);
     }

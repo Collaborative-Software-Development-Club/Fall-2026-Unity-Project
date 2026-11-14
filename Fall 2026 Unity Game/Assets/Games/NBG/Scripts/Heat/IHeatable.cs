@@ -1,10 +1,5 @@
-/// <summary>
-/// Implemented by anything that carries heat. Lets the heat system (machines
-/// that add heat, conveyors that dissipate it, etc.) operate on a common
-/// abstraction instead of reaching into a concrete type.
-/// </summary>
+// Lets something carry heat so the heat system can work on it
 public interface IHeatable
 {
-    /// <summary>The heat state owned by this object.</summary>
-    Heat Heat { get; }
+   public Heat Heat { get; }
 }

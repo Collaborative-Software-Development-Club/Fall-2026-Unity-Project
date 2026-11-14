@@ -116,8 +116,7 @@ public abstract class Item : IHeatable
     {
         var clone = (Item)MemberwiseClone();
 
-        // Heat is per-instance runtime state; give the clone its own copy
-        // instead of sharing the reference with the original.
+        // Heat is per-instance so give the clone its own copy
         clone.heat = new Heat(heat.Value);
 
         return clone;
