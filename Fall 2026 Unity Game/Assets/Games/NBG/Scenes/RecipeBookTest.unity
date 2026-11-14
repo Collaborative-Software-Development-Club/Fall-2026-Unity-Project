@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RecipeBookTest
   recipe: {fileID: 11400000, guid: 0a596156deded414b81a6540be4b3466, type: 2}
+  recipe2: {fileID: 11400000, guid: cc8e1c30d7804dc409fb28892a70c0b5, type: 2}
   _machineData: {fileID: 11400000, guid: 5ec1bc47bd6064808b53a6dfb61a626a, type: 2}
 --- !u!114 &172535404
 MonoBehaviour:
@@ -1041,7 +1042,7 @@ MonoBehaviour:
   itemsToGenerate:
   - ItemData: {fileID: 11400000, guid: 4df332449fa56884b87f3155c57270e9, type: 2}
     Quantity: 1
-  - ItemData: {fileID: 11400000, guid: 752eab726d723d04eb73b159b9725de7, type: 2}
+  - ItemData: {fileID: 11400000, guid: e946112052facd449845783d09c74ec4, type: 2}
     Quantity: 1
   - ItemData: {fileID: 11400000, guid: 73932c9183846c345b9d77fec2012e96, type: 2}
     Quantity: 10

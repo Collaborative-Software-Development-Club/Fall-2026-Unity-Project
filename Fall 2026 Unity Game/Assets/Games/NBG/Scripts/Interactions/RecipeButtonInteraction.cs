@@ -4,7 +4,7 @@ public class RecipeButtonInteraction : MonoBehaviour, ILeftClickable, IHoverable
 {
     public void OnLeftClick()
     {
-        string recipes = GameManager.Instance.RecipeManager.GetFoundRecipesString();
+        string recipes = GameManager.Instance.RecipeManager.NextPageFoundRecipes();
         
         if (recipes.Equals(""))
         {
@@ -23,6 +23,7 @@ public class RecipeButtonInteraction : MonoBehaviour, ILeftClickable, IHoverable
         string currentText = TextController.Instance.GetText();
         if (currentText.Equals(HoverMessage))
             TextController.Instance.ClearText();
+        GameManager.Instance.RecipeManager.ResetPage();
     }
     public string HoverMessage => "Click for Discovered Recipes.";
 

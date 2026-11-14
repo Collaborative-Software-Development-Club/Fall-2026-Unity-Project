@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProcessableData
   text: Raw Copper
   value: 0
-  icon: {fileID: 0}
+  icon: {fileID: 6334488703217226755, guid: 21e669845635e754c80a2c4edda2cc17, type: 3}
   type: 2
   rarity: 2
   isConsumable: 0
