@@ -94,8 +94,8 @@ public class Conveyor : IConveyorable
 
         foreach (ItemQuantity itemQuantity in items)
         {
-            if (ItemPresent(itemQuantity))
-                itemQuantity.Item.DissipateHeat(_heatDissipationPerStep);
+            if (ItemPresent(itemQuantity) && itemQuantity.Item is IHeatable heatable)
+                heatable.Heat.Dissipate(_heatDissipationPerStep);
         }
     }
 

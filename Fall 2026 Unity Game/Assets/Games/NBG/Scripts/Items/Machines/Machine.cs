@@ -21,6 +21,10 @@ public class Machine : Item, IConveyorable
     private Recipe _currentCraftableRecipe;
     
     private ItemProcessor _processor;
+
+    // Optional heating behavior, composed from the data. Null for machines
+    // that don't apply heat.
+    private readonly HeatApplicator _heatApplicator;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -173,6 +177,10 @@ public class Machine : Item, IConveyorable
             _processor = new SingleItemProcessor(machineData.recipes);
         else
             _processor = new MultiItemProcessor();
+
+        // Only heating machines carry a HeatApplicator; everything else stays cold.
+        if (machineData is HeatingMachineData heatingData && heatingData.heatPerPass > 0f)
+            _heatApplicator = new HeatApplicator(heatingData.heatPerPass);
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
@@ -207,7 +215,7 @@ public class Machine : Item, IConveyorable
             Item item = slot.GetItem();
             int quantity = slot.GetQuantity();
             Output.RemoveFromSlot(i, quantity);
-            item?.AddHeat(machineData.heatPerPass);
+            _heatApplicator?.ApplyTo(item);
             return new ItemQuantity(item, quantity);
         }
 
