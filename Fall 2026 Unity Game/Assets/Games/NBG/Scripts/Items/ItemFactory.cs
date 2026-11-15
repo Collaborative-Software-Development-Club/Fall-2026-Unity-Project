@@ -21,11 +21,19 @@ public static class ItemFactory
             case ItemType.Machine:
                 if (data is not MachineData machineData) throw new InvalidCastException("ItemData is not MachineData");
 
+                // Heating machines own the heat behavior; everything else is a plain machine.
+                if (machineData is HeatingMachineData heatingMachineData)
+                    return new HeatingMachine(heatingMachineData);
+
                 Machine machine = new Machine(machineData);
                 return machine;
             case ItemType.Processable:
                 if (data is not ProcessableData processableData) throw new InvalidCastException("ItemData is not ProcessableData");
-                
+
+                // Only heated processables carry heat.
+                if (processableData is HeatedItemData heatedItemData)
+                    return new HeatedItem(heatedItemData);
+
                 Processable processable = new Processable(processableData);
                 return processable;
             case ItemType.Box:

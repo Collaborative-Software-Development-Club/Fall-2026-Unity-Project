@@ -1,15 +1,10 @@
 using System;
 using UnityEngine;
 [Serializable]
-public abstract class Item : IHeatable
+public abstract class Item
 {
     [SerializeField] protected ItemData data;
     protected string Name;
-
-    // Runtime heat, per instance (not on the shared ItemData asset).
-    [SerializeField] protected Heat heat = new Heat();
-
-    public Heat Heat => heat;
 
     public void PrintData()
     {
@@ -30,7 +25,6 @@ public abstract class Item : IHeatable
         return $"[{GetRarity()}] {GetName()}\n" +
                $"Type: {GetItemType()}\n" +
                $"Value: {GetValue()}\n" +
-               $"Heat: {Heat.Value}\n" +
                $"Description: {GetDescription()}";
     }
     
@@ -115,9 +109,6 @@ public abstract class Item : IHeatable
     public virtual Item Clone()
     {
         var clone = (Item)MemberwiseClone();
-
-        // Heat is per-instance so give the clone its own copy
-        clone.heat = new Heat(heat.Value);
 
         return clone;
     }

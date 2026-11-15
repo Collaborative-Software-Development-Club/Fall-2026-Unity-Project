@@ -21,9 +21,6 @@ public class Machine : Item, IConveyorable
     private Recipe _currentCraftableRecipe;
     
     private ItemProcessor _processor;
-
-    // Only set for machines that heat items, null otherwise
-    private readonly HeatApplicator _heatApplicator;
     
     /// <summary>
     /// Function for retrieving the machine's data
@@ -176,10 +173,6 @@ public class Machine : Item, IConveyorable
             _processor = new SingleItemProcessor(machineData.recipes);
         else
             _processor = new MultiItemProcessor();
-
-        // Only heating machines get a heat applicator
-        if (machineData is HeatingMachineData heatingData && heatingData.heatPerPass > 0f)
-            _heatApplicator = new HeatApplicator(heatingData.heatPerPass);
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
@@ -214,11 +207,19 @@ public class Machine : Item, IConveyorable
             Item item = slot.GetItem();
             int quantity = slot.GetQuantity();
             Output.RemoveFromSlot(i, quantity);
-            _heatApplicator?.ApplyTo(item);
+            OnItemRemovedFromOutput(item);
             return new ItemQuantity(item, quantity);
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Hook called as an item leaves the output. Base machines do nothing;
+    /// subclasses (e.g. HeatingMachine) override this to act on the outgoing item.
+    /// </summary>
+    protected virtual void OnItemRemovedFromOutput(Item item)
+    {
     }
 
     public bool DoAction(IConveyorable nextConveyorable)
