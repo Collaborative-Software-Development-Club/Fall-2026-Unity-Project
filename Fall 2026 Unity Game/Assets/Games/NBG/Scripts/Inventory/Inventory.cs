@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,16 @@ public struct InventoryChange
 }
 public class Inventory
 {
+    /// <summary>
+    /// Gives the amount added
+    /// </summary>
+    public Action<ItemQuantity> OnItemAdded;
+    
+    /// <summary>
+    /// Gives the amount removed 
+    /// </summary>
+    public Action<ItemQuantity> OnItemRemoved;
+    
     private int _emptySlots = 0;
     
     public InventorySlot[] slots = new InventorySlot[0];
@@ -39,21 +50,30 @@ public class Inventory
     {
         // Could be improved by tracking open slots or turning inventory into dictionary, shouldn't loop 2x
         // Or could even track a open slot during the 1st loop and use it if no item is found
+        
+        // Checks if inventory already contains the item than adds more if found
         for (int i = 0; i < slots.Length; i++)
         {
             
             if (slots[i].GetItem() == null || !slots[i].GetItem().Equals(item) || (!slots[i].GetItem().GetStackable() && slots[i].GetItem().Equals(item))) continue;
             
             slots[i].AddQuantity(quantity);
+            
+            OnItemAdded?.Invoke(new ItemQuantity(item, quantity));
+            
             return i;
         }
 
+        // Adds a new slot since the item isn't in the inventory
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].GetItem() != null) continue;
             
             slots[i].SetItem(item);
             slots[i].SetQuantity(quantity);
+            
+            OnItemAdded?.Invoke(new ItemQuantity(item, quantity));
+            
             return i;
         }
 
@@ -90,10 +110,12 @@ public class Inventory
         }
 
         if (slots[slot].GetQuantity() > quantity) {
+            OnItemRemoved?.Invoke(new ItemQuantity(slots[slot].GetItem(), slots[slot].GetQuantity() - quantity));
             slots[slot].RemoveQuantity(quantity);
             returning.Add(slots[slot].GetItem(), quantity);
         } 
         else if (slots[slot].GetQuantity() > 0) {
+            OnItemRemoved?.Invoke(new ItemQuantity(slots[slot].GetItem(), slots[slot].GetQuantity()));
             returning.Add(slots[slot].GetItem(), slots[slot].GetQuantity());
             
             slots[slot].Reset();

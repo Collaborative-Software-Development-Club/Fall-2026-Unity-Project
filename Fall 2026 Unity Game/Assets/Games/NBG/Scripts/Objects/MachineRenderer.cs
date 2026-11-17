@@ -10,6 +10,7 @@ public class MachineRenderer : PlaceableObj
     private float _elapsed;
 
     private List<ConveyorItemRenderer> _touchedItems = new();
+    private readonly HashSet<ConveyorItemRenderer> _exitingItems = new();
     public Machine GetMachine => _machine;
 
     public void SetMachine(Machine machine)
@@ -36,39 +37,56 @@ public class MachineRenderer : PlaceableObj
         _machine.OnInputAdded += AddItem;
     }
 
-    private void EmptyOutput()
+    private void EmptyOutput(ItemQuantity added)
     {
-        int outputLength = _machine.GetOutputInventory().Length;
-        
-        List<ConveyorItemRenderer> itemsToCheck = _touchedItems;
-        List<ConveyorItemRenderer> checkedItems = new();
+        if (added == null || added.IsEmpty() || added.Item == null) return;
 
-        while (outputLength > 0)
+        // TODO: Need to spawn box renderers if it's a box renderer
+        ConveyorItemRenderer itemRenderer = TakeHeldRenderer() ?? SpawnOutputRenderer();
+        if (itemRenderer == null) return;
+
+        _exitingItems.Add(itemRenderer);
+        itemRenderer.DetachFromBelt();
+        itemRenderer.SetItem(added.Item);
+        itemRenderer.transform.position = (Vector2)transform.position + GetDirection() * 0.5f;
+        itemRenderer.gameObject.SetActive(true);
+
+        SpriteRenderer spriteRenderer = itemRenderer.GetSpriteRenderer;
+        if (spriteRenderer != null)
+            spriteRenderer.enabled = true;
+
+        _touchedItems.Add(itemRenderer);
+    }
+
+    private ConveyorItemRenderer TakeHeldRenderer()
+    {
+        while (_touchedItems.Count > 0)
         {
-            ConveyorItemRenderer item;
-            if (itemsToCheck.Count > 0)
-            {
-                item = itemsToCheck[^1];
-                item.SetItem(_machine.GetOutputFromSlot(outputLength));
-                _touchedItems.RemoveAt(_touchedItems.Count - 1);
-            }
-            else
-            {
-                item = ConveyorItemRenderer.CreateRenderer().GetComponent<ConveyorItemRenderer>();
-            }
-            checkedItems.Add(item);
-            outputLength--;
+            int last = _touchedItems.Count - 1;
+            ConveyorItemRenderer held = _touchedItems[last];
+            _touchedItems.RemoveAt(last);
+            if (held != null)
+                return held;
         }
-        
-        _touchedItems = checkedItems;
-        
-        // Teleports objects to end of conveyor
-        foreach (var itemRenderer in _touchedItems)
+
+        return null;
+    }
+
+    private ConveyorItemRenderer SpawnOutputRenderer()
+    {
+        if (_itemPrefab == null)
         {
-            Debug.Log("Is this thing on?");
-            itemRenderer.gameObject.SetActive(true);
-            itemRenderer.transform.position = GetDirection() * itemRenderer.transform.localScale.x; 
-        } 
+            Debug.LogError("Machine has no item prefab, so it cannot spawn output sprites.", this);
+            return null;
+        }
+
+        GameObject spawned = Instantiate(_itemPrefab);
+        ConveyorItemRenderer itemRenderer = spawned.GetComponent<ConveyorItemRenderer>();
+        if (itemRenderer != null) return itemRenderer;
+
+        Debug.LogError("Item prefab has no ConveyorItemRenderer.", spawned);
+        Destroy(spawned);
+        return null;
     }
 
     private void AddItem(Item item)
@@ -78,25 +96,27 @@ public class MachineRenderer : PlaceableObj
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if(!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
-        if (!_touchedItems.Contains(itemRenderer)) return;
+        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
+        if (!_touchedItems.Contains(itemRenderer) || !itemRenderer.gameObject.activeInHierarchy) return;
         itemRenderer.Move(GetDirection());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // TODO: Make it invisible based on if it's added later on
-        if (other.TryGetComponent(out ConveyorItemRenderer conveyorItemRenderer) &&
-            !_touchedItems.Contains(conveyorItemRenderer))
-        {
-            _touchedItems.Add(conveyorItemRenderer);
-            conveyorItemRenderer.gameObject.SetActive(false);
-        }
+        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer) || _exitingItems.Contains(itemRenderer) || _touchedItems.Contains(itemRenderer)) return;
+
+        _touchedItems.Add(itemRenderer);
+        itemRenderer.gameObject.SetActive(false);
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-       if (other.TryGetComponent(out ConveyorItemRenderer conveyorItemRenderer))
-           _touchedItems.Remove(conveyorItemRenderer);
+        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
+
+        if (!itemRenderer.gameObject.activeInHierarchy && _touchedItems.Contains(itemRenderer))
+            return;
+
+        _touchedItems.Remove(itemRenderer);
+        _exitingItems.Remove(itemRenderer);
     }
 }

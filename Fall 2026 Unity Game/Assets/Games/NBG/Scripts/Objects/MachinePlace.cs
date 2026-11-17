@@ -28,12 +28,10 @@ public class MachinePlace
        List<Collider2D> contacts = new List<Collider2D>();
        
        boxCollider.Overlap(contacts);
-       Debug.Log(contacts.Count);
        ConveyorRenderer conveyorRenderer = null;
        
        foreach (var contact in contacts)
        {
-           Debug.Log(contact.gameObject.name);
            if (!contact.TryGetComponent<ConveyorRenderer>(out var conveyor)) continue;
            conveyorRenderer = conveyor;
 
@@ -41,17 +39,12 @@ public class MachinePlace
        }
 
        if (conveyorRenderer is null) return;
-       
-       (int firstLineIdx, int secondLineIdx) = conveyorManager.SplitLineAtConveyor(conveyorRenderer.GetConveyor());
 
-       // Add Machine data to line
-       if (firstLineIdx == -1 || secondLineIdx == -1) return;
        Machine newMachine = ItemFactory.CreateItemFromSO(machineData) as Machine;
        if (newMachine == null) return;
 
-       newMachine.AcceptsConveyorItems = false;
-       conveyorManager.AddConveyorable(firstLineIdx, newMachine);
-       conveyorManager.CombineLines(firstLineIdx, secondLineIdx);
+       if (!conveyorManager.ReplaceWithMachine(conveyorRenderer.GetConveyor(), newMachine))
+           return;
        
        // Replace renderer with machine renderer
        GameObject rendererObj = conveyorRenderer.gameObject;

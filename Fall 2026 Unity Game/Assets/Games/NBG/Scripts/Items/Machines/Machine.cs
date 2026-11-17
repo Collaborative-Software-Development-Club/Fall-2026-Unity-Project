@@ -18,7 +18,7 @@ public class Machine : Item, IConveyorable
     
     public Action<Recipe, MachineData> OnCraft;
     public Action<Item> OnInputAdded;
-    public Action OnOutputAdded;
+    public Action<ItemQuantity> OnOutputAdded;
 
     private Dictionary<ItemData, List<Recipe>> _currentAvailableRecipes;
     private Recipe _currentCraftableRecipe;
@@ -80,7 +80,7 @@ public class Machine : Item, IConveyorable
             return AddItemToOutput(item, quantity);
         
         int newIndex = -1;
-
+        
         if (_processor.InsertInput(item.GetData()))
         {
             newIndex = Input.AddItemToInventory(item, quantity);
@@ -107,10 +107,6 @@ public class Machine : Item, IConveyorable
     public bool AddItemToOutput(Item item, int quantity = 1)
     {
         int newIndex = Output.AddItemToInventory(item, quantity);
-        
-        Debug.Log("This should be running...");
-        if (newIndex > -1)
-            OnOutputAdded?.Invoke();
 
         return newIndex > -1;
     }
@@ -181,6 +177,11 @@ public class Machine : Item, IConveyorable
             _processor = new SingleItemProcessor(machineData.recipes);
         else
             _processor = new MultiItemProcessor();
+
+        Output.OnItemAdded += (ItemQuantity itemQuantity) =>
+        {
+            OnOutputAdded?.Invoke(itemQuantity);
+        };
     }
     public Machine(MachineData itemData, string itemName) : this(itemData)
     {
@@ -201,7 +202,6 @@ public class Machine : Item, IConveyorable
     public int GetSize() => Input.Length;
     public bool AddItemQuantityToPart(ItemQuantity itemQuantity)
     {
-        if (!AcceptsConveyorItems) return false;
         return AddItemToInput(itemQuantity);
     }
 
@@ -235,17 +235,17 @@ public class Machine : Item, IConveyorable
         bool crafted = PerformOperation();
 
         if (nextConveyorable == null || !nextConveyorable.HasSpace())
-            return crafted;
+            return false;
 
         ItemQuantity outputItem = RemoveLastItemFromPart();
         if (outputItem == null || outputItem.IsEmpty())
-            return crafted;
+            return false;
 
+        Debug.Log("Part 3");
         if (nextConveyorable.AddItemQuantityToPart(outputItem))
             return true;
 
-        AddItemToOutput(outputItem.Item, outputItem.Quantity);
-        return crafted;
+        return false;
     }
 
     public bool HasSpace()

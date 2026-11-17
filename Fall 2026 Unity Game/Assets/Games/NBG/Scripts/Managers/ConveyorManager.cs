@@ -58,6 +58,29 @@ public class ConveyorManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Swaps a belt tile for a machine so items on that tile enter the machine.
+    /// </summary>
+    public bool ReplaceWithMachine(Conveyor target, Machine machine)
+    {
+        if (target == null || machine == null) return false;
+
+        for (int lineIdx = 0; lineIdx < conveyors.Count; lineIdx++)
+        {
+            List<ConveyorSection> chain = conveyors[lineIdx];
+            for (int sectionIdx = 0; sectionIdx < chain.Count; sectionIdx++)
+            {
+                if (!chain[sectionIdx].ReplaceConveyorable(target, machine)) continue;
+
+                allMachines.Add(new MachineIndex(machine, lineIdx));
+                MachineAdd?.Invoke(machine);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void AddNewChain(List<ConveyorSection> newChain)
     {
         conveyors.Add(newChain);

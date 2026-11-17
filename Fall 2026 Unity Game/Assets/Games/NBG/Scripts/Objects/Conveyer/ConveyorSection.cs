@@ -36,6 +36,19 @@ public class ConveyorSection
         return true; // Succeeded
     }
 
+    public bool ReplaceConveyorable(IConveyorable current, IConveyorable replacement)
+    {
+        for (int i = 0; i < _conveyorCount; i++)
+        {
+            if (!ReferenceEquals(_conveyorParts[i], current)) continue;
+
+            _conveyorParts[i] = replacement;
+            return true;
+        }
+
+        return false;
+    }
+
     public bool AddItemToStartOfChain(ItemQuantity itemQuantity)
     {
         return _conveyorParts[0].AddItemQuantityToPart(itemQuantity);
