@@ -1,13 +1,15 @@
+using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MachineRenderer : PlaceableObj
 {
-    private const float TickSeconds = 0.5f;
-
     private Machine _machine;
     private GameObject _itemPrefab;
     private float _elapsed;
 
+    private List<ConveyorItemRenderer> _touchedItems = new();
     public Machine GetMachine => _machine;
 
     public void SetMachine(Machine machine)
@@ -27,140 +29,74 @@ public class MachineRenderer : PlaceableObj
         SetDirection(beltDirection.sqrMagnitude > 0.01f ? beltDirection.normalized : Vector2.right);
         SetSprite(machine.GetIcon());
 
-        if (_itemPrefab == null)
+        if (!_itemPrefab)
             Debug.LogError("Machine has no item prefab, so it cannot spawn output sprites.", this);
+        
+        _machine.OnOutputAdded += EmptyOutput;
+        _machine.OnInputAdded += AddItem;
+    }
+
+    private void EmptyOutput()
+    {
+        int outputLength = _machine.GetOutputInventory().Length;
+        
+        List<ConveyorItemRenderer> itemsToCheck = _touchedItems;
+        List<ConveyorItemRenderer> checkedItems = new();
+
+        while (outputLength > 0)
+        {
+            ConveyorItemRenderer item;
+            if (itemsToCheck.Count > 0)
+            {
+                item = itemsToCheck[^1];
+                item.SetItem(_machine.GetOutputFromSlot(outputLength));
+                _touchedItems.RemoveAt(_touchedItems.Count - 1);
+            }
+            else
+            {
+                item = ConveyorItemRenderer.CreateRenderer().GetComponent<ConveyorItemRenderer>();
+            }
+            checkedItems.Add(item);
+            outputLength--;
+        }
+        
+        _touchedItems = checkedItems;
+        
+        // Teleports objects to end of conveyor
+        foreach (var itemRenderer in _touchedItems)
+        {
+            Debug.Log("Is this thing on?");
+            itemRenderer.gameObject.SetActive(true);
+            itemRenderer.transform.position = GetDirection() * itemRenderer.transform.localScale.x; 
+        } 
+    }
+
+    private void AddItem(Item item)
+    {
+        // Should do a check to see if this is contained when added if not don't add it in should also stall conveyors
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (_machine == null) return;
-        if (!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
-        if (itemRenderer.WasReleasedByMachine) return;
-
-        
-        // TODO: This should be sent through the machine like normal? Or at least appear that way
-        // Boxes must slide past machines (no conveyor under the tile) so they stay
-        // right-clickable and don't get stuck when they leave the previous belt.
-        if (itemRenderer is UnboxableConveyorItem)
-        {
-            if (!itemRenderer.HasParent)
-                itemRenderer.Move(GetDirection());
-            return;
-        }
-
-        if (itemRenderer.Item == null || itemRenderer.Item.GetData() == null) return;
-
-        itemRenderer.DetachFromBelt();
-        other.transform.position = transform.position;
-        if (other.attachedRigidbody != null)
-        {
-            other.attachedRigidbody.position = transform.position;
-            other.attachedRigidbody.linearVelocity = Vector2.zero;
-        }
-
-        bool needsInputSlot = itemRenderer.Item is Processable;
-        if (needsInputSlot && !_machine.HasSpace()) return;
-
-        Item intake = ItemFactory.CreateItemFromSO(itemRenderer.Item.GetData());
-        if (intake == null || !_machine.AddItemToInput(intake, 1)) return;
-
-        itemRenderer.Destroy();
+        if(!other.TryGetComponent(out ConveyorItemRenderer itemRenderer)) return;
+        if (!_touchedItems.Contains(itemRenderer)) return;
+        itemRenderer.Move(GetDirection());
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_machine == null) return;
-
-        _elapsed += Time.fixedDeltaTime;
-        if (_elapsed >= TickSeconds)
+        // TODO: Make it invisible based on if it's added later on
+        if (other.TryGetComponent(out ConveyorItemRenderer conveyorItemRenderer) &&
+            !_touchedItems.Contains(conveyorItemRenderer))
         {
-            _elapsed = 0f;
-            _machine.PerformOperation();
-        }
-
-        ReleaseOutputs();
-    }
-
-    // TODO: Make this use object pooling
-    private void ReleaseOutputs()
-    {
-        if (_itemPrefab is null) return;
-
-        ItemQuantity output = _machine.RemoveLastItemFromPart();
-        while (output != null && !output.IsEmpty() && output.Item != null)
-        {
-            int count = Mathf.Max(1, output.Quantity);
-            for (int i = 0; i < count; i++)
-            {
-                Item visualItem = i == 0 ? output.Item : ItemFactory.CreateItemFromSO(output.Item.GetData());
-                if (visualItem == null) continue;
-                SpawnOutput(visualItem, i, count);
-            }
-
-            output = _machine.RemoveLastItemFromPart();
+            _touchedItems.Add(conveyorItemRenderer);
+            conveyorItemRenderer.gameObject.SetActive(false);
         }
     }
-
-    private void SpawnOutput(Item item, int index, int count)
+    
+    private void OnTriggerExit2D(Collider2D other)
     {
-        Vector2 direction = GetDirection();
-        Vector2 side = new Vector2(-direction.y, direction.x);
-        float spread = (index - (count - 1) * 0.5f) * 0.2f;
-        Vector3 position = transform.position + (Vector3)(direction + side * spread);
-
-        GameObject itemObj = Instantiate(_itemPrefab, position, Quaternion.identity);
-        itemObj.name = item.GetName();
-
-        if (itemObj.TryGetComponent(out Rigidbody2D body))
-        {
-            body.linearVelocity = Vector2.zero;
-            body.angularVelocity = 0f;
-        }
-
-        ConveyorItemRenderer itemRenderer = itemObj.GetComponent<ConveyorItemRenderer>();
-        if (itemRenderer == null)
-        {
-            Debug.LogError("Item prefab is missing ConveyorItemRenderer.", this);
-            Destroy(itemObj);
-            return;
-        }
-
-        // TODO: THIS SHOULD BE TEMP AND MADE BETTER IN THE FUTURE
-        if (item.GetData() is BoxData { openItem: MachineData machine })
-        {
-            UnboxableConveyorItem unboxableConveyorItem = itemObj.AddComponent<UnboxableConveyorItem>();
-            unboxableConveyorItem.OnRightClickEvent += () => MachinePlace.Place(machine, unboxableConveyorItem);
-            unboxableConveyorItem.SetSpriteRenderer(itemRenderer.GetSpriteRenderer);
-                    
-            Destroy(itemRenderer);
-            itemRenderer = unboxableConveyorItem;
-        }
-
-        itemRenderer.SetItem(item);
-        Sprite icon = item.GetIcon();
-        if (icon != null)
-        {
-            itemRenderer.SetSprite(icon);
-            itemRenderer.SetColor(Color.white);
-        }
-        else
-        {
-            itemRenderer.SetColor(ColorForItem(item));
-        }
-
-        itemRenderer.MarkReleasedByMachine();
-    }
-
-    // Added by ai interesting idk if we wanna keep but this is gonna for testing
-    // TODO: Decide if this should be kept
-    private static Color ColorForItem(Item item)
-    {
-        int hash = 0;
-        string itemName = item.GetName() ?? string.Empty;
-        foreach (char character in itemName)
-            hash = hash * 31 + character;
-
-        float hue = (hash & 255) / 255f;
-        return Color.HSVToRGB(hue, 0.8f, 1f);
+       if (other.TryGetComponent(out ConveyorItemRenderer conveyorItemRenderer))
+           _touchedItems.Remove(conveyorItemRenderer);
     }
 }

@@ -15,7 +15,10 @@ public class Machine : Item, IConveyorable
 
     private List<ItemQuantity> _pendingOutputs;
     private int _ticksRemaining;
+    
     public Action<Recipe, MachineData> OnCraft;
+    public Action<Item> OnInputAdded;
+    public Action OnOutputAdded;
 
     private Dictionary<ItemData, List<Recipe>> _currentAvailableRecipes;
     private Recipe _currentCraftableRecipe;
@@ -77,12 +80,13 @@ public class Machine : Item, IConveyorable
             return AddItemToOutput(item, quantity);
         
         int newIndex = -1;
-        
-        if(_processor.CanAddItem(item.GetData())) 
+
+        if (_processor.InsertInput(item.GetData()))
+        {
             newIndex = Input.AddItemToInventory(item, quantity);
-        
-        Debug.Log("what the frick");
-        
+            OnInputAdded?.Invoke(item);
+        }
+
         return newIndex > -1;
     }
 
@@ -103,6 +107,10 @@ public class Machine : Item, IConveyorable
     public bool AddItemToOutput(Item item, int quantity = 1)
     {
         int newIndex = Output.AddItemToInventory(item, quantity);
+        
+        Debug.Log("This should be running...");
+        if (newIndex > -1)
+            OnOutputAdded?.Invoke();
 
         return newIndex > -1;
     }
@@ -224,8 +232,6 @@ public class Machine : Item, IConveyorable
 
     public bool DoAction(IConveyorable nextConveyorable)
     {
-        if (!AcceptsConveyorItems) return false;
-
         bool crafted = PerformOperation();
 
         if (nextConveyorable == null || !nextConveyorable.HasSpace())

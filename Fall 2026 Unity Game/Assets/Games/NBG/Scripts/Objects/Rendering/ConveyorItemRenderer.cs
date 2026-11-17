@@ -6,22 +6,16 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
     [SerializeField] SpriteRenderer itemRenderer;
     
     private ConveyorRenderer _parentRenderer;
-    private const float MoveDistance = 5.0f;
+    [SerializeField] private float moveSpeed = 2.0f; 
     private Item _item;
-    private float _machineLock;
 
     public Item Item => _item;
-    public bool WasReleasedByMachine => _machineLock > 0f;
 
     public void SetItem(Item item)
     {
         name = item.GetDisplayName();
         _item = item;
-    }
-
-    public void MarkReleasedByMachine()
-    {
-        _machineLock = 0.5f;
+        SetSprite(item.GetIcon());
     }
 
     public void DetachFromBelt()
@@ -30,12 +24,6 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
 
         _parentRenderer.RemoveItem(this);
         _parentRenderer = null;
-    }
-
-    private void FixedUpdate()
-    {
-        if (_machineLock > 0f)
-            _machineLock -= Time.fixedDeltaTime;
     }
 
     private void Start()
@@ -67,22 +55,11 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
         itemRenderer.sprite = sprite;
     }
 
-    public void SetColor(Color color)
-    {
-        if (!itemRenderer)
-            itemRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        if (!itemRenderer) return;
-
-        itemRenderer.color = color;
-    }
-
-    [SerializeField] private float moveSpeed = 2.0f; 
 
     public void Move(Vector2 direction)
     {
         Vector2 currentPos = transform.position;
-        Vector2 targetPos = currentPos + (direction * moveSpeed * Time.fixedDeltaTime);
+        Vector2 targetPos = currentPos + direction * (moveSpeed * Time.fixedDeltaTime);
     
         transform.position = Vector2.MoveTowards(currentPos, targetPos, moveSpeed * Time.fixedDeltaTime);
     }
@@ -110,4 +87,15 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
     }
 
     public string HoverMessage => _item.GetDisplayName();
+
+    public static GameObject CreateRenderer()
+    {
+        GameObject temp = new GameObject();
+        temp.AddComponent<ItemHolder>();
+        temp.AddComponent<ConveyorItemRenderer>();
+        temp.AddComponent<BoxCollider2D>().size = new Vector2(.8f, .8f);
+        temp.AddComponent<Rigidbody2D>().gravityScale = 0;
+
+        return temp;
+    }
 }

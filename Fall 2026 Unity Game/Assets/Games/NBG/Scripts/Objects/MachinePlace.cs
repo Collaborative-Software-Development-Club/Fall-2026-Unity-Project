@@ -13,8 +13,6 @@ public class MachinePlace
     /// <param name="unboxableConveyorItem"></param>
     public static void Place(MachineData machineData, UnboxableConveyorItem unboxableConveyorItem)
     {
-        Debug.Log("attempt place");
-        
        /*
         * TODO: Implement complex place,
         * I.E. waiting for conveyor to free up
@@ -42,9 +40,7 @@ public class MachinePlace
            break;
        }
 
-       Debug.Log("hello world");
        if (conveyorRenderer is null) return;
-       Debug.Log("goodbye world");
        
        (int firstLineIdx, int secondLineIdx) = conveyorManager.SplitLineAtConveyor(conveyorRenderer.GetConveyor());
 

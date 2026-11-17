@@ -21,13 +21,13 @@ public class PlaceableObj : MonoBehaviour
     {
         FindRenderer();
 
-        if (_spriteRenderer == null)
+        if (!_spriteRenderer)
         {
             Debug.LogError($"[{gameObject.name}] PlaceableObj could not find a SpriteRenderer on this object or its children!", this);
             return;
         }
 
-        if (sprite == null)
+        if (!sprite)
         {
             Debug.LogWarning($"[{gameObject.name}] Passed sprite is null!", this);
             return;
@@ -38,7 +38,7 @@ public class PlaceableObj : MonoBehaviour
     
     private void FindRenderer()
     {
-        if (_spriteRenderer == null)
+        if (_spriteRenderer is null)
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // Checks self and children
     }
 }
