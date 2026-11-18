@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &139104002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715976165269750514, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+  m_PrefabInstance: {fileID: 795869911}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &158346760
 GameObject:
   m_ObjectHideFlags: 0
@@ -2398,6 +2403,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2715976165269750514, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 795869915}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleOpenRulesList
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CADE_RuleUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575761746407478706, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4941541768937122387, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: rulesPanel
+      value: 
+      objectReference: {fileID: 139104002}
     - target: {fileID: 7622402008088198605, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 572.1509
@@ -2438,6 +2479,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9209194918602797303, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2454,6 +2499,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &795869915 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4941541768937122387, guid: 724c43bdda2fed9439fa93bed90be88e, type: 3}
+  m_PrefabInstance: {fileID: 795869911}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d856515babc16c41b9baa626d609793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CADE_UIManager
 --- !u!114 &827133252 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8709839289420254693, guid: ab51644000ce7cb4fa008e24bc90d0fa, type: 3}
@@ -2983,7 +3039,7 @@ Transform:
   m_GameObject: {fileID: 1115283711}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8432286, y: 0.80771005, z: -6.58138}
+  m_LocalPosition: {x: 1.6293414, y: 0.80771005, z: -6.58138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4716,7 +4772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2706126261876000000, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.7903786
+      value: 4.5764914
       objectReference: {fileID: 0}
     - target: {fileID: 2706126261876000000, guid: e18b1daa71e5ca542bd567c02f016d8e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -108455,17 +108511,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 795869912}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 795869915}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 669603986}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NewRuleAdded
+      objectReference: {fileID: 0}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: InvertPowerUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -108479,8 +108551,16 @@ PrefabInstance:
       value: MoonGravity
       objectReference: {fileID: 0}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CADE_RuleUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: CADE_PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
+      propertyPath: AddRule.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2439160132660191086, guid: 5ce50fa286b301e478520cc1cb35d81b, type: 3}
       propertyPath: LowGravity.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -108824,6 +108904,30 @@ PrefabInstance:
       propertyPath: OnGetItem.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 827133252}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 795869915}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDiscoverNewRule
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CADE_RuleUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611061198111753668, guid: 1584ae41ae2a4ca43aac8d934b97f3a4, type: 3}
+      propertyPath: InvertedItemRuleDiscovery.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

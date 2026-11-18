@@ -7,12 +7,17 @@ public class CADE_PowerUp : I_Item
 {
     public CADE_ItemList.Items m_Item;
 
+    private bool isInverted = false;
+
+    public UnityEvent<int> InvertedItemRuleDiscovery;
+
     [SerializeField]
     private UnityEvent<int> OnGetItem;
 
     private void Start()
     {
         OnGetItem ??= new UnityEvent<int>();
+        InvertedItemRuleDiscovery ??= new UnityEvent<int>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -22,6 +27,10 @@ public class CADE_PowerUp : I_Item
         if (collision.attachedRigidbody.CompareTag("Player"))
         {
             OnGetItem.Invoke((int)m_Item);
+            if (isInverted)
+            {
+                InvertedItemRuleDiscovery.Invoke((int)CADE_RandomRulesList.DoubleJumpRules.PowerDowns);
+            }
             Debug.Log("Grabbed Item: " + Enum.GetName(typeof(CADE_ItemList.Items), m_Item));
             gameObject.SetActive(false);
         }
@@ -29,6 +38,8 @@ public class CADE_PowerUp : I_Item
 
     public void InvertItem()
     {
+        isInverted = true;
+
         if (m_Item == CADE_ItemList.Items.DoubleJump)
         {
             m_Item = CADE_ItemList.Items.Inv_DoubleJump;

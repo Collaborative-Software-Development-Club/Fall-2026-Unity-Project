@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class CADE_ItemManager : MonoBehaviour
 {
     public GameEvent OnLose;
-    
+
+    public UnityEvent<int> InvertedItemRuleDiscovery;
+
     // Jump Effects
     public bool standardJumpFlag = false;
     public bool doubleJumpFlag = false;
@@ -42,7 +45,11 @@ public class CADE_ItemManager : MonoBehaviour
         else if (itemId == (int) CADE_ItemList.Items.WallJump) {  OnGetWallJump(); } 
         else if (itemId == (int) CADE_ItemList.Items.Dash) { OnGetDash(); }
         else if (itemId == (int) CADE_ItemList.Items.Sticky) { OnGetSticky(); }
-        else if (itemId == (int) CADE_ItemList.Items.Inv_DoubleJump) { OnInvDoubleJump(); }
+        else if (itemId == (int) CADE_ItemList.Items.Inv_DoubleJump) 
+        {
+            InvertedItemRuleDiscovery.Invoke((int)CADE_RandomRulesList.DoubleJumpRules.PowerDowns);
+            OnInvDoubleJump(); 
+        }
         else if (itemId == (int) CADE_ItemList.Items.Inv_WallJump) { OnInvWallJump(); }
         else if (itemId == (int) CADE_ItemList.Items.Inv_Dash) { OnInvDash(); }
         else if (itemId == (int) CADE_ItemList.Items.Inv_Sticky) { OnInvSticky(); }
