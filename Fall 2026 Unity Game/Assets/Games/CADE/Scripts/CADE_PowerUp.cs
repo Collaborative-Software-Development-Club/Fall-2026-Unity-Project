@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +18,8 @@ public class CADE_PowerUp : I_Item
 
     private void Start()
     {
+        // give dummy value just in case
+        invertedRuleId = 0;
 
         OnGetItem ??= new UnityEvent<int>();
         InvertedItemRuleDiscovery ??= new UnityEvent<int>();

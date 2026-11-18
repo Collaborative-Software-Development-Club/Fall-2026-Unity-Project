@@ -6,6 +6,7 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 public class CADE_RuleManager : MonoBehaviour
 {
@@ -32,33 +33,27 @@ public class CADE_RuleManager : MonoBehaviour
     
     public void ApplySetRules(CADE_SceneList.Scenes currentScene)
     {
-        int setRuleId = 0;
-        string setRuleDesc = string.Empty;
 
         if (currentScene == CADE_SceneList.Scenes.CADE_DoubleJump)
         {
-            setRuleId = -3;
-            setRuleDesc = "\n- To win, you must die in the pit.\n\n- The bushes launch you if you press the jump button.\n";
+            AddRule.Invoke((int)CADE_SetRulesList.DoubleJumpRules.PitWinCondition, "\n- To win, you must die in the pit.\n");
+            AddRule.Invoke((int)CADE_SetRulesList.DoubleJumpRules.LaunchBush, "\n - The bushes launch you if you press the jump button.\n");
 
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_WallJump)
         {
-            setRuleId = -4;
-            setRuleDesc = "\n- 5 Consectuive wall jumps kill you.\n";
+            AddRule.Invoke((int)CADE_SetRulesList.WallJumpRules.LimitedWallJumps, "\n- 5 Consectuive wall jumps kill you.\n");
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_Dash)
         {
-            setRuleId = -5;
-            setRuleDesc = "\n- Blue platforms are slippery.\n\n- Must beat the level in 50 seconds.\n";
+            AddRule.Invoke((int)CADE_SetRulesList.DashRules.SlipperyBlue, "\n- Blue platforms are slippery.\n");
+            AddRule.Invoke((int)CADE_SetRulesList.DashRules.TimeLimit, "\n- Must beat the level in 50 seconds.\n");
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_Sticky)
         {
-            setRuleId = -6;
-            setRuleDesc = "\n- There is fall damage.\n";
+            AddRule.Invoke((int)CADE_SetRulesList.StickyRules.FallDamage, "\n- There is fall damage.\n");
         }
 
-        rules.Add(setRuleId, setRuleDesc); 
-        AddRule.Invoke(setRuleId, setRuleDesc);
     }
 
 

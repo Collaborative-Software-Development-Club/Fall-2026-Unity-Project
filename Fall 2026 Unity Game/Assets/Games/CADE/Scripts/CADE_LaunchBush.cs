@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class CADE_LaunchBush : MonoBehaviour
 {
+    public UnityEvent<int> LaunchBushDiscoveryEvent;
+
     [SerializeField]
     private Rigidbody2D playerRb;
 
@@ -18,6 +21,8 @@ public class CADE_LaunchBush : MonoBehaviour
         {
             playerRb.AddForceY(force);
             Debug.Log("Launched");
+
+            LaunchBushDiscoveryEvent.Invoke((int)CADE_SetRulesList.DoubleJumpRules.LaunchBush);
         }
     }
 
