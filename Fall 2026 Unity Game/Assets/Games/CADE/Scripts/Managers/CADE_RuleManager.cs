@@ -36,8 +36,10 @@ public class CADE_RuleManager : MonoBehaviour
 
         if (currentScene == CADE_SceneList.Scenes.CADE_DoubleJump)
         {
-            AddRule.Invoke((int)CADE_SetRulesList.DoubleJumpRules.PitWinCondition, "\n- To win, you must die in the pit.\n");
+            AddRule.Invoke((int)CADE_SetRulesList.DoubleJumpRules.PitWinCondition, "\n- To win, you must fall to your death in the level's only pit.\n");
             AddRule.Invoke((int)CADE_SetRulesList.DoubleJumpRules.LaunchBush, "\n - The bushes launch you if you press the jump button.\n");
+
+            Debug.Log("Added Set Rules");
 
         }
         else if (currentScene == CADE_SceneList.Scenes.CADE_WallJump)
@@ -129,7 +131,7 @@ public class CADE_RuleManager : MonoBehaviour
         if ((CADE_RandomRulesList.DoubleJumpRules)ruleId == CADE_RandomRulesList.DoubleJumpRules.PowerDowns)
         {
             Debug.Log("Rule Applied: Power Ups are actually Power Downs.");
-            ruleString = "\n- Power Ups are actually Power Downs: Double jump? How bout no jump.\n";
+            ruleString = "\n- Power Ups are actually Power Downs. Double Jump? How about NO JUMPING ALLOWED.\n";
             InvertPowerUp.Invoke();
         }
         else if ((CADE_RandomRulesList.DoubleJumpRules)ruleId == CADE_RandomRulesList.DoubleJumpRules.LowGravity)

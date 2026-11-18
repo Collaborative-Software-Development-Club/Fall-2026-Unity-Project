@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class CADE_PlayerMovement : MonoBehaviour
@@ -82,7 +83,10 @@ public class CADE_PlayerMovement : MonoBehaviour
     private bool isSticky = false;
     private bool isInvSticky = false;
     private bool isTouchingNorm = false;
-    
+
+    public UnityEvent<int> OnMoonGravityRuleDiscovery;
+    private bool hasMoonGravity = false;
+
     // Variables for random rules
     private bool invertXMov = false;
     private bool invertYMov = false;
@@ -193,6 +197,11 @@ public class CADE_PlayerMovement : MonoBehaviour
         } else if (context.canceled) {
             jumpReleased = true;
             CADE_Jump.Cut_Jump(rb, ref jumpReleased);
+        }
+
+        if (hasMoonGravity)
+        {
+            OnMoonGravityRuleDiscovery.Invoke((int)CADE_RandomRulesList.DoubleJumpRules.LowGravity);
         }
     }
 
@@ -321,6 +330,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     public void MoonGravity()
     {
         baseGravity = moonGravityScale;
+        hasMoonGravity = true;
     }
 
     public void BabyMode()
