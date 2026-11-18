@@ -1,27 +1,33 @@
+using UnityEngine;
+
 public class MultiItemProcessor : ItemProcessor
 {
     public MultiItemProcessor()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
     }
     
     public override bool InsertInput(ItemData itemData)
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
+        return false;
     }
 
     public override bool ProcessInput(Inventory Input, Inventory Output)
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
+        return false;
     }
 
     public override bool CanAddItem(ItemData itemData)
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
+        return false;
     }
 
     public override bool CanAddItem()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
+        return false;
     }
 }
