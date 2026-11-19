@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class CADE_PlayerMovement : MonoBehaviour
@@ -82,7 +83,10 @@ public class CADE_PlayerMovement : MonoBehaviour
     private bool isSticky = false;
     private bool isInvSticky = false;
     private bool isTouchingNorm = false;
-    
+
+    public UnityEvent<int> OnMoonGravityRuleDiscovery;
+    private bool hasMoonGravity = false;
+
     // Variables for random rules
     private bool invertXMov = false;
     private bool invertYMov = false;
@@ -111,7 +115,7 @@ public class CADE_PlayerMovement : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (jumpBufferCounter > 0f && isGrounded()) {
+        if (jumpBufferCounter > 0f && isGrounded() && !itemManager.inv_DoubleJumpFlag) {
             PerformJump();
             jumpBufferCounter = 0f;
         } 
@@ -186,13 +190,17 @@ public class CADE_PlayerMovement : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         if (context.performed) {
-            if (!isGrounded())
+            if (!isGrounded() && extraJumpsRemaining <= 0 && !isWallSliding)
                 jumpBufferCounter = jumpBuffer;
             else
                 PerformJump();
         } else if (context.canceled) {
-            jumpReleased = true;
             CADE_Jump.Cut_Jump(rb, ref jumpReleased);
+        }
+
+        if (hasMoonGravity)
+        {
+            OnMoonGravityRuleDiscovery.Invoke((int)CADE_RandomRulesList.DoubleJumpRules.LowGravity);
         }
     }
 
@@ -208,7 +216,7 @@ public class CADE_PlayerMovement : MonoBehaviour
                 ref extraJumpsRemaining, ref wallJumpsRemaining, wallJumpsMax, ref extraJumps, ref wallJumpLockCounter, ref wallJumpLockTime,
                 wallJumpForceX, wallJumpForceY, isWallSliding, isTouchingWallLeft, isTouchingWallRight, OnLose);
         }
-        else if (!isSticky && !isInvSticky)
+        else if (!isSticky && !isInvSticky && !itemManager.inv_DoubleJumpFlag)
         {
             CADE_Jump.Jump(rb, jumpHeight, ref coyoteTimeCounter, ref jumpReleased);
         }
@@ -321,6 +329,7 @@ public class CADE_PlayerMovement : MonoBehaviour
     public void MoonGravity()
     {
         baseGravity = moonGravityScale;
+        hasMoonGravity = true;
     }
 
     public void BabyMode()

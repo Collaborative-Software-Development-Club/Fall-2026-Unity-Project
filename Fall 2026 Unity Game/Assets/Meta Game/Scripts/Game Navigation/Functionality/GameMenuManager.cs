@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameMenuManager : MonoBehaviour
@@ -5,15 +6,16 @@ public class GameMenuManager : MonoBehaviour
     [SerializeField] private GameDatabase database;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private float radius = 1f;
+    [SerializeField] private float spawnDelay = 1f;
 
     const float FULLROTATION = 2 * Mathf.PI;
 
     private void Start()
     {
-        PopulateMenu();
+        StartCoroutine(PopulateMenu());
     }
 
-    private void PopulateMenu()
+    IEnumerator PopulateMenu()
     {
         foreach (Transform child in gameObject.transform)
         {
@@ -28,7 +30,9 @@ public class GameMenuManager : MonoBehaviour
             Vector3 startingPosition = CalculatePosition(gamesMade, radOffset);
             var gameNode = Instantiate(buttonPrefab, gameObject.transform.position + startingPosition, Quaternion.identity, gameObject.transform);
             gameNode.GetComponent<GameNode>().Setup(game);
+            gameNode.GetComponent<SpriteRenderer>().color = game.color;
             gamesMade++;
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 

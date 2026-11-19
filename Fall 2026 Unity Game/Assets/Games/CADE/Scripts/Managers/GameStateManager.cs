@@ -24,8 +24,7 @@ public class GameStateManager : MonoBehaviour
         winEvent.OnEventRaised += winHandle;
         loseEvent.OnEventRaised += loseHandle;
         RandomlySelectRules();
-
-        //rulesText.text = rulesText.text + rulesString;
+        ruleManager.ApplySetRules(currentScene);
     }
 
     private void OnDisable()

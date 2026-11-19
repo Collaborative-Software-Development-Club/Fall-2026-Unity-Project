@@ -42,7 +42,7 @@ public class MachineRenderer : PlaceableObj
         if (added == null || added.IsEmpty() || added.Item == null) return;
 
         // TODO: Need to spawn box renderers if it's a box renderer
-        ConveyorItemRenderer itemRenderer = TakeHeldRenderer() ?? SpawnOutputRenderer();
+        ConveyorItemRenderer itemRenderer =  SpawnOutputRenderer();
         if (itemRenderer == null) return;
 
         _exitingItems.Add(itemRenderer);
@@ -57,21 +57,6 @@ public class MachineRenderer : PlaceableObj
 
         _touchedItems.Add(itemRenderer);
     }
-
-    private ConveyorItemRenderer TakeHeldRenderer()
-    {
-        while (_touchedItems.Count > 0)
-        {
-            int last = _touchedItems.Count - 1;
-            ConveyorItemRenderer held = _touchedItems[last];
-            _touchedItems.RemoveAt(last);
-            if (held != null)
-                return held;
-        }
-
-        return null;
-    }
-
     private ConveyorItemRenderer SpawnOutputRenderer()
     {
         if (_itemPrefab == null)

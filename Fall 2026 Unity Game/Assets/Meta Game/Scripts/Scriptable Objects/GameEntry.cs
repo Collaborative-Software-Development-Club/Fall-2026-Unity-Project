@@ -11,4 +11,7 @@ public class GameEntry : ScriptableObject
 
     [Tooltip("Thumbnail shown in the menu")]
     public Sprite thumbnail;
+
+    [Tooltip("Color of node in meta game")]
+    public Color color;
 }

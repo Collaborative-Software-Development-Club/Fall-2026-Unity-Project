@@ -18,7 +18,7 @@ namespace CADE_RandomRulesList
     {
         PowerDowns = 0,
         LeftRightInverted = 1,
-        // QuickTimeEvents = 1
+        // QuickTimeEvents = 2
     }
 
     public enum StickyRules
