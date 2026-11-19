@@ -9,6 +9,8 @@ public class CADE_DeathCounter : MonoBehaviour
     private static int deathCount = 0;
     private static string trackedScene = null;
     public static event Action OnDeathRegistered;
+    public AudioSource audioSource;
+    public AudioClip sfxClip;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetDeathCount()
@@ -52,6 +54,7 @@ public class CADE_DeathCounter : MonoBehaviour
 
     private void IncrementDeathCount()
     {
+        audioSource.PlayOneShot(sfxClip);
         deathCount++;
         UpdateUI();
     }
