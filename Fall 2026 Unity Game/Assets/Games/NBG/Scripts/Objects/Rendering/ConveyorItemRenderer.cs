@@ -78,12 +78,12 @@ public class ConveyorItemRenderer : MonoBehaviour, IHoverable
     // TODO: Make these not part of ConveyorItemRenderer
     public void OnHoverEnter()
     {
-       TextController.Instance.SetText(HoverMessage); 
+       TextController.Instance.QueueNewText(HoverMessage, 1); 
     }
 
     public void OnHoverExit()
     {
-        TextController.Instance.ClearText();
+        TextController.Instance.removeFromQueue(HoverMessage);
     }
 
     public string HoverMessage => _item.GetDisplayName();

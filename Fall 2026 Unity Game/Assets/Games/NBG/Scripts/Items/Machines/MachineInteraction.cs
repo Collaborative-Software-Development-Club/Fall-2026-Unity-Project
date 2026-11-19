@@ -31,21 +31,19 @@ public class MachineInteraction : MonoBehaviour, ILeftClickable, IHoverable
 
     public void OnLeftClick()
     {
-        TextController.Instance.SetText(_machine.GetInputInventory().ToString());
+        TextController.Instance.QueueNewText(_machine.GetInputInventory().ToString(), 2);
     }
 
     public void OnHoverEnter()
     {
-        TextController.Instance.SetText(HoverMessage);
+        TextController.Instance.removePriorityFromQueue(1);
+        TextController.Instance.QueueNewText(HoverMessage, 1);
     }
 
     public void OnHoverExit()
     {
-        String currentText = TextController.Instance.GetText();
-        if (currentText == _machine.GetInputInventory().ToString() || currentText == HoverMessage)
-        {
-            TextController.Instance.ClearText();
-        }
+        TextController.Instance.removeFromQueue(_machine.GetInputInventory().ToString());
+        TextController.Instance.removeFromQueue(HoverMessage);
     }
 
     public string HoverMessage => _machine.GetName();
