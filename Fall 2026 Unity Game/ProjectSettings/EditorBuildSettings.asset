@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Games/BindingTime/Scenes/main.unity
     guid: 5f8043116e39211438d169538afa7563
+  - enabled: 1
+    path: Assets/Games/NBG/Scenes/Game.unity
+    guid: d80ad4065df193a43b859f8921035e7c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

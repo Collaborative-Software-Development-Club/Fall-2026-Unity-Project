@@ -15,4 +15,4 @@ MonoBehaviour:
   displayName: BindingTime
   sceneName: main
   thumbnail: {fileID: 0}
-  color: {r: 1, g: 0.91472507, b: 0, a: 1}
+  color: {r: 0, g: 1, b: 0.5037222, a: 1}
