@@ -28,6 +28,7 @@ public class GameMenuManager : MonoBehaviour
         int gamesMade = 0;
         float radOffset = FULLROTATION / database.games.Length;
         List<GameObject> gameNodes = new();
+
         foreach (var game in database.games)
         {
             Vector3 startingPosition = CalculatePosition(gamesMade, radOffset);
@@ -45,7 +46,7 @@ public class GameMenuManager : MonoBehaviour
     {
         foreach (var gameNode in gameNodes)
         {
-            gameNode.GetComponent<SmoothScale>().ChangeScale(Vector2.one, growthTime);
+            gameNode.GetComponent<SmoothScale>().ChangeScale(Vector3.one, growthTime);
             yield return new WaitForSeconds(spawnDelay);
         }
         
