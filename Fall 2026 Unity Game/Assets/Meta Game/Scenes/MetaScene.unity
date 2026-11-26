@@ -593,6 +593,7 @@ MonoBehaviour:
   buttonPrefab: {fileID: 9186951085336279209, guid: d95cd9395cc696940bff21cffc9dfb73, type: 3}
   radius: 4
   spawnDelay: 1
+  growthTime: 3
 --- !u!4 &781300378
 Transform:
   m_ObjectHideFlags: 0

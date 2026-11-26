@@ -466,6 +466,7 @@ GameObject:
   - component: {fileID: 2133492040465741866}
   - component: {fileID: 7691647924400229450}
   - component: {fileID: 4667827658584655525}
+  - component: {fileID: 7549632388457035465}
   m_Layer: 0
   m_Name: Game Node
   m_TagString: Untagged
@@ -483,7 +484,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2446092102447046117}
@@ -612,3 +613,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0b5f005b60a8544ac178d83c55d4ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RotationLock
+--- !u!114 &7549632388457035465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186951085336279209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1f0f254fa0b6d4e852a2a44f44802a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScaleVFX

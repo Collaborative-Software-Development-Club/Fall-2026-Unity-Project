@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ScaleVFX : MonoBehaviour
+public class SmoothScale : MonoBehaviour
 {
     public void ChangeScale(Vector2 scale, float time)
     {
